@@ -69,7 +69,8 @@ public class Tests
         await Verifier.Verify(results)
             .UseParameters(copyPdbs, sign);
     }
-
+#if DEBUG
+    
     [Fact]
     public async Task RunSample()
     {
@@ -109,6 +110,7 @@ public class Tests
         Assert.Equal(0, process.ExitCode);
         await Verifier.Verify(builder);
     }
+#endif
 
     static void PatchDependencies(string targetPath)
     {
