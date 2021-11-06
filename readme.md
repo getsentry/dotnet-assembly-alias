@@ -37,7 +37,9 @@ dotnet tool install --global Alias --version 0.1.0
 ## Usage
 
 ```ps
-assemblyalias --target-directory "C:/Code/TargetDirectory" --suffix _Alias --assemblies-to-alias "Microsoft*;System*;EmptyFiles"
+assemblyalias --target-directory "C:/Code/TargetDirectory"
+              --suffix _Alias
+              --assemblies-to-alias "Microsoft*;System*;EmptyFiles"
 ```
 
 
