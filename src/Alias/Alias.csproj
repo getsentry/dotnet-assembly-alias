@@ -12,6 +12,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <NoPackageAnalysis>true</NoPackageAnalysis>
+    <PackageOutputPath>$(SolutionDir)..\nugets</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <ContinuousIntegrationBuild Condition="$(APPVEYOR) == true">true</ContinuousIntegrationBuild>
     <PackageIcon>icon.png</PackageIcon>
