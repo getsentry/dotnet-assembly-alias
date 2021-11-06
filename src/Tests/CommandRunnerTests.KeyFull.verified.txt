@@ -2,7 +2,7 @@
   errors: [],
   directory: {CurrentDirectory},
   suffix: _Alias,
-  key: {CurrentDirectory}\test.snk,
+  key: {CurrentDirectory}test.snk,
   assembliesToAlias: [
     assembly
   ],
@@ -12,7 +12,7 @@
   consoleOut:
 TargetDirectory: {CurrentDirectory}
 Suffix: _Alias
-KeyFile: {CurrentDirectory}\test.snk
+KeyFile: {CurrentDirectory}test.snk
 AssembliesToAlias:
  * assembly
 

@@ -54,7 +54,7 @@ public class CommandRunnerTests
     [Fact]
     public Task KeyFull()
     {
-        var result = Parse($"--key {Environment.CurrentDirectory}{Path.DirectorySeparatorChar}test.snk --assemblies-to-alias assembly --suffix _Alias");
+        var result = Parse($"--key {Environment.CurrentDirectory}/test.snk --assemblies-to-alias assembly --suffix _Alias");
         return Verifier.Verify(result);
     }
 

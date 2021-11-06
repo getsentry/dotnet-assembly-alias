@@ -1,9 +1,9 @@
 ﻿{
   errors: [],
-  directory: {CurrentDirectory}\directory,
+  directory: {CurrentDirectory}directory,
   prefix: Alias_,
   suffix: _Alias,
-  key: {CurrentDirectory}\test.snk,
+  key: {CurrentDirectory}test.snk,
   assembliesToAlias: [
     assembly
   ],
@@ -11,10 +11,10 @@
   assembliesToExclude: [],
   consoleError: ,
   consoleOut:
-TargetDirectory: {CurrentDirectory}\directory
+TargetDirectory: {CurrentDirectory}directory
 Prefix: Alias_
 Suffix: _Alias
-KeyFile: {CurrentDirectory}\test.snk
+KeyFile: {CurrentDirectory}test.snk
 AssembliesToAlias:
  * assembly
 

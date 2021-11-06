@@ -1,6 +1,6 @@
 ﻿{
   Type: ErrorException,
-  Message: KeyFile directory does not exist: {CurrentDirectory}\bad.snk,
+  Message: KeyFile directory does not exist: {CurrentDirectory}bad.snk,
   StackTrace:
 at CommandRunner.RunCommand(Invoke invoke, String[] args)
 at CommandRunnerTests.Parse(String input)
