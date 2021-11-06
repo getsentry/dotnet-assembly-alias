@@ -14,6 +14,7 @@
     <ProjectReference Include="..\AssemblyWithPdb\AssemblyWithPdb.csproj" />
     <ProjectReference Include="..\AssemblyWithResources\AssemblyWithResources.csproj" />
     <ProjectReference Include="..\DummyAssembly\DummyAssembly.csproj" />
+    <PackageReference Include="MarkdownSnippets.MsBuild" Version="24.1.0" PrivateAssets="all" />
     <PackageReference Include="Nullable" Version="1.3.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
@@ -28,4 +29,17 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+<!-- begin-snippet: WriteReferenceForAlias -->
+  <Target Name="WriteReferenceForAlias" 
+          AfterTargets="AfterCompile">
+    <ItemGroup>
+      <ReferenceForAlias Include="@(ReferencePath)"
+                         Condition="'%(FileName)' == 'CommandLine'"/>
+    </ItemGroup>
+    <WriteLinesToFile
+      File="$(TargetDir)/alias-references.txt"
+      Lines="%(ReferenceForAlias.FullPath)"
+      Overwrite="true" />
+  </Target>
+<!-- end-snippet -->
 </Project>

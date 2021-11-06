@@ -24,14 +24,14 @@ Ensure [dotnet CLI is installed](https://docs.microsoft.com/en-us/dotnet/core/to
 Install [Alias](https://nuget.org/packages/Alias/)
 
 ```ps
-dotnet tool install --global Alias --version 0.1.0-beta.5
+dotnet tool install --global Alias --version 0.1.0
 ```
 
 
 ## Usage
 
 ```ps
-assemblyalias --target-directory "C:/Code/TargetDirectory" --assemblies-to-alias "Microsoft*;System*;EmptyFiles"
+assemblyalias --target-directory "C:/Code/TargetDirectory" --suffix _Alias --assemblies-to-alias "Microsoft*;System*;EmptyFiles"
 ```
 
 
@@ -68,14 +68,14 @@ The suffix to use when renaming assemblies.
 
 `-a` or `--assemblies-to-alias`
 
-Required. A semi-colon seperated list of assembly names to alias. Names ending in `*` are treased as wildcards.
+Required. A semi-colon separated list of assembly names to alias. Names ending in `*` are treated as wildcards.
 
 
 ### Assemblies to exclude
 
 `-e` or `--assemblies-to-exclude`
 
-Optional. A semi-colon seperated list of assembly names to exclude.
+Optional. A semi-colon separated list of assembly names to exclude.
 
 
 ### Key
@@ -91,11 +91,36 @@ Optional. If no key is passed, string naming will be removed from all assemblies
 
 `-r` or `--references`
 
-Optional. A semi-colon seperated list of paths to reference files.
+Optional. A semi-colon separated list of paths to reference files.
 
 
 ### Reference File
 
 `--reference-file`
 
-Optional. A path to a file cotaining references file paths. On file path per line.
+Optional. A path to a file containing references file paths. On file path per line.
+
+
+#### Default Reference File
+
+By default the target directory will be scanned for a reference file named `alias-references.txt`
+
+It can be helpful to extract reference during a build using msbuild and write them to a file accessible to Alias:
+
+<!-- snippet: WriteReferenceForAlias -->
+<a id='snippet-writereferenceforalias'></a>
+```csproj
+<Target Name="WriteReferenceForAlias" 
+        AfterTargets="AfterCompile">
+  <ItemGroup>
+    <ReferenceForAlias Include="@(ReferencePath)"
+                       Condition="'%(FileName)' == 'CommandLine'"/>
+  </ItemGroup>
+  <WriteLinesToFile
+    File="$(TargetDir)/alias-references.txt"
+    Lines="%(ReferenceForAlias.FullPath)"
+    Overwrite="true" />
+</Target>
+```
+<sup><a href='/src/Tests/Tests.csproj#L32-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-writereferenceforalias' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
