@@ -1,6 +1,8 @@
 ﻿public delegate void Invoke(
-    string targetDirectory,
+    string directory,
     List<string> assembliesToAlias,
     List<string> references, 
     string? keyFile,
-    List<string> assembliesToExclude);
+    List<string> assembliesToExclude,
+    string? prefix,
+    string? suffix);

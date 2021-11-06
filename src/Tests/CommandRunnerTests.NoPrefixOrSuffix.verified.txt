@@ -1,0 +1,9 @@
+﻿{
+  Type: ErrorException,
+  Message: Either prefix or suffix must be defined.,
+  StackTrace:
+at CommandRunner.RunCommand(Invoke invoke, String[] args)
+at CommandRunnerTests.Parse(String input)
+at CommandRunnerTests.<>c.<NoPrefixOrSuffix>b__4_0()
+at Xunit.Assert.RecordException(Func`1 testCode)
+}

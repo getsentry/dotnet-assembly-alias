@@ -21,7 +21,9 @@ public static class Program
         List<string> assemblyNamesToAliases, 
         List<string> references, 
         string? keyFile,
-        List<string> assembliesToExclude)
+        List<string> assembliesToExclude,
+        string? prefix,
+        string? suffix)
     {
         if (!Directory.Exists(directory))
         {
@@ -55,10 +57,10 @@ public static class Program
                 throw new ErrorException("Empty string in assembliesToAliasString");
             }
 
-            static void ProcessItem(List<FileAssembly> fileAssemblies, FileAssembly item, List<AssemblyAlias> assemblyAliases)
+            void ProcessItem(FileAssembly item)
             {
-                fileAssemblies.Remove(item);
-                assemblyAliases.Add(new(item.Name, item.Path, item.Name + "_Alias", item.Path.Replace(".dll", "_Alias.dll")));
+                assembliesToPatch.Remove(item);
+                assembliesToAlias.Add(new(item.Name, item.Path, $"{prefix}{item.Name}{suffix}", item.Path.Replace(".dll", "_Alias.dll")));
             }
 
             if (assemblyToAlias.EndsWith("*"))
@@ -66,7 +68,7 @@ public static class Program
                 var match = assemblyToAlias.TrimEnd('*');
                 foreach (var item in assembliesToPatch.Where(x => x.Name.StartsWith(match)).ToList())
                 {
-                    ProcessItem(assembliesToPatch, item, assembliesToAlias);
+                    ProcessItem(item);
                 }
             }
             else
@@ -77,7 +79,7 @@ public static class Program
                     throw new ErrorException($"Could not find {assemblyToAlias} in {directory}.");
                 }
 
-                ProcessItem(assembliesToPatch, item, assembliesToAlias);
+                ProcessItem(item);
             }
         }
 
@@ -93,7 +95,7 @@ public static class Program
                 var (module, hasSymbols) = ModuleReaderWriter.Read(assembly.SourcePath, resolver);
 
                 var name = module.Assembly.Name;
-                name.Name += "_Alias";
+                name.Name = assembly.TargetName;
                 FixKey(keyPair, name);
                 Redirect(module, assembliesToAlias, publicKey);
                 resolver.Add(module);

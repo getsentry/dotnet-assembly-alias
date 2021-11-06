@@ -10,13 +10,11 @@ Rename assemblies and fixes references.
 
 ## What it does
 
-For a given directory and a subset of assembly names to "alias"
+For a given directory and a subset of assemblies:
 
  * Changes the assembly name of each "alias" assembly.
  * Renames "alias" assemblies on disk.
  * For all assemblies, fixes the references to point to the new alias assemblies.
-
-Both the assembly name and file name changes are currently hardcoded to add the suffix `_Alias`. This will be configurable in a future version.
 
 
 ## Installation
@@ -45,6 +43,25 @@ assemblyalias --target-directory "C:/Code/TargetDirectory" --assemblies-to-alias
 `-t` or `--target-directory`
 
 Optional. if no directory is passed the current directory will be used.
+
+
+### Prefix/Suffix
+
+Either a prefix or suffix must be defined.
+
+
+#### Prefix
+
+`-p` or `--prefix`
+
+The prefix to use when renaming assemblies.
+
+
+#### Suffix
+
+`-s` or `--suffix`
+
+The suffix to use when renaming assemblies.
 
 
 ### Assemblies to alias

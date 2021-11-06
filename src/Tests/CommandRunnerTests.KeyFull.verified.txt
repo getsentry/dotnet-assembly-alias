@@ -1,6 +1,7 @@
 ﻿{
   errors: [],
   directory: {CurrentDirectory},
+  suffix: _Alias,
   key: {CurrentDirectory}\test.snk,
   assembliesToAlias: [
     assembly
@@ -10,6 +11,7 @@
   consoleError: ,
   consoleOut:
 TargetDirectory: {CurrentDirectory}
+Suffix: _Alias
 KeyFile: {CurrentDirectory}\test.snk
 AssembliesToAlias:
  * assembly

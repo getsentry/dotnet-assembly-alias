@@ -42,7 +42,7 @@ public class Tests
             keyFile = Path.Combine(AttributeReader.GetProjectDirectory(), "test.snk");
         }
 
-        Program.Inner(tempPath, assemblyFiles.Where(x => x.StartsWith("AssemblyWith")).ToList(), new List<string>(), keyFile, new List<string>());
+        Program.Inner(tempPath, assemblyFiles.Where(x => x.StartsWith("AssemblyWith")).ToList(), new List<string>(), keyFile, new List<string>(),null,"_Alias");
 
         var resultingFiles = Directory.EnumerateFiles(tempPath);
         var results = new List<AssemblyResult>();

@@ -16,6 +16,24 @@ public static class CommandRunner
         var options = parsed.Value;
         var targetDirectory = FindTargetDirectory(options.TargetDirectory);
         Console.WriteLine($"TargetDirectory: {targetDirectory}");
+        var prefix = options.Prefix;
+        if (prefix != null)
+        {
+            ValidatePrefixSuffix(prefix);
+            Console.WriteLine($"Prefix: {prefix}");
+        }
+        var suffix = options.Suffix;
+        if (suffix != null)
+        {
+            ValidatePrefixSuffix(suffix);
+            Console.WriteLine($"Suffix: {suffix}");
+        }
+
+        if (prefix == null && suffix == null)
+        {
+            throw new ErrorException("Either prefix or suffix must be defined.");
+        }
+
         var keyFile = options.Key;
 
         if (keyFile != null)
@@ -34,8 +52,7 @@ public static class CommandRunner
         {
             Console.WriteLine($" * {assembly}");
         }
-
-
+        
         var assembliesToExclude = options.AssembliesToExclude.ToList();
 
         if (assembliesToExclude.Any())
@@ -73,8 +90,18 @@ public static class CommandRunner
             assemblyToAliases,
             references, 
             keyFile, 
-            assembliesToExclude);
+            assembliesToExclude,
+            prefix,
+            suffix);
         return Enumerable.Empty<Error>();
+    }
+
+    static void ValidatePrefixSuffix(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new ErrorException("Prefix/Suffix must not contain whitespace");
+        }
     }
 
     static string FindTargetDirectory(string? targetDirectory)

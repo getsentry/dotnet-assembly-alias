@@ -1,7 +1,7 @@
 ﻿{
   errors: [],
   directory: {CurrentDirectory},
-  suffix: _Alias,
+  prefix: Alias_,
   assembliesToAlias: [
     assembly
   ],
@@ -10,7 +10,7 @@
   consoleError: ,
   consoleOut:
 TargetDirectory: {CurrentDirectory}
-Suffix: _Alias
+Prefix: Alias_
 AssembliesToAlias:
  * assembly
 

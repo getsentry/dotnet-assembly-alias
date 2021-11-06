@@ -16,7 +16,13 @@ public class Options
     
     [Option("reference-file", Required = false)]
     public string? ReferenceFile { get; set; }
-    
+
     [Option('k', "key", Required = false)]
     public string? Key { get; set; }
+
+    [Option('p', "prefix", Required = false)]
+    public string? Prefix { get; set; }
+
+    [Option('s', "suffix", Required = false)]
+    public string? Suffix { get; set; }
 }
