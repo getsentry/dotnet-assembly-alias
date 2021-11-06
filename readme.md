@@ -5,7 +5,15 @@
 
 Rename assemblies and fixes references. Designed as an alternative to [Costura](https://github.com/Fody/Costura), [ILMerge](https://github.com/dotnet/ILMerge), and [ILRepack](https://github.com/gluck/il-repack).
 
+Designed to mitigate scenarios where an assembly is run in a plugin scenario. For example Unity extensions, MSBuild tasks, or SharePoint extensions.
+In these scenarios an assembly, and all its references, are loadined into a shared AppDomain. So dependencies operate as "first on wins".
+So, for example, if two addins assemblies use different versions of Newtonsoft, the first addin that is loaded defines what version of Newtonsoft is used by all subsequent addins assemblies.
+
+
+
 **[.net 5](https://dotnet.microsoft.com/download/dotnet/5.0) or [.net 6](https://dotnet.microsoft.com/download/dotnet/6.0) is required to run this tool.**
+
+
 
 
 ## What it does
