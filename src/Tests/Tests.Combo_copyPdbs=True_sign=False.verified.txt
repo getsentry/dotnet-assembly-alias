@@ -9,8 +9,7 @@
       AssemblyWithEmbeddedSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
       AssemblyWithNoStrongName_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
       AssemblyWithNoSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
-      AssemblyWithPdb_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
-      AssemblyWithResources_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null
+      AssemblyWithPdb_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null
     ]
   },
   {

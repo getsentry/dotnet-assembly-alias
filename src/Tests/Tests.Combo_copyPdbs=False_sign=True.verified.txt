@@ -8,8 +8,7 @@
       AssemblyWithEmbeddedSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
       AssemblyWithNoStrongName_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
       AssemblyWithNoSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
-      AssemblyWithPdb_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
-      AssemblyWithResources_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0
+      AssemblyWithPdb_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0
     ]
   },
   {

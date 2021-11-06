@@ -8,6 +8,6 @@ public static class ClassToTest
         yield return AssemblyWithNoStrongNameClass.Method();
         yield return AssemblyWithNoSymbolsClass.Method();
         yield return AssemblyWithPdbClass.Method();
-        yield return AssemblyWithResourcesClass.Method();
+        //yield return AssemblyWithResourcesClass.Method();
     }
 }

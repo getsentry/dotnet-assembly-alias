@@ -18,8 +18,8 @@ public static class Program
 
     public static void Inner(
         string directory,
-        List<string> assemblyNamesToAliases, 
-        List<string> references, 
+        List<string> assemblyNamesToAliases,
+        List<string> references,
         string? keyFile,
         List<string> assembliesToExclude,
         string? prefix,
@@ -39,13 +39,13 @@ public static class Program
             keyPair = new(fileBytes);
             publicKey = keyPair.PublicKey;
         }
-        
+
         var allFiles = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories)
-            .Where(x=> !assembliesToExclude.Contains(x))
+            .Where(x => !assembliesToExclude.Contains(x))
             .ToList();
 
         var assembliesToPatch = allFiles
-            .Select(x => new FileAssembly(Path.GetFileNameWithoutExtension(x), x))
+            .Select(x => new FileAssembly(Path.GetFileNameWithoutExtension(x), Path.GetDirectoryName(x)!, x))
             .ToList();
 
         var assembliesToAlias = new List<AssemblyAlias>();
@@ -60,7 +60,10 @@ public static class Program
             void ProcessItem(FileAssembly item)
             {
                 assembliesToPatch.Remove(item);
-                assembliesToAlias.Add(new(item.Name, item.Path, $"{prefix}{item.Name}{suffix}", item.Path.Replace(".dll", "_Alias.dll")));
+                
+                var targetName = $"{prefix}{item.Name}{suffix}";
+                var targetPath = Path.Combine(item.Directory, targetName + ".dll");
+                assembliesToAlias.Add(new(item.Name, item.Path, targetName, targetPath));
             }
 
             if (assemblyToAlias.EndsWith("*"))
@@ -130,6 +133,7 @@ public static class Program
         foreach (var assembly in assembliesToAlias)
         {
             File.Delete(assembly.SourcePath);
+            File.Delete(Path.ChangeExtension(assembly.SourcePath, "pdb"));
         }
     }
 
