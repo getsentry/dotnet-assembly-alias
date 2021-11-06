@@ -5,7 +5,7 @@
 
 Rename assemblies and fixes references.
 
-**[.net 5](https://dotnet.microsoft.com/download/dotnet/5.0) is required to run this tool.**
+**[.net 5](https://dotnet.microsoft.com/download/dotnet/5.0) or [.net 6](https://dotnet.microsoft.com/download/dotnet/6.0) is required to run this tool.**
 
 
 ## What it does
