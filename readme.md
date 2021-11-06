@@ -3,7 +3,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/s3agb6fiax7pgwls/branch/master?svg=true)](https://ci.appveyor.com/project/SimonCropp/Alias)
 [![NuGet Status](https://img.shields.io/nuget/v/Alias.svg)](https://www.nuget.org/packages/Alias/)
 
-Rename assemblies and fixes references.
+Rename assemblies and fixes references. Designed as an alternative to [Costura](https://github.com/Fody/Costura), [ILMerge](https://github.com/dotnet/ILMerge), and [ILRepack](https://github.com/gluck/il-repack).
 
 **[.net 5](https://dotnet.microsoft.com/download/dotnet/5.0) or [.net 6](https://dotnet.microsoft.com/download/dotnet/6.0) is required to run this tool.**
 
