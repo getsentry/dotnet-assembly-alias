@@ -37,30 +37,52 @@ assemblyalias --target-directory "C:/Code/TargetDirectory" --assemblies-to-alias
 ```
 
 
-### Arguments
+## Arguments
 
 
-#### Target Directory
+### Target Directory
 
 `-t` or `--target-directory`
 
 Optional. if no directory is passed the current directory will be used.
 
 
-#### Assemblies to alias
+### Assemblies to alias
 
 `-a` or `--assemblies-to-alias`
 
-A semi-colon seperated list of assembly names. Names ending in `*` are treased as wildcards.
+Required. A semi-colon seperated list of assembly names to alias. Names ending in `*` are treased as wildcards.
 
 
-#### Key
+### Assemblies to exclude
+
+`-e` or `--assemblies-to-exclude`
+
+Optional. A semi-colon seperated list of assembly names to exclude.
+
+
+### Key
 
 `-k` or `--key`
 
 Path to an snk file. 
 
 Optional. If no key is passed, string naming will be removed from all assemblies.
+
+
+### References
+
+`-r` or `--references`
+
+Optional. A semi-colon seperated list of paths to reference files.
+
+
+### Reference File
+
+`--reference-file`
+
+Optional. A path to a file cotaining references file paths. On file path per line.
+
 
 
 ## Icon
