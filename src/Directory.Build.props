@@ -2,5 +2,10 @@
   <PropertyGroup>
     <Version>0.1.0-beta.8</Version>
     <Description>Alias</Description>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <SolutionDir>$(ProjectDir)..\</SolutionDir>
+    <LangVersion>10.0</LangVersion>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 </Project>

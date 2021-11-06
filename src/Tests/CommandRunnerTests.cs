@@ -1,8 +1,4 @@
-﻿using CommandLine;
-using VerifyXunit;
-using Xunit;
-
-[UsesVerify]
+﻿[UsesVerify]
 public class CommandRunnerTests
 {
     [Fact]

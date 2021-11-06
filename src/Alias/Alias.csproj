@@ -4,14 +4,26 @@
     <TargetFrameworks>net5;net6</TargetFrameworks>
     <ToolCommandName>assemblyalias</ToolCommandName>
     <PackAsTool>True</PackAsTool>
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <IsPackageProject>true</IsPackageProject>
+    <PackageOutputPath>$(SolutionDir)nugets</PackageOutputPath>
+    <Copyright>Copyright $([System.DateTime]::UtcNow.ToString(yyyy)). All rights reserved</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <ContinuousIntegrationBuild Condition="$(APPVEYOR) == true">true</ContinuousIntegrationBuild>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/getsentry/dotnet-assembly-alias</PackageProjectUrl>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="$(SolutionDir)..\src\icon.png" Pack="true" PackagePath="\"/>
+    <None Include="Usings.cs" />
     <Reference Include="Mono.Cecil" HintPath="..\Lib\Mono.Cecil.dll" />
     <Reference Include="Mono.Cecil.Pdb" HintPath="..\Lib\Mono.Cecil.Pdb.dll" />
     <Reference Include="Mono.Cecil.Rocks" HintPath="..\Lib\Mono.Cecil.Rocks.dll" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
-    <PackageReference Include="ProjectDefaults" Version="1.0.61" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
     <None Update="netstandard.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

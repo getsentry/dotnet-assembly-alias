@@ -1,5 +1,3 @@
-using Xunit;
-
 public class ModuleReaderTests 
 {
     [Fact]

@@ -1,9 +1,4 @@
-﻿using Mono.Cecil;
-using VerifyTests;
-using VerifyXunit;
-using Xunit;
-
-[UsesVerify]
+﻿[UsesVerify]
 public class Tests
 {
     public List<AssemblyResult> Run(bool copyPdbs, bool sign)
