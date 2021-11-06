@@ -16,4 +16,17 @@
     <ProjectReference Include="..\AssemblyWithResources\AssemblyWithResources.csproj" />
   </ItemGroup>
 
+  <!-- begin-snippet: WriteReferenceForAlias -->
+  <Target Name="WriteReferenceForAlias" 
+          AfterTargets="AfterCompile">
+    <ItemGroup>
+      <ReferenceForAlias Include="@(ReferencePath)"
+                         Condition="'%(FileName)' == 'CommandLine'"/>
+    </ItemGroup>
+    <WriteLinesToFile
+      File="$(TargetDir)/alias-references.txt"
+      Lines="%(ReferenceForAlias.FullPath)"
+      Overwrite="true" />
+  </Target>
+  <!-- end-snippet -->
 </Project>
