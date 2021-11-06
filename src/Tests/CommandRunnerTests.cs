@@ -72,6 +72,10 @@ public class CommandRunnerTests
 
     static Result Parse(string input)
     {
+        var consoleError = new StringWriter();
+        Console.SetError(consoleError);
+        var consoleOut = new StringWriter();
+        Console.SetOut(consoleOut);
         string? directory = null;
         string? key = null;
         IEnumerable<string>? assembliesToAlias = null;
@@ -87,8 +91,8 @@ public class CommandRunnerTests
                 references = _references;
             },
             input.Split(' '));
-        return new(result, directory, key, assembliesToAlias, references, assembliesToExclude);
+        return new(result, directory, key, assembliesToAlias, references, assembliesToExclude, consoleError.ToString(), consoleOut.ToString());
     }
 
-    public record Result(IEnumerable<Error> errors, string? directory, string? key, IEnumerable<string>? assembliesToAlias, IEnumerable<string>? references, IEnumerable<string>? assembliesToExclude);
+    public record Result(IEnumerable<Error> errors, string? directory, string? key, IEnumerable<string>? assembliesToAlias, IEnumerable<string>? references, IEnumerable<string>? assembliesToExclude, string consoleError, string consoleOut);
 }

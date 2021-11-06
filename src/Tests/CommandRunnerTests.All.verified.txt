@@ -6,5 +6,12 @@
     assembly
   ],
   references: [],
-  assembliesToExclude: []
+  assembliesToExclude: [],
+  consoleError: ,
+  consoleOut:
+TargetDirectory: {CurrentDirectory}\directory
+KeyFile: {CurrentDirectory}\test.snk
+AssembliesToAlias:
+ * assembly
+
 }

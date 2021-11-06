@@ -6,5 +6,12 @@
     assembly2
   ],
   references: [],
-  assembliesToExclude: []
+  assembliesToExclude: [],
+  consoleError: ,
+  consoleOut:
+TargetDirectory: {CurrentDirectory}
+AssembliesToAlias:
+ * assembly1
+ * assembly2
+
 }

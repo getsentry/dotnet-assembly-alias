@@ -5,5 +5,11 @@
     assembly
   ],
   references: [],
-  assembliesToExclude: []
+  assembliesToExclude: [],
+  consoleError: ,
+  consoleOut:
+TargetDirectory: {CurrentDirectory}
+AssembliesToAlias:
+ * assembly
+
 }

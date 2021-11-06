@@ -8,5 +8,14 @@
     reference1,
     reference2
   ],
-  assembliesToExclude: []
+  assembliesToExclude: [],
+  consoleError: ,
+  consoleOut:
+TargetDirectory: {CurrentDirectory}
+AssembliesToAlias:
+ * assembly
+References:
+ * reference1
+ * reference2
+
 }
