@@ -21,7 +21,7 @@ public class Tests
         Directory.CreateDirectory(tempPath);
         Helpers.PurgeDirectory(tempPath);
 
-        foreach (var assembly in assemblyFiles)
+        foreach (var assembly in assemblyFiles.OrderBy(x=>x))
         {
             var assemblyFile = $"{assembly}.dll";
             File.Copy(Path.Combine(binDirectory, assemblyFile), Path.Combine(tempPath, assemblyFile));
@@ -47,14 +47,14 @@ public class Tests
 
         var resultingFiles = Directory.EnumerateFiles(tempPath);
         var results = new List<AssemblyResult>();
-        foreach (var assembly in resultingFiles.Where(x => x.EndsWith(".dll")))
+        foreach (var assembly in resultingFiles.Where(x => x.EndsWith(".dll")).OrderBy(x=>x))
         {
             using var definition = AssemblyDefinition.ReadAssembly(assembly);
             results.Add(
                 new(
                     definition.Name.FullName,
                     definition.MainModule.TryReadSymbols(),
-                    definition.MainModule.AssemblyReferences.Select(x => x.FullName).ToList()));
+                    definition.MainModule.AssemblyReferences.Select(x => x.FullName).OrderBy(x=>x).ToList()));
         }
 
         return results;
