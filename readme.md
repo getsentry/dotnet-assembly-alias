@@ -99,9 +99,3 @@ Optional. A semi-colon seperated list of paths to reference files.
 `--reference-file`
 
 Optional. A path to a file cotaining references file paths. On file path per line.
-
-
-
-## Icon
-
-[Woman](https://thenounproject.com/term/woman/3424720/) designed by [auttapol](https://thenounproject.com/monsterku69) from [The Noun Project](https://thenounproject.com).
