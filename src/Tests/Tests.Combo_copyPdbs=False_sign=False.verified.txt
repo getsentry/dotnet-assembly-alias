@@ -1,0 +1,49 @@
+﻿[
+  {
+    Name: AssemblyToProcess, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
+    References: [
+      System.Runtime, Version=4.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a,
+      System.Diagnostics.Debug, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a,
+      System.Runtime.Extensions, Version=4.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a,
+      AssemblyWithEmbeddedSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
+      AssemblyWithNoStrongName_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
+      AssemblyWithNoSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
+      AssemblyWithPdb_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
+      AssemblyWithResources_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null
+    ]
+  },
+  {
+    Name: AssemblyWithEmbeddedSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
+    HasSymbols: true,
+    References: [
+      netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+    ]
+  },
+  {
+    Name: AssemblyWithNoStrongName_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
+    References: [
+      netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+    ]
+  },
+  {
+    Name: AssemblyWithNoSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
+    References: [
+      netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+    ]
+  },
+  {
+    Name: AssemblyWithPdb_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
+    References: [
+      netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+    ]
+  },
+  {
+    Name: AssemblyWithResources_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null,
+    References: [
+      System.Runtime, Version=4.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a,
+      System.Diagnostics.Tools, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a,
+      System.Diagnostics.Debug, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a,
+      System.Resources.ResourceManager, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+    ]
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Alias": {
+      "commandName": "Project",
+      "commandLineArgs": "--target-directory D:\\Code\\sentry\\sentry-unity\\package-dev --assemblies-to-alias Microsoft*;System*  --assemblies-to-exclude nunit.framework --key D:\\Code\\sentry\\sentry-unity\\src\\sentry-dotnet\\.assets\\Sentry.snk"
+    }
+  }
+}

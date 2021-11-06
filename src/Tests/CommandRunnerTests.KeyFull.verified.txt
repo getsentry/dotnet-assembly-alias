@@ -1,0 +1,10 @@
+﻿{
+  errors: [],
+  directory: {CurrentDirectory},
+  key: {CurrentDirectory}\test.snk,
+  assembliesToAlias: [
+    assembly
+  ],
+  references: [],
+  assembliesToExclude: []
+}

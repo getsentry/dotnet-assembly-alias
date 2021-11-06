@@ -1,0 +1,12 @@
+﻿{
+  errors: [],
+  directory: {CurrentDirectory},
+  assembliesToAlias: [
+    assembly
+  ],
+  references: [
+    reference1,
+    reference2
+  ],
+  assembliesToExclude: []
+}
