@@ -9,7 +9,7 @@ Designed to mitigate scenarios where an assembly is run in a plugin scenario. Fo
 In these scenarios an assembly, and all its references, are loaded into a shared AppDomain. So dependencies operate as "first on wins".
 So, for example, if two addins assemblies use different versions of Newtonsoft, the first addin that is loaded defines what version of Newtonsoft is used by all subsequent addins assemblies.
 
-This tool works around his problem by renaming references and preventing name conflicts.
+This tool works around this problem by renaming references and preventing name conflicts.
 
 **[.net 5](https://dotnet.microsoft.com/download/dotnet/5.0) or [.net 6](https://dotnet.microsoft.com/download/dotnet/6.0) is required to run this tool.**
 
