@@ -92,7 +92,7 @@ Optional. A semi-colon separated list of assembly names to exclude.
 
 Path to an snk file. 
 
-Optional. If no key is passed, string naming will be removed from all assemblies.
+Optional. If no key is passed, strong naming will be removed from all assemblies.
 
 
 ### References
