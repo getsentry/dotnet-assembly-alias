@@ -43,7 +43,10 @@ public static class ModuleReaderWriter
         };
         if (key != null)
         {
-            parameters.StrongNameKeyPair = key;
+            if (module.Assembly.Name.PublicKey.Any())
+            {
+                parameters.StrongNameKeyPair = key;
+            }
         }
 
         module.Write(file, parameters);
