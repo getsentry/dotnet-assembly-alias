@@ -1,7 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AssemblyWithEmbeddedSymbols\AssemblyWithEmbeddedSymbols.csproj" />
+    <ProjectReference Include="..\AssemblyWithNoStrongName\AssemblyWithNoStrongName.csproj" />
+    <ProjectReference Include="..\AssemblyWithNoSymbols\AssemblyWithNoSymbols.csproj" />
+    <ProjectReference Include="..\AssemblyWithPdb\AssemblyWithPdb.csproj" />
+    <ProjectReference Include="..\AssemblyWithResources\AssemblyWithResources.csproj" />
+    <ProjectReference Include="..\AssemblyWithStrongName\AssemblyWithStrongName.csproj" />
+  </ItemGroup>
 </Project>

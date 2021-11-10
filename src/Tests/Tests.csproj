@@ -8,6 +8,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Alias\Alias.csproj" />
     <ProjectReference Include="..\AssemblyToProcess\AssemblyToProcess.csproj" />
+    <ProjectReference Include="..\AssemblyWithEmbeddedSymbols\AssemblyWithEmbeddedSymbols.csproj" />
+    <ProjectReference Include="..\AssemblyWithNoStrongName\AssemblyWithNoStrongName.csproj" />
+    <ProjectReference Include="..\AssemblyWithNoSymbols\AssemblyWithNoSymbols.csproj" />
+    <ProjectReference Include="..\AssemblyWithPdb\AssemblyWithPdb.csproj" />
+    <ProjectReference Include="..\AssemblyWithResources\AssemblyWithResources.csproj" />
+    <ProjectReference Include="..\AssemblyWithStrongName\AssemblyWithStrongName.csproj" />
     <ProjectReference Include="..\DummyAssembly\DummyAssembly.csproj" />
     <PackageReference Include="MarkdownSnippets.MsBuild" Version="24.2.0" PrivateAssets="all" />
     <PackageReference Include="Nullable" Version="1.3.0" PrivateAssets="All" />
