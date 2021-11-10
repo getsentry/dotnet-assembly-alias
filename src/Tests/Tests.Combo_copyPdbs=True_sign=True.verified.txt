@@ -1,47 +1,47 @@
 ﻿[
   {
-    Name: AssemblyToProcess, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    Name: AssemblyToProcess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: true,
     References: [
-      AssemblyWithEmbeddedSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
-      AssemblyWithNoStrongName_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
-      AssemblyWithNoSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
-      AssemblyWithPdb_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
-      AssemblyWithStrongName_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+      AssemblyWithEmbeddedSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+      AssemblyWithNoStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+      AssemblyWithNoSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+      AssemblyWithPdb_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+      AssemblyWithStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
       System.Diagnostics.Debug, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a,
       System.Runtime, Version=4.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a,
       System.Runtime.Extensions, Version=4.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ]
   },
   {
-    Name: AssemblyWithEmbeddedSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    Name: AssemblyWithEmbeddedSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: true,
     References: [
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ]
   },
   {
-    Name: AssemblyWithNoStrongName_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    Name: AssemblyWithNoStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: true,
     References: [
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ]
   },
   {
-    Name: AssemblyWithNoSymbols_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    Name: AssemblyWithNoSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     References: [
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ]
   },
   {
-    Name: AssemblyWithPdb_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    Name: AssemblyWithPdb_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: true,
     References: [
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ]
   },
   {
-    Name: AssemblyWithResources_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    Name: AssemblyWithResources_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: true,
     References: [
       System.Diagnostics.Debug, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a,
@@ -51,7 +51,7 @@
     ]
   },
   {
-    Name: AssemblyWithStrongName_Alias, Version=0.1.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    Name: AssemblyWithStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: true,
     References: [
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51

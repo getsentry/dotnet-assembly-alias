@@ -125,5 +125,5 @@ It can be helpful to extract reference during a build using msbuild and write th
   <WriteLinesToFile File="$(TargetDir)/alias-references.txt" Lines="%(ReferenceForAlias.FullPath)" Overwrite="true" />
 </Target>
 ```
-<sup><a href='/src/SampleApp/SampleApp.csproj#L20-L27' title='Snippet source file'>snippet source</a> | <a href='#snippet-writereferenceforalias' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/SampleApp/SampleApp.csproj#L21-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-writereferenceforalias' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
