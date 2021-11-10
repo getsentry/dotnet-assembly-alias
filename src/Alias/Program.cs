@@ -99,7 +99,7 @@ public static class Program
 
                 var name = module.Assembly.Name;
                 name.Name = assembly.TargetName;
-                FixKey(keyPair, name);
+                FixKey(keyPair, name, module);
                 Redirect(module, assembliesToAlias, publicKey);
                 resolver.Add(module);
                 writes.Add(() => ModuleReaderWriter.Write(keyPair, hasSymbols, module, assemblyTargetPath));
@@ -111,7 +111,7 @@ public static class Program
                 var assemblyPath = assembly.Path;
                 var (module, hasSymbols) = ModuleReaderWriter.Read(assemblyPath, resolver);
 
-                FixKey(keyPair, module.Assembly.Name);
+                FixKey(keyPair, module.Assembly.Name, module);
                 Redirect(module, assembliesToAlias, publicKey);
                 resolver.Add(module);
 
@@ -137,17 +137,17 @@ public static class Program
         }
     }
 
-    static void FixKey(StrongNameKeyPair? key, AssemblyNameDefinition name)
+    static void FixKey(StrongNameKeyPair? key, AssemblyNameDefinition name, ModuleDefinition module)
     {
         if (key == null)
         {
-            name.Hash = Array.Empty<byte>();
-            name.PublicKey = Array.Empty<byte>();
-            name.PublicKeyToken = Array.Empty<byte>();
+module.Assembly.Name.PublicKey = null;
+module.Attributes &= ~ModuleAttributes.StrongNameSigned;
         }
         else
         {
-            name.PublicKey = key.PublicKey;
+module.Attributes &= ModuleAttributes.StrongNameSigned;
+            module.Assembly.Name.PublicKey = key.PublicKey;
         }
     }
 
