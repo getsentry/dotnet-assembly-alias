@@ -97,8 +97,7 @@ public static class Program
                 File.Delete(assemblyTargetPath);
                 var (module, hasSymbols) = ModuleReaderWriter.Read(assembly.SourcePath, resolver);
 
-                var name = module.Assembly.Name;
-                name.Name = assembly.TargetName;
+                module.Assembly.Name.Name = assembly.TargetName;
                 FixKey(keyPair, module);
                 Redirect(module, assembliesToAlias, publicKey);
                 resolver.Add(module);
