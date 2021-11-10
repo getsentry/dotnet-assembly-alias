@@ -9,5 +9,6 @@
     <ProjectReference Include="..\AssemblyWithNoSymbols\AssemblyWithNoSymbols.csproj" />
     <ProjectReference Include="..\AssemblyWithPdb\AssemblyWithPdb.csproj" />
     <ProjectReference Include="..\AssemblyWithResources\AssemblyWithResources.csproj" />
+    <ProjectReference Include="..\AssemblyWithStrongName\AssemblyWithStrongName.csproj" />
   </ItemGroup>
 </Project>

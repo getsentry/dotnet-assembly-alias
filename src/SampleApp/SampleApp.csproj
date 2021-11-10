@@ -14,19 +14,15 @@
     <ProjectReference Include="..\AssemblyWithNoSymbols\AssemblyWithNoSymbols.csproj" />
     <ProjectReference Include="..\AssemblyWithPdb\AssemblyWithPdb.csproj" />
     <ProjectReference Include="..\AssemblyWithResources\AssemblyWithResources.csproj" />
+    <ProjectReference Include="..\AssemblyWithStrongName\AssemblyWithStrongName.csproj" />
   </ItemGroup>
 
   <!-- begin-snippet: WriteReferenceForAlias -->
-  <Target Name="WriteReferenceForAlias" 
-          AfterTargets="AfterCompile">
+  <Target Name="WriteReferenceForAlias" AfterTargets="AfterCompile">
     <ItemGroup>
-      <ReferenceForAlias Include="@(ReferencePath)"
-                         Condition="'%(FileName)' == 'CommandLine'"/>
+      <ReferenceForAlias Include="@(ReferencePath)" Condition="'%(FileName)' == 'CommandLine'" />
     </ItemGroup>
-    <WriteLinesToFile
-      File="$(TargetDir)/alias-references.txt"
-      Lines="%(ReferenceForAlias.FullPath)"
-      Overwrite="true" />
+    <WriteLinesToFile File="$(TargetDir)/alias-references.txt" Lines="%(ReferenceForAlias.FullPath)" Overwrite="true" />
   </Target>
   <!-- end-snippet -->
 </Project>
