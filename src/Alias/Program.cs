@@ -141,12 +141,11 @@ public static class Program
     {
         if (key == null)
         {
-module.Assembly.Name.PublicKey = null;
-module.Attributes &= ~ModuleAttributes.StrongNameSigned;
+            module.Assembly.Name.PublicKey = null;
+            module.Attributes &= ~ModuleAttributes.StrongNameSigned;
         }
         else
         {
-module.Attributes &= ModuleAttributes.StrongNameSigned;
             module.Assembly.Name.PublicKey = key.PublicKey;
         }
     }
