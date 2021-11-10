@@ -31,7 +31,7 @@ public static class Program
         }
 
         StrongNameKeyPair? keyPair = null;
-        var publicKey = Array.Empty<byte>();
+        byte[]? publicKey = null;
         if (keyFile != null)
         {
             var fileBytes = File.ReadAllBytes(keyFile);
@@ -142,22 +142,35 @@ public static class Program
         {
             module.Assembly.Name.PublicKey = null;
             module.Attributes &= ~ModuleAttributes.StrongNameSigned;
+            return;
         }
-        else
+
+        if (module.Assembly.Name.PublicKeyToken.Any())
         {
             module.Assembly.Name.PublicKey = key.PublicKey;
         }
     }
 
-    static void Redirect(ModuleDefinition targetModule, List<AssemblyAlias> aliases, byte[] publicKey)
+    static void Redirect(ModuleDefinition targetModule, List<AssemblyAlias> aliases, byte[]? publicKey)
     {
         var assemblyReferences = targetModule.AssemblyReferences;
         foreach (var alias in aliases)
         {
             var toChange = assemblyReferences.SingleOrDefault(x => x.Name == alias.SourceName);
-            if (toChange != null)
+            if (toChange == null)
             {
-                toChange.Name = alias.TargetName;
+                continue;
+            }
+
+            toChange.Name = alias.TargetName;
+            if (publicKey == null)
+            {
+                toChange.PublicKey = null;
+                continue;
+            }
+
+            if (toChange.PublicKeyToken.Any())
+            {
                 toChange.PublicKey = publicKey;
             }
         }
