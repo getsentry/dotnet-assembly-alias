@@ -13,6 +13,7 @@ public class Tests
             "AssemblyToProcess",
             "AssemblyWithEmbeddedSymbols",
             "AssemblyWithNoStrongName",
+            "AssemblyWithStrongName",
             "AssemblyWithNoSymbols",
             "AssemblyWithPdb",
             "AssemblyWithResources"
@@ -70,7 +71,7 @@ public class Tests
             .UseParameters(copyPdbs, sign);
     }
 #if DEBUG
-    
+
     [Fact]
     public async Task RunSample()
     {
@@ -88,7 +89,7 @@ public class Tests
 
         Helpers.CopyFilesRecursively(targetPath, tempPath);
 
-        Program.Inner(tempPath, new() { "Assembly*" }, new(), null, new(), "Alias_", null);
+        Program.Inner(tempPath, new() {"Assembly*"}, new(), null, new(), "Alias_", null);
 
         PatchDependencies(tempPath);
 
@@ -98,17 +99,21 @@ public class Tests
             FileName = exePath,
             UseShellExecute = false,
             RedirectStandardOutput = true,
+            RedirectStandardError = true,
             CreateNoWindow = true
         };
         using var process = Process.Start(startInfo)!;
-        var builder = new StringBuilder();
+        var output = new StringBuilder();
+        var error = new StringBuilder();
         process.EnableRaisingEvents = true;
-        process.OutputDataReceived += (_, args) => builder.AppendLine(args.Data);
+        process.OutputDataReceived += (_, args) => output.AppendLine(args.Data);
+        process.ErrorDataReceived += (_, args) => error.AppendLine(args.Data);
         process.Start();
         process.BeginOutputReadLine();
+        process.BeginErrorReadLine();
         await process.WaitForExitAsync();
+        await Verifier.Verify(new {output, error});
         Assert.Equal(0, process.ExitCode);
-        await Verifier.Verify(builder);
     }
 #endif
 
