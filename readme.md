@@ -50,7 +50,7 @@ assemblyalias --target-directory "C:/Code/TargetDirectory"
 
 `-t` or `--target-directory`
 
-Optional. if no directory is passed the current directory will be used.
+Optional. If no directory is passed the current directory will be used.
 
 
 ### Prefix/Suffix
