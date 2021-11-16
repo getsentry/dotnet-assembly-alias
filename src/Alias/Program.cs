@@ -104,10 +104,7 @@ public static class Program
                 if (info.isAlias)
                 {
                     AddVisibleTo(module, visibleToConstructor, assemblyInfos, publicKey);
-                    foreach (var typeDefinition in module.Types)
-                    {
-                        typeDefinition.IsPublic = false;
-                    }
+                    MakeTypesInternal(module);
                 }
                 Redirect(module, assemblyInfos, publicKey);
                 resolver.Add(module);
@@ -135,6 +132,14 @@ public static class Program
 
             File.Delete(assembly.SourcePath);
             File.Delete(Path.ChangeExtension(assembly.SourcePath, "pdb"));
+        }
+    }
+
+    static void MakeTypesInternal(ModuleDefinition module)
+    {
+        foreach (var typeDefinition in module.Types)
+        {
+            typeDefinition.IsPublic = false;
         }
     }
 
