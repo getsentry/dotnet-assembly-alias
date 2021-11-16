@@ -10,7 +10,8 @@ public static class ModuleReaderWriter
         var parameters = new ReaderParameters
         {
             AssemblyResolver = resolver,
-            InMemory = true
+            InMemory = true,
+           // ReadingMode = ReadingMode.Immediate
         };
 
         var module = ModuleDefinition.ReadModule(file, parameters);

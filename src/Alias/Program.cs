@@ -1,5 +1,4 @@
-﻿using Alias;
-using Mono.Cecil;
+﻿using Mono.Cecil;
 using StrongNameKeyPair = Mono.Cecil.StrongNameKeyPair;
 
 public static class Program
@@ -44,48 +43,49 @@ public static class Program
             .Where(x => !assembliesToExclude.Contains(x))
             .ToList();
 
-        var assembliesToPatch = allFiles
-            .Select(x => new FileAssembly(Path.GetFileNameWithoutExtension(x), Path.GetDirectoryName(x)!, x))
-            .ToList();
-
         var assembliesToAlias = new List<AssemblyAlias>();
 
-        foreach (var assemblyToAlias in assemblyNamesToAliases)
+        void ProcessFile(string file)
         {
-            if (string.IsNullOrWhiteSpace(assemblyToAlias))
+            var name = Path.GetFileNameWithoutExtension(file);
+            var fileDirectory = Path.GetDirectoryName(file)!;
+            var isAliased = false;
+            foreach (var assemblyToAlias in assemblyNamesToAliases)
             {
-                throw new ErrorException("Empty string in assembliesToAliasString");
-            }
-
-            void ProcessItem(FileAssembly item)
-            {
-                assembliesToPatch.Remove(item);
-                
-                var targetName = $"{prefix}{item.Name}{suffix}";
-                var targetPath = Path.Combine(item.Directory, targetName + ".dll");
-                assembliesToAlias.Add(new(item.Name, item.Path, targetName, targetPath));
-            }
-
-            if (assemblyToAlias.EndsWith("*"))
-            {
-                var match = assemblyToAlias.TrimEnd('*');
-                foreach (var item in assembliesToPatch.Where(x => x.Name.StartsWith(match)).ToList())
+                if (assemblyToAlias.EndsWith("*"))
                 {
-                    ProcessItem(item);
-                }
-            }
-            else
-            {
-                var item = assembliesToPatch.SingleOrDefault(x => x.Name == assemblyToAlias);
-                if (item == null)
-                {
-                    throw new ErrorException($"Could not find {assemblyToAlias} in {directory}.");
+                    var match = assemblyToAlias.TrimEnd('*');
+                    if (name.StartsWith(match))
+                    {
+                        var targetName = $"{prefix}{name}{suffix}";
+                        var targetPath = Path.Combine(fileDirectory, targetName + ".dll");
+                        assembliesToAlias.Add(new(name, file, targetName, targetPath));
+                        isAliased = true;
+                        continue;
+                    }
                 }
 
-                ProcessItem(item);
+                if (name == assemblyToAlias)
+                {
+                    var targetName = $"{prefix}{name}{suffix}";
+                    var targetPath = Path.Combine(fileDirectory, targetName + ".dll");
+                    assembliesToAlias.Add(new(name, file, targetName, targetPath));
+                    isAliased = true;
+                    continue;
+                }
+            }
+
+            if (!isAliased)
+            {
+                assembliesToAlias.Add(new(name, file, name, file));
             }
         }
 
+        foreach (var file in allFiles)
+        {
+            ProcessFile(file);
+        }
+        
         using var resolver = new AssemblyResolver(references);
         {
             var assembliesToCleanup = new List<ModuleDefinition>();
@@ -94,27 +94,12 @@ public static class Program
             foreach (var assembly in assembliesToAlias)
             {
                 var assemblyTargetPath = assembly.TargetPath;
-                File.Delete(assemblyTargetPath);
                 var (module, hasSymbols) = ModuleReaderWriter.Read(assembly.SourcePath, resolver);
-
                 module.Assembly.Name.Name = assembly.TargetName;
                 FixKey(keyPair, module);
                 Redirect(module, assembliesToAlias, publicKey);
                 resolver.Add(module);
                 writes.Add(() => ModuleReaderWriter.Write(keyPair, hasSymbols, module, assemblyTargetPath));
-                assembliesToCleanup.Add(module);
-            }
-
-            foreach (var assembly in assembliesToPatch)
-            {
-                var assemblyPath = assembly.Path;
-                var (module, hasSymbols) = ModuleReaderWriter.Read(assemblyPath, resolver);
-
-                FixKey(keyPair, module);
-                Redirect(module, assembliesToAlias, publicKey);
-                resolver.Add(module);
-
-                writes.Add(() => ModuleReaderWriter.Write(keyPair, hasSymbols, module, assemblyPath));
                 assembliesToCleanup.Add(module);
             }
 
@@ -131,6 +116,11 @@ public static class Program
 
         foreach (var assembly in assembliesToAlias)
         {
+            if (assembly.SourceName == assembly.TargetName)
+            {
+                continue;
+            }
+
             File.Delete(assembly.SourcePath);
             File.Delete(Path.ChangeExtension(assembly.SourcePath, "pdb"));
         }
