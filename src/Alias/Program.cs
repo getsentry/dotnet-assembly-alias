@@ -100,8 +100,15 @@ public static class Program
                 var assemblyTargetPath = info.TargetPath;
                 var (module, hasSymbols) = ModuleReaderWriter.Read(info.SourcePath, resolver);
                 module.Assembly.Name.Name = info.TargetName;
-                AddVisibleTo(module, visibleToConstructor, assemblyInfos, publicKey);
                 FixKey(keyPair, module);
+                if (info.isAlias)
+                {
+                    AddVisibleTo(module, visibleToConstructor, assemblyInfos, publicKey);
+                    foreach (var typeDefinition in module.Types)
+                    {
+                        typeDefinition.IsPublic = false;
+                    }
+                }
                 Redirect(module, assemblyInfos, publicKey);
                 resolver.Add(module);
                 writes.Add(() => ModuleReaderWriter.Write(keyPair, hasSymbols, module, assemblyTargetPath));
@@ -137,7 +144,7 @@ public static class Program
 
         foreach (var info in assemblyInfos)
         {
-            if (!info.isAlias)
+            if (module.Assembly.Name.Name == info.TargetName)
             {
                 continue;
             }

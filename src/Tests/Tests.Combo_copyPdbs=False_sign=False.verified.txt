@@ -7,18 +7,9 @@
       AssemblyWithNoSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
       AssemblyWithPdb_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
       AssemblyWithStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
-      netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51,
       System.Diagnostics.Debug, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a,
       System.Runtime, Version=4.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a,
       System.Runtime.Extensions, Version=4.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
-    ],
-    Attributes: [
-      InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
-      InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),
-      InternalsVisibleToAttribute(AssemblyWithNoSymbols_Alias),
-      InternalsVisibleToAttribute(AssemblyWithPdb_Alias),
-      InternalsVisibleToAttribute(AssemblyWithResources_Alias),
-      InternalsVisibleToAttribute(AssemblyWithStrongName_Alias)
     ]
   },
   {
@@ -28,7 +19,7 @@
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ],
     Attributes: [
-      InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
+      InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithPdb_Alias),
@@ -42,8 +33,8 @@
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ],
     Attributes: [
+      InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
-      InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithPdb_Alias),
       InternalsVisibleToAttribute(AssemblyWithResources_Alias),
@@ -56,9 +47,9 @@
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ],
     Attributes: [
+      InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),
-      InternalsVisibleToAttribute(AssemblyWithNoSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithPdb_Alias),
       InternalsVisibleToAttribute(AssemblyWithResources_Alias),
       InternalsVisibleToAttribute(AssemblyWithStrongName_Alias)
@@ -70,10 +61,10 @@
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ],
     Attributes: [
+      InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoSymbols_Alias),
-      InternalsVisibleToAttribute(AssemblyWithPdb_Alias),
       InternalsVisibleToAttribute(AssemblyWithResources_Alias),
       InternalsVisibleToAttribute(AssemblyWithStrongName_Alias)
     ]
@@ -88,11 +79,11 @@
       System.Runtime, Version=4.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ],
     Attributes: [
+      InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithPdb_Alias),
-      InternalsVisibleToAttribute(AssemblyWithResources_Alias),
       InternalsVisibleToAttribute(AssemblyWithStrongName_Alias)
     ]
   },
@@ -102,12 +93,12 @@
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ],
     Attributes: [
+      InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithPdb_Alias),
-      InternalsVisibleToAttribute(AssemblyWithResources_Alias),
-      InternalsVisibleToAttribute(AssemblyWithStrongName_Alias)
+      InternalsVisibleToAttribute(AssemblyWithResources_Alias)
     ]
   }
 ]
