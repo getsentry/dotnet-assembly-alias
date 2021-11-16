@@ -53,8 +53,8 @@ public class Tests
             using var definition = AssemblyDefinition.ReadAssembly(assembly);
             var attributes = definition.CustomAttributes
                 .Where(x => x.AttributeType.Name.Contains("Internals"))
-                .OrderBy(x => x.AttributeType.Name)
                 .Select(x => $"{x.AttributeType.Name}({string.Join(',', x.ConstructorArguments.Select(y => y.Value))})")
+                .OrderBy(x => x)
                 .ToList();
             results.Add(
                 new(
