@@ -1,1 +1,0 @@
-﻿public record AssemblyAlias(string SourceName, string SourcePath, string TargetName, string TargetPath);
