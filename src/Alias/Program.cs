@@ -145,10 +145,7 @@ public static class Program
             return;
         }
 
-        if (module.Assembly.Name.PublicKeyToken.Any())
-        {
-            module.Assembly.Name.PublicKey = key.PublicKey;
-        }
+        module.Assembly.Name.PublicKey = key.PublicKey;
     }
 
     static void Redirect(ModuleDefinition targetModule, List<AssemblyAlias> aliases, byte[]? publicKey)
@@ -163,16 +160,7 @@ public static class Program
             }
 
             toChange.Name = alias.TargetName;
-            if (publicKey == null)
-            {
-                toChange.PublicKey = null;
-                continue;
-            }
-
-            if (toChange.PublicKeyToken.Any())
-            {
-                toChange.PublicKey = publicKey;
-            }
+            toChange.PublicKey = publicKey;
         }
     }
 }
