@@ -1,5 +1,5 @@
-﻿using Alias;
-using Mono.Cecil;
+﻿using Mono.Cecil;
+using Mono.Cecil.Rocks;
 using StrongNameKeyPair = Mono.Cecil.StrongNameKeyPair;
 
 public static class Program
@@ -44,77 +44,71 @@ public static class Program
             .Where(x => !assembliesToExclude.Contains(x))
             .ToList();
 
-        var assembliesToPatch = allFiles
-            .Select(x => new FileAssembly(Path.GetFileNameWithoutExtension(x), Path.GetDirectoryName(x)!, x))
-            .ToList();
+        var assemblyInfos = new List<AssemblyInfo>();
 
-        var assembliesToAlias = new List<AssemblyAlias>();
-
-        foreach (var assemblyToAlias in assemblyNamesToAliases)
+        void ProcessFile(string file)
         {
-            if (string.IsNullOrWhiteSpace(assemblyToAlias))
+            var name = Path.GetFileNameWithoutExtension(file);
+            var fileDirectory = Path.GetDirectoryName(file)!;
+            var isAliased = false;
+            foreach (var assemblyToAlias in assemblyNamesToAliases)
             {
-                throw new ErrorException("Empty string in assembliesToAliasString");
-            }
-
-            void ProcessItem(FileAssembly item)
-            {
-                assembliesToPatch.Remove(item);
-                
-                var targetName = $"{prefix}{item.Name}{suffix}";
-                var targetPath = Path.Combine(item.Directory, targetName + ".dll");
-                assembliesToAlias.Add(new(item.Name, item.Path, targetName, targetPath));
-            }
-
-            if (assemblyToAlias.EndsWith("*"))
-            {
-                var match = assemblyToAlias.TrimEnd('*');
-                foreach (var item in assembliesToPatch.Where(x => x.Name.StartsWith(match)).ToList())
+                if (assemblyToAlias.EndsWith("*"))
                 {
-                    ProcessItem(item);
-                }
-            }
-            else
-            {
-                var item = assembliesToPatch.SingleOrDefault(x => x.Name == assemblyToAlias);
-                if (item == null)
-                {
-                    throw new ErrorException($"Could not find {assemblyToAlias} in {directory}.");
+                    var match = assemblyToAlias.TrimEnd('*');
+                    if (name.StartsWith(match))
+                    {
+                        var targetName = $"{prefix}{name}{suffix}";
+                        var targetPath = Path.Combine(fileDirectory, targetName + ".dll");
+                        assemblyInfos.Add(new(name, file, targetName, targetPath, true));
+                        isAliased = true;
+                        continue;
+                    }
                 }
 
-                ProcessItem(item);
+                if (name == assemblyToAlias)
+                {
+                    var targetName = $"{prefix}{name}{suffix}";
+                    var targetPath = Path.Combine(fileDirectory, targetName + ".dll");
+                    assemblyInfos.Add(new(name, file, targetName, targetPath, true));
+                    isAliased = true;
+                    continue;
+                }
+            }
+
+            if (!isAliased)
+            {
+                assemblyInfos.Add(new(name, file, name, file, false));
             }
         }
 
+        foreach (var file in allFiles)
+        {
+            ProcessFile(file);
+        }
+        
         using var resolver = new AssemblyResolver(references);
         {
             var assembliesToCleanup = new List<ModuleDefinition>();
             var writes = new List<Action>();
 
-            foreach (var assembly in assembliesToAlias)
+            var netstandard = resolver.Resolve(new AssemblyNameReference("netstandard", new Version()))!;
+            var visibleToType = netstandard.MainModule.GetType("System.Runtime.CompilerServices", "InternalsVisibleToAttribute");
+            var visibleToConstructor= visibleToType.GetConstructors().Single();
+            foreach (var info in assemblyInfos)
             {
-                var assemblyTargetPath = assembly.TargetPath;
-                File.Delete(assemblyTargetPath);
-                var (module, hasSymbols) = ModuleReaderWriter.Read(assembly.SourcePath, resolver);
-
-                module.Assembly.Name.Name = assembly.TargetName;
+                var assemblyTargetPath = info.TargetPath;
+                var (module, hasSymbols) = ModuleReaderWriter.Read(info.SourcePath, resolver);
+                module.Assembly.Name.Name = info.TargetName;
                 FixKey(keyPair, module);
-                Redirect(module, assembliesToAlias, publicKey);
+                if (info.isAlias)
+                {
+                    AddVisibleTo(module, visibleToConstructor, assemblyInfos, publicKey);
+                    MakeTypesInternal(module);
+                }
+                Redirect(module, assemblyInfos, publicKey);
                 resolver.Add(module);
                 writes.Add(() => ModuleReaderWriter.Write(keyPair, hasSymbols, module, assemblyTargetPath));
-                assembliesToCleanup.Add(module);
-            }
-
-            foreach (var assembly in assembliesToPatch)
-            {
-                var assemblyPath = assembly.Path;
-                var (module, hasSymbols) = ModuleReaderWriter.Read(assemblyPath, resolver);
-
-                FixKey(keyPair, module);
-                Redirect(module, assembliesToAlias, publicKey);
-                resolver.Add(module);
-
-                writes.Add(() => ModuleReaderWriter.Write(keyPair, hasSymbols, module, assemblyPath));
                 assembliesToCleanup.Add(module);
             }
 
@@ -129,10 +123,49 @@ public static class Program
             }
         }
 
-        foreach (var assembly in assembliesToAlias)
+        foreach (var assembly in assemblyInfos)
         {
+            if (!assembly.isAlias)
+            {
+                continue;
+            }
+
             File.Delete(assembly.SourcePath);
             File.Delete(Path.ChangeExtension(assembly.SourcePath, "pdb"));
+        }
+    }
+
+    static void MakeTypesInternal(ModuleDefinition module)
+    {
+        foreach (var typeDefinition in module.Types)
+        {
+            typeDefinition.IsPublic = false;
+        }
+    }
+
+    static void AddVisibleTo(ModuleDefinition module, MethodDefinition visibleToConstructor, List<AssemblyInfo> assemblyInfos, byte[]? publicKey)
+    {
+        var visibleToConstructorImported = module.ImportReference(visibleToConstructor);
+
+        foreach (var info in assemblyInfos)
+        {
+            if (module.Assembly.Name.Name == info.TargetName)
+            {
+                continue;
+            }
+            var attribute = new CustomAttribute(visibleToConstructorImported);
+            string value;
+            if (publicKey == null)
+            {
+                value = info.TargetName;
+            }
+            else
+            {
+                value = $"{info.TargetName}, PublicKey={string.Concat(publicKey.Select(x => x.ToString("x2")).ToArray())}";
+            }
+
+            attribute.ConstructorArguments.Add(new CustomAttributeArgument(module.TypeSystem.String, value));
+            module.Assembly.CustomAttributes.Add(attribute);
         }
     }
 
@@ -145,34 +178,22 @@ public static class Program
             return;
         }
 
-        if (module.Assembly.Name.PublicKeyToken.Any())
-        {
-            module.Assembly.Name.PublicKey = key.PublicKey;
-        }
+        module.Assembly.Name.PublicKey = key.PublicKey;
     }
 
-    static void Redirect(ModuleDefinition targetModule, List<AssemblyAlias> aliases, byte[]? publicKey)
+    static void Redirect(ModuleDefinition targetModule, List<AssemblyInfo> assemblyInfos, byte[]? publicKey)
     {
         var assemblyReferences = targetModule.AssemblyReferences;
-        foreach (var alias in aliases)
+        foreach (var info in assemblyInfos)
         {
-            var toChange = assemblyReferences.SingleOrDefault(x => x.Name == alias.SourceName);
+            var toChange = assemblyReferences.SingleOrDefault(x => x.Name == info.SourceName);
             if (toChange == null)
             {
                 continue;
             }
 
-            toChange.Name = alias.TargetName;
-            if (publicKey == null)
-            {
-                toChange.PublicKey = null;
-                continue;
-            }
-
-            if (toChange.PublicKeyToken.Any())
-            {
-                toChange.PublicKey = publicKey;
-            }
+            toChange.Name = info.TargetName;
+            toChange.PublicKey = publicKey;
         }
     }
 }

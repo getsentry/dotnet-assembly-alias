@@ -10,7 +10,8 @@ public static class ModuleReaderWriter
         var parameters = new ReaderParameters
         {
             AssemblyResolver = resolver,
-            InMemory = true
+            InMemory = true,
+           // ReadingMode = ReadingMode.Immediate
         };
 
         var module = ModuleDefinition.ReadModule(file, parameters);
@@ -43,10 +44,7 @@ public static class ModuleReaderWriter
         };
         if (key != null)
         {
-            if (module.Assembly.Name.PublicKey.Any())
-            {
-                parameters.StrongNameKeyPair = key;
-            }
+            parameters.StrongNameKeyPair = key;
         }
 
         module.Write(file, parameters);
