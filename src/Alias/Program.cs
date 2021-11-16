@@ -145,8 +145,9 @@ public static class Program
             }
             else
             {
-                value = $"{alias.TargetName}, PublicKey={string.Concat(publicKey.Select(x=>x.ToString("x2")).ToArray())}";
+                value = $"{alias.TargetName}, PublicKey={string.Concat(publicKey.Select(x => x.ToString("x2")).ToArray())}";
             }
+
             attribute.ConstructorArguments.Add(new CustomAttributeArgument(module.TypeSystem.String, value));
             module.Assembly.CustomAttributes.Add(attribute);
         }

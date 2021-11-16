@@ -51,7 +51,6 @@ public class Tests
         foreach (var assembly in resultingFiles.Where(x => x.EndsWith(".dll")).OrderBy(x => x))
         {
             using var definition = AssemblyDefinition.ReadAssembly(assembly);
-            var s = definition.CustomAttributes.First().ToString();
             results.Add(
                 new(
                     definition.Name.FullName,
