@@ -51,12 +51,17 @@ public class Tests
         foreach (var assembly in resultingFiles.Where(x => x.EndsWith(".dll")).OrderBy(x => x))
         {
             using var definition = AssemblyDefinition.ReadAssembly(assembly);
+            var attributes = definition.CustomAttributes
+                .Where(x => x.AttributeType.Name.Contains("Internals"))
+                .OrderBy(x => x.AttributeType.Name)
+                .Select(x => $"{x.AttributeType.Name}({string.Join(',', x.ConstructorArguments.Select(y => y.Value))})")
+                .ToList();
             results.Add(
                 new(
                     definition.Name.FullName,
                     definition.MainModule.TryReadSymbols(),
                     definition.MainModule.AssemblyReferences.Select(x => x.FullName).OrderBy(x => x).ToList(),
-                    definition.CustomAttributes.Where(x=>x.AttributeType.Name.Contains("Internals")).Select(x=> $"{x.AttributeType.Name}({string.Join(',', x.ConstructorArguments.Select(y => y.Value))})").ToList()));
+                    attributes));
         }
 
         return results;
