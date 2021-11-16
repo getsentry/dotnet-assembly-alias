@@ -1,4 +1,5 @@
 ﻿using Mono.Cecil;
+using Mono.Cecil.Rocks;
 using StrongNameKeyPair = Mono.Cecil.StrongNameKeyPair;
 
 public static class Program
@@ -91,11 +92,15 @@ public static class Program
             var assembliesToCleanup = new List<ModuleDefinition>();
             var writes = new List<Action>();
 
+            var netstandard = resolver.Resolve(new AssemblyNameReference("netstandard", new Version()))!;
+            var visibleToType = netstandard.MainModule.GetType("System.Runtime.CompilerServices", "InternalsVisibleToAttribute");
+            var visibleToConstructor= visibleToType.GetConstructors().Single();
             foreach (var assembly in assembliesToAlias)
             {
                 var assemblyTargetPath = assembly.TargetPath;
                 var (module, hasSymbols) = ModuleReaderWriter.Read(assembly.SourcePath, resolver);
                 module.Assembly.Name.Name = assembly.TargetName;
+                AddVisibleTo(module, visibleToConstructor, assembliesToAlias, publicKey);
                 FixKey(keyPair, module);
                 Redirect(module, assembliesToAlias, publicKey);
                 resolver.Add(module);
@@ -123,6 +128,27 @@ public static class Program
 
             File.Delete(assembly.SourcePath);
             File.Delete(Path.ChangeExtension(assembly.SourcePath, "pdb"));
+        }
+    }
+
+    static void AddVisibleTo(ModuleDefinition module, MethodDefinition visibleToConstructor, List<AssemblyAlias> assembliesToAlias, byte[]? publicKey)
+    {
+        var visibleToConstructorImported = module.ImportReference(visibleToConstructor);
+
+        foreach (var alias in assembliesToAlias)
+        {
+            var attribute = new CustomAttribute(visibleToConstructorImported);
+            string value;
+            if (publicKey == null)
+            {
+                value = alias.TargetName;
+            }
+            else
+            {
+                value = $"{alias.TargetName}, PublicKey={string.Concat(publicKey.Select(x=>x.ToString("x2")).ToArray())}";
+            }
+            attribute.ConstructorArguments.Add(new CustomAttributeArgument(module.TypeSystem.String, value));
+            module.Assembly.CustomAttributes.Add(attribute);
         }
     }
 

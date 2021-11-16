@@ -51,11 +51,13 @@ public class Tests
         foreach (var assembly in resultingFiles.Where(x => x.EndsWith(".dll")).OrderBy(x => x))
         {
             using var definition = AssemblyDefinition.ReadAssembly(assembly);
+            var s = definition.CustomAttributes.First().ToString();
             results.Add(
                 new(
                     definition.Name.FullName,
                     definition.MainModule.TryReadSymbols(),
-                    definition.MainModule.AssemblyReferences.Select(x => x.FullName).OrderBy(x => x).ToList()));
+                    definition.MainModule.AssemblyReferences.Select(x => x.FullName).OrderBy(x => x).ToList(),
+                    definition.CustomAttributes.Where(x=>x.AttributeType.Name.Contains("Internals")).Select(x=> $"{x.AttributeType.Name}({string.Join(',', x.ConstructorArguments.Select(y => y.Value))})").ToList()));
         }
 
         return results;
@@ -138,4 +140,4 @@ public class Tests
     }
 }
 
-public record AssemblyResult(string Name, bool HasSymbols, List<string> References);
+public record AssemblyResult(string Name, bool HasSymbols, List<string> References, List<string> Attributes);
