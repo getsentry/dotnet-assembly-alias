@@ -53,23 +53,23 @@ public static class Program
             var isAliased = false;
             foreach (var assemblyToAlias in assemblyNamesToAliases)
             {
+                var targetName = $"{prefix}{name}{suffix}";
+                var targetPath = Path.Combine(fileDirectory, $"{targetName}.dll");
+
                 if (assemblyToAlias.EndsWith("*"))
                 {
                     var match = assemblyToAlias.TrimEnd('*');
                     if (name.StartsWith(match))
                     {
-                        var targetName = $"{prefix}{name}{suffix}";
-                        var targetPath = Path.Combine(fileDirectory, targetName + ".dll");
                         assemblyInfos.Add(new(name, file, targetName, targetPath, true));
                         isAliased = true;
-                        continue;
                     }
+
+                    continue;
                 }
 
                 if (name == assemblyToAlias)
                 {
-                    var targetName = $"{prefix}{name}{suffix}";
-                    var targetPath = Path.Combine(fileDirectory, targetName + ".dll");
                     assemblyInfos.Add(new(name, file, targetName, targetPath, true));
                     isAliased = true;
                     continue;
@@ -86,7 +86,7 @@ public static class Program
         {
             ProcessFile(file);
         }
-        
+
         using var resolver = new AssemblyResolver(references);
         {
             var assembliesToCleanup = new List<ModuleDefinition>();
@@ -94,7 +94,7 @@ public static class Program
 
             var netstandard = resolver.Resolve(new AssemblyNameReference("netstandard", new Version()))!;
             var visibleToType = netstandard.MainModule.GetType("System.Runtime.CompilerServices", "InternalsVisibleToAttribute");
-            var visibleToConstructor= visibleToType.GetConstructors().Single();
+            var visibleToConstructor = visibleToType.GetConstructors().Single();
             foreach (var info in assemblyInfos)
             {
                 var assemblyTargetPath = info.TargetPath;
@@ -106,6 +106,7 @@ public static class Program
                     AddVisibleTo(module, visibleToConstructor, assemblyInfos, publicKey);
                     MakeTypesInternal(module);
                 }
+
                 Redirect(module, assemblyInfos, publicKey);
                 resolver.Add(module);
                 writes.Add(() => ModuleReaderWriter.Write(keyPair, hasSymbols, module, assemblyTargetPath));
@@ -123,13 +124,8 @@ public static class Program
             }
         }
 
-        foreach (var assembly in assemblyInfos)
+        foreach (var assembly in assemblyInfos.Where(_ => _.isAlias))
         {
-            if (!assembly.isAlias)
-            {
-                continue;
-            }
-
             File.Delete(assembly.SourcePath);
             File.Delete(Path.ChangeExtension(assembly.SourcePath, "pdb"));
         }
@@ -143,17 +139,20 @@ public static class Program
         }
     }
 
-    static void AddVisibleTo(ModuleDefinition module, MethodDefinition visibleToConstructor, List<AssemblyInfo> assemblyInfos, byte[]? publicKey)
+    static void AddVisibleTo(ModuleDefinition module, MethodDefinition constructor, List<AssemblyInfo> assemblyInfos, byte[]? publicKey)
     {
-        var visibleToConstructorImported = module.ImportReference(visibleToConstructor);
+        var constructorImported = module.ImportReference(constructor);
+
+        var assembly = module.Assembly;
 
         foreach (var info in assemblyInfos)
         {
-            if (module.Assembly.Name.Name == info.TargetName)
+            if (assembly.Name.Name == info.TargetName)
             {
                 continue;
             }
-            var attribute = new CustomAttribute(visibleToConstructorImported);
+
+            var attribute = new CustomAttribute(constructorImported);
             string value;
             if (publicKey == null)
             {
@@ -161,12 +160,17 @@ public static class Program
             }
             else
             {
-                value = $"{info.TargetName}, PublicKey={string.Concat(publicKey.Select(x => x.ToString("x2")).ToArray())}";
+                value = $"{info.TargetName}, PublicKey={PublicKeyToString(publicKey)}";
             }
 
             attribute.ConstructorArguments.Add(new CustomAttributeArgument(module.TypeSystem.String, value));
-            module.Assembly.CustomAttributes.Add(attribute);
+            assembly.CustomAttributes.Add(attribute);
         }
+    }
+
+    static string PublicKeyToString(byte[] publicKey)
+    {
+        return string.Concat(publicKey.Select(x => x.ToString("x2")));
     }
 
     static void FixKey(StrongNameKeyPair? key, ModuleDefinition module)
