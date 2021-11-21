@@ -56,7 +56,7 @@ Optional. If no directory is passed the current directory will be used.
 
 `-i` or `--internalize`
 
-Optional. Use `true` to internalize all types in the aliased assemblies.
+Optional. To internalize all types in the aliased assemblies.
 
 
 ### Prefix/Suffix

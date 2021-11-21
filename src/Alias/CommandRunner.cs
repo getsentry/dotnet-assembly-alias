@@ -16,6 +16,7 @@ public static class CommandRunner
         var options = parsed.Value;
         var targetDirectory = FindTargetDirectory(options.TargetDirectory);
         Console.WriteLine($"TargetDirectory: {targetDirectory}");
+        Console.WriteLine($"Internalize: {options.Internalize}");
         var prefix = options.Prefix;
         if (prefix != null)
         {
