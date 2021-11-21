@@ -5,4 +5,5 @@
     string? keyFile,
     List<string> assembliesToExclude,
     string? prefix,
-    string? suffix);
+    string? suffix,
+    bool internalize);

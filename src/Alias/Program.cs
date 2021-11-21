@@ -23,7 +23,8 @@ public static class Program
         string? keyFile,
         List<string> assembliesToExclude,
         string? prefix,
-        string? suffix)
+        string? suffix,
+        bool internalize)
     {
         if (!Directory.Exists(directory))
         {
@@ -101,7 +102,7 @@ public static class Program
                 var (module, hasSymbols) = ModuleReaderWriter.Read(info.SourcePath, resolver);
                 module.Assembly.Name.Name = info.TargetName;
                 FixKey(keyPair, module);
-                if (info.isAlias)
+                if (info.isAlias && internalize)
                 {
                     AddVisibleTo(module, visibleToConstructor, assemblyInfos, publicKey);
                     MakeTypesInternal(module);

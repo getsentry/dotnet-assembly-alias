@@ -4,7 +4,7 @@ using System.Text;
 [UsesVerify]
 public class Tests
 {
-    public List<AssemblyResult> Run(bool copyPdbs, bool sign)
+    public List<AssemblyResult> Run(bool copyPdbs, bool sign, bool internalize)
     {
         var binDirectory = Path.GetDirectoryName(typeof(Tests).Assembly.Location)!;
 
@@ -44,7 +44,7 @@ public class Tests
         }
 
         var namesToAliases = assemblyFiles.Where(x => x.StartsWith("AssemblyWith")).ToList();
-        Program.Inner(tempPath, namesToAliases, new(), keyFile, new(), null, "_Alias");
+        Program.Inner(tempPath, namesToAliases, new(), keyFile, new(), null, "_Alias", internalize);
 
         var resultingFiles = Directory.EnumerateFiles(tempPath);
         var results = new List<AssemblyResult>();
@@ -69,12 +69,12 @@ public class Tests
 
     [Theory]
     [MemberData(nameof(GetData))]
-    public async Task Combo(bool copyPdbs, bool sign)
+    public async Task Combo(bool copyPdbs, bool sign, bool internalize)
     {
-        var results = Run(copyPdbs, sign);
+        var results = Run(copyPdbs, sign, internalize);
 
         await Verifier.Verify(results)
-            .UseParameters(copyPdbs, sign);
+            .UseParameters(copyPdbs, sign, internalize);
     }
 #if DEBUG
 
@@ -95,7 +95,7 @@ public class Tests
 
         Helpers.CopyFilesRecursively(targetPath, tempPath);
 
-        Program.Inner(tempPath, new() {"Assembly*"}, new(), null, new(), "Alias_", null);
+        Program.Inner(tempPath, new() {"Assembly*"}, new(), null, new(), "Alias_", null, true);
 
         PatchDependencies(tempPath);
 
@@ -138,8 +138,9 @@ public class Tests
     {
         foreach (var copyPdbs in bools)
         foreach (var sign in bools)
+        foreach (var internalize in bools)
         {
-            yield return new object[] { copyPdbs, sign };
+            yield return new object[] { copyPdbs, sign, internalize};
         }
     }
 }

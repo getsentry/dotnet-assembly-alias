@@ -92,7 +92,8 @@ public static class CommandRunner
             keyFile, 
             assembliesToExclude,
             prefix,
-            suffix);
+            suffix,
+            options.Internalize);
         return Enumerable.Empty<Error>();
     }
 

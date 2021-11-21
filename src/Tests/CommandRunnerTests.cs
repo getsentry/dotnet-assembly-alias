@@ -110,11 +110,12 @@ public class CommandRunnerTests
         string? key = null;
         string? prefix = null;
         string? suffix = null;
+        var internalize = false;
         IEnumerable<string>? assembliesToAlias = null;
         IEnumerable<string>? assembliesToExclude = null;
         IEnumerable<string>? references = null;
         var result = CommandRunner.RunCommand(
-            (_directory, _assembliesToAlias, _references, _key, _assembliesToExclude, _prefix, _suffix) =>
+            (_directory, _assembliesToAlias, _references, _key, _assembliesToExclude, _prefix, _suffix, _internalize) =>
             {
                 directory = _directory;
                 key = _key;
@@ -123,9 +124,10 @@ public class CommandRunnerTests
                 references = _references;
                 prefix = _prefix;
                 suffix = _suffix;
+                internalize = _internalize;
             },
             input.Split(' '));
-        return new(result, directory, prefix, suffix, key, assembliesToAlias, references, assembliesToExclude, consoleError.ToString(), consoleOut.ToString());
+        return new(result, directory, prefix, suffix, key, assembliesToAlias, references, assembliesToExclude, consoleError.ToString(), consoleOut.ToString(), internalize);
     }
 
     public record Result(
@@ -138,5 +140,6 @@ public class CommandRunnerTests
         IEnumerable<string>? references,
         IEnumerable<string>? assembliesToExclude,
         string consoleError,
-        string consoleOut);
+        string consoleOut,
+        bool internalize);
 }

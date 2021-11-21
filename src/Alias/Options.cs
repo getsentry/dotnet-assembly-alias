@@ -5,6 +5,9 @@ public class Options
     [Option('t', "target-directory", Required = false)]
     public string? TargetDirectory { get; set; }
 
+    [Option('i', "internalize", Required = false)]
+    public bool Internalize { get; set; } = false;
+
     [Option('a', "assemblies-to-alias", Required = true, Separator = ';')]
     public IEnumerable<string> AssembliesToAlias { get; set; } = null!;
 
