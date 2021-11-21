@@ -52,6 +52,12 @@ assemblyalias --target-directory "C:/Code/TargetDirectory"
 
 Optional. If no directory is passed the current directory will be used.
 
+### Internalize
+
+`-i` or `--internalize`
+
+Optional. Use `true` to internalize all types in the aliased assemblies.
+
 
 ### Prefix/Suffix
 
