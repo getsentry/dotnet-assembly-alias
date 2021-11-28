@@ -3,14 +3,17 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\InBuildRef\InBuildRef.csproj" />
   </ItemGroup>
-  <Target Name="AssemblyAliasTarget" AfterTargets="AfterCompile" Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true)">
+  <Target Name="AssemblyAliasTarget"
+          AfterTargets="AfterCompile"
+          Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true)">
     <PropertyGroup>
       <Command>$(SolutionDir)Alias\bin\$(Configuration)\net6\Alias.exe
- --target-directory $(ProjectDir)$(IntermediateOutputPath) 
+ --target-directory $(ProjectDir)$(IntermediateOutputPath)
  --suffix _Alias
  --assemblies-to-alias InBuildRef;System.Text.Json
       </Command>
