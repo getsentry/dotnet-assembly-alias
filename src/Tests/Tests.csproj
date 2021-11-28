@@ -3,6 +3,7 @@
     <TargetFrameworks>net6</TargetFrameworks>
     <SignAssembly>false</SignAssembly>
     <DebugType>embedded</DebugType>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>

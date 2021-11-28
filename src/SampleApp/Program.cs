@@ -1,4 +1,6 @@
-﻿foreach (var line in ClassToTest.Method())
+﻿using System;
+
+foreach (var line in ClassToTest.Method())
 {
     Console.WriteLine(line);
 }

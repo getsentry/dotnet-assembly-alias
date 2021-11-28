@@ -12,6 +12,7 @@
   consoleError: ,
   consoleOut:
 TargetDirectory: {CurrentDirectory}directory
+Internalize: False
 Prefix: Alias_
 Suffix: _Alias
 KeyFile: {CurrentDirectory}test.snk
