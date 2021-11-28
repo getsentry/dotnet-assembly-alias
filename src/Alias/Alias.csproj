@@ -6,7 +6,6 @@
     <PackAsTool>True</PackAsTool>
     <DebugType>embedded</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <IsPackageProject>true</IsPackageProject>
     <PackageOutputPath>$(SolutionDir)nugets</PackageOutputPath>
     <Copyright>Copyright $([System.DateTime]::UtcNow.ToString(yyyy)). All rights reserved</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
