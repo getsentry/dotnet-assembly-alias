@@ -4,13 +4,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <CopyLocalLockFiles>true</CopyLocalLockFiles>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\InBuildRef\InBuildRef.csproj" />
   </ItemGroup>
   <Target Name="AssemblyAliasTarget"
           AfterTargets="AfterCompile"
-          Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true)">
+          Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting))">
     <PropertyGroup>
       <Command>$(SolutionDir)Alias\bin\$(Configuration)\net6\Alias.exe
  --target-directory $(ProjectDir)$(IntermediateOutputPath)
