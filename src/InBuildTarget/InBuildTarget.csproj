@@ -16,7 +16,7 @@
       </Command>
       <TrimmedCommand>$(Command.Replace('%0D%0A',''))</TrimmedCommand>
     </PropertyGroup>
-    <Message Text="$(TrimmedCommand)" Importance="high"/>
+    <Message Text="$(TrimmedCommand)" Importance="high" />
     <Exec Command="$(TrimmedCommand)" ConsoleToMsBuild="true" />
   </Target>
 </Project>
