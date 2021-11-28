@@ -1,16 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\InBuildRef\InBuildRef.csproj" />
   </ItemGroup>
   <Target Name="AssemblyAliasTarget" AfterTargets="AfterCompile" Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true)">
-    
     <PropertyGroup>
       <Command>$(SolutionDir)Alias\bin\$(Configuration)\net6\Alias.exe
  --target-directory $(ProjectDir)$(IntermediateOutputPath) 
