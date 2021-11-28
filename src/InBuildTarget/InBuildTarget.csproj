@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -9,5 +9,18 @@
   <ItemGroup>
     <ProjectReference Include="..\InBuildRef\InBuildRef.csproj" />
   </ItemGroup>
-
+  <Target Name="AssemblyAliasTarget" AfterTargets="AfterCompile" Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true)">
+    
+    <PropertyGroup>
+      <Command>
+        $(SolutionDir)Alias\bin\$(Configuration)\net6\Alias.exe
+        --target-directory $(ProjectDir)$(IntermediateOutputPath) 
+        --suffix _Alias
+        --assemblies-to-alias "InBuildRef;System.Text.Json"
+      </Command>
+      <TrimmedCommand>$(Command.Replace('%0D%0A',''))</TrimmedCommand>
+    </PropertyGroup>
+    <Message Text="$(TrimmedCommand)" Importance="high"/>
+    <Exec Command="$(TrimmedCommand)" ConsoleToMsBuild="true" />
+  </Target>
 </Project>

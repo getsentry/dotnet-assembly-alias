@@ -39,11 +39,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleApp", "SampleApp\Samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyWithStrongName", "AssemblyWithStrongName\AssemblyWithStrongName.csproj", "{5C2A8561-2F13-443A-8DA4-5BD9646FA0A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InBuildTests", "InBuildTests\InBuildTests.csproj", "{341C36BC-4536-446F-8C6F-B77C0C20E1DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InBuildTests", "InBuildTests\InBuildTests.csproj", "{341C36BC-4536-446F-8C6F-B77C0C20E1DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InBuildTarget", "InBuildTarget\InBuildTarget.csproj", "{83B04D7B-74F4-4C55-9BBB-EECD95717AFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InBuildTarget", "InBuildTarget\InBuildTarget.csproj", "{83B04D7B-74F4-4C55-9BBB-EECD95717AFD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6E8DB8B8-B0EC-4F13-BB0C-24E148D88A89} = {6E8DB8B8-B0EC-4F13-BB0C-24E148D88A89}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InBuildRef", "InBuildRef\InBuildRef.csproj", "{386B5399-3680-44B3-9CC4-B89CF2D6CAFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InBuildRef", "InBuildRef\InBuildRef.csproj", "{386B5399-3680-44B3-9CC4-B89CF2D6CAFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
