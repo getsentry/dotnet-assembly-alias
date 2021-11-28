@@ -11,6 +11,7 @@
   consoleError: ,
   consoleOut:
 TargetDirectory: {CurrentDirectory}
+Internalize: False
 Suffix: _Alias
 KeyFile: {CurrentDirectory}test.snk
 AssembliesToAlias:

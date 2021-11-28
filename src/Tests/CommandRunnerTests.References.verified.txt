@@ -12,6 +12,7 @@
   consoleError: ,
   consoleOut:
 TargetDirectory: {CurrentDirectory}
+Internalize: False
 Suffix: _Alias
 AssembliesToAlias:
  * assembly
