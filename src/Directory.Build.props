@@ -7,5 +7,6 @@
     <LangVersion>10.0</LangVersion>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 </Project>
