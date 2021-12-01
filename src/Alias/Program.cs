@@ -5,14 +5,27 @@ public static class Program
 {
     static int Main(string[] args)
     {
-        var errors = CommandRunner.RunCommand(Inner, args);
-
-        if (errors.Any())
+        try
         {
+            var errors = CommandRunner.RunCommand(Inner, args);
+
+            if (errors.Any())
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+        catch (ErrorException exception)
+        {
+            Console.Error.WriteLine(exception.Message);
             return 1;
         }
-
-        return 0;
+        catch (Exception exception)
+        {
+            Console.Error.WriteLine(exception.ToString());
+            return 1;
+        }
     }
 
     public static void Inner(
