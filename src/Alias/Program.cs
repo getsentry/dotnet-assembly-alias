@@ -17,7 +17,7 @@ public static class Program
 
     public static void Inner(
         string directory,
-        List<string> assemblyNamesToAliases,
+        List<string> assemblyNamesToAlias,
         List<string> references,
         string? keyFile,
         List<string> assembliesToExclude,
@@ -25,11 +25,10 @@ public static class Program
         string? suffix,
         bool internalize)
     {
-        var allFiles = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories)
+        var list = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories).ToList();
+        var allFiles = list
             .Where(x => !assembliesToExclude.Contains(x))
             .ToList();
-
-        var keyPair = GetKeyPair(keyFile);
 
         var assemblyInfos = new List<AssemblyInfo>();
 
@@ -38,7 +37,7 @@ public static class Program
             var name = Path.GetFileNameWithoutExtension(file);
             var fileDirectory = Path.GetDirectoryName(file)!;
             var isAliased = false;
-            foreach (var assemblyToAlias in assemblyNamesToAliases)
+            foreach (var assemblyToAlias in assemblyNamesToAlias)
             {
                 var targetName = $"{prefix}{name}{suffix}";
                 var targetPath = Path.Combine(fileDirectory, $"{targetName}.dll");
@@ -73,6 +72,8 @@ public static class Program
         {
             ProcessFile(file);
         }
+
+        var keyPair = GetKeyPair(keyFile);
 
         using var resolver = new AssemblyResolver(references);
         {
