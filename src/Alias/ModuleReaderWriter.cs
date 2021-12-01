@@ -7,11 +7,22 @@ public static class ModuleReaderWriter
 {
     public static (ModuleDefinition module, bool hasSymbols) Read(string file, IAssemblyResolver resolver)
     {
+        try
+        {
+            return InnerRead(file, resolver);
+        }
+        catch (Exception exception)
+        {
+            throw new($"Failed to read: {file}", exception);
+        }
+    }
+
+    static (ModuleDefinition module, bool hasSymbols) InnerRead(string file, IAssemblyResolver resolver)
+    {
         var parameters = new ReaderParameters
         {
             AssemblyResolver = resolver,
             InMemory = true,
-           // ReadingMode = ReadingMode.Immediate
         };
 
         var module = ModuleDefinition.ReadModule(file, parameters);
