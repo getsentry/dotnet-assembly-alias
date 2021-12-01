@@ -11,10 +11,10 @@ public class CommandRunnerTests
     [Fact]
     public Task All()
     {
+        Directory.CreateDirectory("directory");
         var result = Parse("--target-directory directory --suffix _Alias  --prefix Alias_ --key test.snk --assemblies-to-alias assembly");
         return Verifier.Verify(result);
     }
-
 
     [Fact]
     public Task Prefix()
