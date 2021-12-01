@@ -101,11 +101,11 @@ public static class Program
                 module.SeyKey(keyPair);
                 if (info.isAlias && internalize)
                 {
-                    AddVisibleTo(module, resolver, assemblyInfos, publicKey);
+                    AddVisibleTo(module, resolver, assemblyInfos, keyPair);
                     module.MakeTypesInternal();
                 }
 
-                Redirect(module, assemblyInfos, publicKey);
+                Redirect(module, assemblyInfos, keyPair);
                 resolver.Add(module);
                 writes.Add(() => ModuleReaderWriter.Write(keyPair, hasSymbols, module, assemblyTargetPath));
                 assembliesToCleanup.Add(module);
@@ -129,7 +129,7 @@ public static class Program
         }
     }
     
-    static void AddVisibleTo(ModuleDefinition module, AssemblyResolver resolver, List<AssemblyInfo> assemblyInfos, byte[]? publicKey)
+    static void AddVisibleTo(ModuleDefinition module, AssemblyResolver resolver, List<AssemblyInfo> assemblyInfos, StrongNameKeyPair? key)
     {
         var constructorImported = module.ImportReference(resolver.VisibleToConstructor);
 
@@ -144,13 +144,13 @@ public static class Program
 
             var attribute = new CustomAttribute(constructorImported);
             string value;
-            if (publicKey == null)
+            if (key == null)
             {
                 value = info.TargetName;
             }
             else
             {
-                value = $"{info.TargetName}, PublicKey={PublicKeyToString(publicKey)}";
+                value = $"{info.TargetName}, PublicKey={PublicKeyToString(key.PublicKey)}";
             }
 
             attribute.ConstructorArguments.Add(new CustomAttributeArgument(module.TypeSystem.String, value));
@@ -163,7 +163,7 @@ public static class Program
         return string.Concat(publicKey.Select(x => x.ToString("x2")));
     }
     
-    static void Redirect(ModuleDefinition targetModule, List<AssemblyInfo> assemblyInfos, byte[]? publicKey)
+    static void Redirect(ModuleDefinition targetModule, List<AssemblyInfo> assemblyInfos, StrongNameKeyPair? key)
     {
         var assemblyReferences = targetModule.AssemblyReferences;
         foreach (var info in assemblyInfos)
@@ -175,7 +175,7 @@ public static class Program
             }
 
             toChange.Name = info.TargetName;
-            toChange.PublicKey = publicKey;
+            toChange.PublicKey = key?.PublicKey;
         }
     }
 }
