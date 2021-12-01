@@ -150,7 +150,7 @@ public static class Program
             }
             else
             {
-                value = $"{info.TargetName}, PublicKey={PublicKeyToString(key.PublicKey)}";
+                value = $"{info.TargetName}, PublicKey={key.PublicKeyString()}";
             }
 
             attribute.ConstructorArguments.Add(new CustomAttributeArgument(module.TypeSystem.String, value));
@@ -158,11 +158,6 @@ public static class Program
         }
     }
 
-    static string PublicKeyToString(byte[] publicKey)
-    {
-        return string.Concat(publicKey.Select(x => x.ToString("x2")));
-    }
-    
     static void Redirect(ModuleDefinition targetModule, List<AssemblyInfo> assemblyInfos, StrongNameKeyPair? key)
     {
         var assemblyReferences = targetModule.AssemblyReferences;
