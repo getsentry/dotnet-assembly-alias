@@ -1,5 +1,4 @@
 ﻿using Mono.Cecil;
-using Mono.Cecil.Rocks;
 using StrongNameKeyPair = Mono.Cecil.StrongNameKeyPair;
 
 public static class Program
@@ -31,6 +30,10 @@ public static class Program
             throw new ErrorException($"Target directory does not exist: {directory}");
         }
 
+        var allFiles = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories)
+            .Where(x => !assembliesToExclude.Contains(x))
+            .ToList();
+
         StrongNameKeyPair? keyPair = null;
         byte[]? publicKey = null;
         if (keyFile != null)
@@ -41,9 +44,6 @@ public static class Program
             publicKey = keyPair.PublicKey;
         }
 
-        var allFiles = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories)
-            .Where(x => !assembliesToExclude.Contains(x))
-            .ToList();
 
         var assemblyInfos = new List<AssemblyInfo>();
 
@@ -93,19 +93,16 @@ public static class Program
             var assembliesToCleanup = new List<ModuleDefinition>();
             var writes = new List<Action>();
 
-            var netstandard = resolver.Resolve(new AssemblyNameReference("netstandard", new Version()))!;
-            var visibleToType = netstandard.MainModule.GetType("System.Runtime.CompilerServices", "InternalsVisibleToAttribute");
-            var visibleToConstructor = visibleToType.GetConstructors().Single();
             foreach (var info in assemblyInfos)
             {
                 var assemblyTargetPath = info.TargetPath;
                 var (module, hasSymbols) = ModuleReaderWriter.Read(info.SourcePath, resolver);
                 module.Assembly.Name.Name = info.TargetName;
-                FixKey(keyPair, module);
+                module.SeyKey(keyPair);
                 if (info.isAlias && internalize)
                 {
-                    AddVisibleTo(module, visibleToConstructor, assemblyInfos, publicKey);
-                    MakeTypesInternal(module);
+                    AddVisibleTo(module, resolver, assemblyInfos, publicKey);
+                    module.MakeTypesInternal();
                 }
 
                 Redirect(module, assemblyInfos, publicKey);
@@ -131,18 +128,10 @@ public static class Program
             File.Delete(Path.ChangeExtension(assembly.SourcePath, "pdb"));
         }
     }
-
-    static void MakeTypesInternal(ModuleDefinition module)
+    
+    static void AddVisibleTo(ModuleDefinition module, AssemblyResolver resolver, List<AssemblyInfo> assemblyInfos, byte[]? publicKey)
     {
-        foreach (var typeDefinition in module.Types)
-        {
-            typeDefinition.IsPublic = false;
-        }
-    }
-
-    static void AddVisibleTo(ModuleDefinition module, MethodDefinition constructor, List<AssemblyInfo> assemblyInfos, byte[]? publicKey)
-    {
-        var constructorImported = module.ImportReference(constructor);
+        var constructorImported = module.ImportReference(resolver.VisibleToConstructor);
 
         var assembly = module.Assembly;
 
@@ -173,19 +162,7 @@ public static class Program
     {
         return string.Concat(publicKey.Select(x => x.ToString("x2")));
     }
-
-    static void FixKey(StrongNameKeyPair? key, ModuleDefinition module)
-    {
-        if (key == null)
-        {
-            module.Assembly.Name.PublicKey = null;
-            module.Attributes &= ~ModuleAttributes.StrongNameSigned;
-            return;
-        }
-
-        module.Assembly.Name.PublicKey = key.PublicKey;
-    }
-
+    
     static void Redirect(ModuleDefinition targetModule, List<AssemblyInfo> assemblyInfos, byte[]? publicKey)
     {
         var assemblyReferences = targetModule.AssemblyReferences;

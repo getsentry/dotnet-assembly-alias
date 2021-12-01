@@ -4,24 +4,32 @@ using System.Text;
 [UsesVerify]
 public class Tests
 {
-    public List<AssemblyResult> Run(bool copyPdbs, bool sign, bool internalize)
+    static string binDirectory = Path.GetDirectoryName(typeof(Tests).Assembly.Location)!;
+
+    static List<string> assemblyFiles = new()
     {
-        var binDirectory = Path.GetDirectoryName(typeof(Tests).Assembly.Location)!;
+        "AssemblyToProcess",
+        "AssemblyWithEmbeddedSymbols",
+        "AssemblyWithNoStrongName",
+        "AssemblyWithStrongName",
+        "AssemblyWithNoSymbols",
+        "AssemblyWithPdb",
+        "AssemblyWithResources"
+    };
 
-        var assemblyFiles = new List<string>
-        {
-            "AssemblyToProcess",
-            "AssemblyWithEmbeddedSymbols",
-            "AssemblyWithNoStrongName",
-            "AssemblyWithStrongName",
-            "AssemblyWithNoSymbols",
-            "AssemblyWithPdb",
-            "AssemblyWithResources"
-        };
-        var tempPath = Path.Combine(binDirectory, "Temp");
+    static Tests()
+    {
+        tempPath = Path.Combine(binDirectory, "Temp");
         Directory.CreateDirectory(tempPath);
-        Helpers.PurgeDirectory(tempPath);
+    }
 
+    public Tests()
+    {
+        Helpers.PurgeDirectory(tempPath);
+    }
+
+    IEnumerable<AssemblyResult> Run(bool copyPdbs, bool sign, bool internalize)
+    {
         foreach (var assembly in assemblyFiles.OrderBy(x => x))
         {
             var assemblyFile = $"{assembly}.dll";
@@ -46,8 +54,12 @@ public class Tests
         var namesToAliases = assemblyFiles.Where(x => x.StartsWith("AssemblyWith")).ToList();
         Program.Inner(tempPath, namesToAliases, new(), keyFile, new(), null, "_Alias", internalize);
 
+        return BuildResults();
+    }
+
+    static IEnumerable<AssemblyResult> BuildResults()
+    {
         var resultingFiles = Directory.EnumerateFiles(tempPath);
-        var results = new List<AssemblyResult>();
         foreach (var assembly in resultingFiles.Where(x => x.EndsWith(".dll")).OrderBy(x => x))
         {
             using var definition = AssemblyDefinition.ReadAssembly(assembly);
@@ -56,26 +68,41 @@ public class Tests
                 .Select(x => $"{x.AttributeType.Name}({string.Join(',', x.ConstructorArguments.Select(y => y.Value))})")
                 .OrderBy(x => x)
                 .ToList();
-            results.Add(
-                new(
+            yield return 
+                new AssemblyResult(
                     definition.Name.FullName,
                     definition.MainModule.TryReadSymbols(),
                     definition.MainModule.AssemblyReferences.Select(x => x.FullName).OrderBy(x => x).ToList(),
-                    attributes));
+                    attributes);
         }
-
-        return results;
     }
 
     [Theory]
     [MemberData(nameof(GetData))]
-    public async Task Combo(bool copyPdbs, bool sign, bool internalize)
+    public Task Combo(bool copyPdbs, bool sign, bool internalize)
     {
         var results = Run(copyPdbs, sign, internalize);
 
-        await Verifier.Verify(results)
+        return Verifier.Verify(results)
             .UseParameters(copyPdbs, sign, internalize);
     }
+
+    //[Fact]
+    //public Task PatternMatching()
+    //{
+    //    foreach (var assembly in assemblyFiles.OrderBy(x => x))
+    //    {
+    //        var assemblyFile = $"{assembly}.dll";
+    //        File.Copy(Path.Combine(binDirectory, assemblyFile), Path.Combine(tempPath, assemblyFile));
+    //    }
+
+    //    var namesToAliases = assemblyFiles.Where(x => x.StartsWith("AssemblyWith")).ToList();
+    //    Program.Inner(tempPath, namesToAliases, new(), null, new(), null, "_Alias", false);
+    //    var results = BuildResults();
+
+    //    return Verifier.Verify(results);
+    //}
+
 #if DEBUG
 
     [Fact]
@@ -83,11 +110,7 @@ public class Tests
     {
         var solutionDirectory = AttributeReader.GetSolutionDirectory();
 
-#if(DEBUG)
         var targetPath = Path.Combine(solutionDirectory, "SampleApp/bin/Debug/net6.0");
-#else
-        var targetPath = Path.Combine(solutionDirectory, "SampleApp/bin/Release/net6.0");
-#endif
 
         var tempPath = Path.Combine(targetPath, "temp");
         Directory.CreateDirectory(tempPath);
@@ -121,6 +144,7 @@ public class Tests
         await Verifier.Verify(new {output, error});
         Assert.Equal(0, process.ExitCode);
     }
+
 #endif
 
     static void PatchDependencies(string targetPath)
@@ -132,7 +156,8 @@ public class Tests
         File.WriteAllText(depsFile, text);
     }
 
-    static bool[] bools = { true, false };
+    static bool[] bools = {true, false};
+    static readonly string tempPath;
 
     public static IEnumerable<object[]> GetData()
     {
@@ -140,7 +165,7 @@ public class Tests
         foreach (var sign in bools)
         foreach (var internalize in bools)
         {
-            yield return new object[] { copyPdbs, sign, internalize};
+            yield return new object[] {copyPdbs, sign, internalize};
         }
     }
 }
