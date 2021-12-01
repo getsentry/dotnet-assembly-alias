@@ -1,4 +1,5 @@
 using Mono.Cecil;
+using Mono.Cecil.Rocks;
 
 public class AssemblyResolver : IAssemblyResolver
 {
@@ -26,6 +27,17 @@ public class AssemblyResolver : IAssemblyResolver
             var assembly = GetAssembly(reference);
             cache[assembly.Name.Name] = assembly;
         }
+
+        VisibleToConstructor = GetVisibleToConstructor();
+    }
+
+    public MethodDefinition VisibleToConstructor { get; }
+
+    MethodDefinition GetVisibleToConstructor()
+    {
+        var netstandard = Resolve(new AssemblyNameReference("netstandard", new Version()))!;
+        var visibleToType = netstandard.MainModule.GetType("System.Runtime.CompilerServices", "InternalsVisibleToAttribute");
+        return visibleToType.GetConstructors().Single();
     }
 
     public void Add(ModuleDefinition module)

@@ -1,5 +1,4 @@
 ﻿using Mono.Cecil;
-using Mono.Cecil.Rocks;
 using StrongNameKeyPair = Mono.Cecil.StrongNameKeyPair;
 
 public static class Program
@@ -18,7 +17,7 @@ public static class Program
 
     public static void Inner(
         string directory,
-        List<string> assemblyNamesToAliases,
+        List<string> assemblyNamesToAlias,
         List<string> references,
         string? keyFile,
         List<string> assembliesToExclude,
@@ -26,22 +25,8 @@ public static class Program
         string? suffix,
         bool internalize)
     {
-        if (!Directory.Exists(directory))
-        {
-            throw new ErrorException($"Target directory does not exist: {directory}");
-        }
-
-        StrongNameKeyPair? keyPair = null;
-        byte[]? publicKey = null;
-        if (keyFile != null)
-        {
-            var fileBytes = File.ReadAllBytes(keyFile);
-
-            keyPair = new(fileBytes);
-            publicKey = keyPair.PublicKey;
-        }
-
-        var allFiles = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories)
+        var list = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories).ToList();
+        var allFiles = list
             .Where(x => !assembliesToExclude.Contains(x))
             .ToList();
 
@@ -52,7 +37,7 @@ public static class Program
             var name = Path.GetFileNameWithoutExtension(file);
             var fileDirectory = Path.GetDirectoryName(file)!;
             var isAliased = false;
-            foreach (var assemblyToAlias in assemblyNamesToAliases)
+            foreach (var assemblyToAlias in assemblyNamesToAlias)
             {
                 var targetName = $"{prefix}{name}{suffix}";
                 var targetPath = Path.Combine(fileDirectory, $"{targetName}.dll");
@@ -88,27 +73,26 @@ public static class Program
             ProcessFile(file);
         }
 
+        var keyPair = GetKeyPair(keyFile);
+
         using var resolver = new AssemblyResolver(references);
         {
             var assembliesToCleanup = new List<ModuleDefinition>();
             var writes = new List<Action>();
 
-            var netstandard = resolver.Resolve(new AssemblyNameReference("netstandard", new Version()))!;
-            var visibleToType = netstandard.MainModule.GetType("System.Runtime.CompilerServices", "InternalsVisibleToAttribute");
-            var visibleToConstructor = visibleToType.GetConstructors().Single();
             foreach (var info in assemblyInfos)
             {
                 var assemblyTargetPath = info.TargetPath;
                 var (module, hasSymbols) = ModuleReaderWriter.Read(info.SourcePath, resolver);
                 module.Assembly.Name.Name = info.TargetName;
-                FixKey(keyPair, module);
+                module.SeyKey(keyPair);
                 if (info.isAlias && internalize)
                 {
-                    AddVisibleTo(module, visibleToConstructor, assemblyInfos, publicKey);
-                    MakeTypesInternal(module);
+                    AddVisibleTo(module, resolver, assemblyInfos, keyPair);
+                    module.MakeTypesInternal();
                 }
 
-                Redirect(module, assemblyInfos, publicKey);
+                Redirect(module, assemblyInfos, keyPair);
                 resolver.Add(module);
                 writes.Add(() => ModuleReaderWriter.Write(keyPair, hasSymbols, module, assemblyTargetPath));
                 assembliesToCleanup.Add(module);
@@ -132,17 +116,20 @@ public static class Program
         }
     }
 
-    static void MakeTypesInternal(ModuleDefinition module)
+    static StrongNameKeyPair? GetKeyPair(string? keyFile)
     {
-        foreach (var typeDefinition in module.Types)
+        if (keyFile == null)
         {
-            typeDefinition.IsPublic = false;
+            return null;
         }
+
+        var fileBytes = File.ReadAllBytes(keyFile);
+        return new(fileBytes);
     }
 
-    static void AddVisibleTo(ModuleDefinition module, MethodDefinition constructor, List<AssemblyInfo> assemblyInfos, byte[]? publicKey)
+    static void AddVisibleTo(ModuleDefinition module, AssemblyResolver resolver, List<AssemblyInfo> assemblyInfos, StrongNameKeyPair? key)
     {
-        var constructorImported = module.ImportReference(constructor);
+        var constructorImported = module.ImportReference(resolver.VisibleToConstructor);
 
         var assembly = module.Assembly;
 
@@ -155,13 +142,13 @@ public static class Program
 
             var attribute = new CustomAttribute(constructorImported);
             string value;
-            if (publicKey == null)
+            if (key == null)
             {
                 value = info.TargetName;
             }
             else
             {
-                value = $"{info.TargetName}, PublicKey={PublicKeyToString(publicKey)}";
+                value = $"{info.TargetName}, PublicKey={key.PublicKeyString()}";
             }
 
             attribute.ConstructorArguments.Add(new CustomAttributeArgument(module.TypeSystem.String, value));
@@ -169,24 +156,7 @@ public static class Program
         }
     }
 
-    static string PublicKeyToString(byte[] publicKey)
-    {
-        return string.Concat(publicKey.Select(x => x.ToString("x2")));
-    }
-
-    static void FixKey(StrongNameKeyPair? key, ModuleDefinition module)
-    {
-        if (key == null)
-        {
-            module.Assembly.Name.PublicKey = null;
-            module.Attributes &= ~ModuleAttributes.StrongNameSigned;
-            return;
-        }
-
-        module.Assembly.Name.PublicKey = key.PublicKey;
-    }
-
-    static void Redirect(ModuleDefinition targetModule, List<AssemblyInfo> assemblyInfos, byte[]? publicKey)
+    static void Redirect(ModuleDefinition targetModule, List<AssemblyInfo> assemblyInfos, StrongNameKeyPair? key)
     {
         var assemblyReferences = targetModule.AssemblyReferences;
         foreach (var info in assemblyInfos)
@@ -198,7 +168,7 @@ public static class Program
             }
 
             toChange.Name = info.TargetName;
-            toChange.PublicKey = publicKey;
+            toChange.PublicKey = key?.PublicKey;
         }
     }
 }
