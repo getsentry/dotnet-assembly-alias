@@ -15,6 +15,11 @@ public static class CommandRunner
 
         var options = parsed.Value;
         var targetDirectory = FindTargetDirectory(options.TargetDirectory);
+        if (!Directory.Exists(targetDirectory))
+        {
+            throw new ErrorException($"Target directory does not exist: {targetDirectory}");
+        }
+
         Console.WriteLine($"TargetDirectory: {targetDirectory}");
         Console.WriteLine($"Internalize: {options.Internalize}");
         var prefix = options.Prefix;
@@ -23,6 +28,7 @@ public static class CommandRunner
             ValidatePrefixSuffix(prefix);
             Console.WriteLine($"Prefix: {prefix}");
         }
+
         var suffix = options.Suffix;
         if (suffix != null)
         {
@@ -53,7 +59,7 @@ public static class CommandRunner
         {
             Console.WriteLine($" * {assembly}");
         }
-        
+
         var assembliesToExclude = options.AssembliesToExclude.ToList();
 
         if (assembliesToExclude.Any())
@@ -87,10 +93,10 @@ public static class CommandRunner
         }
 
         invoke(
-            targetDirectory, 
+            targetDirectory,
             assemblyToAliases,
-            references, 
-            keyFile, 
+            references,
+            keyFile,
             assembliesToExclude,
             prefix,
             suffix,

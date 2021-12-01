@@ -25,25 +25,11 @@ public static class Program
         string? suffix,
         bool internalize)
     {
-        if (!Directory.Exists(directory))
-        {
-            throw new ErrorException($"Target directory does not exist: {directory}");
-        }
-
         var allFiles = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories)
             .Where(x => !assembliesToExclude.Contains(x))
             .ToList();
 
-        StrongNameKeyPair? keyPair = null;
-        byte[]? publicKey = null;
-        if (keyFile != null)
-        {
-            var fileBytes = File.ReadAllBytes(keyFile);
-
-            keyPair = new(fileBytes);
-            publicKey = keyPair.PublicKey;
-        }
-
+        var keyPair = GetKeyPair(keyFile);
 
         var assemblyInfos = new List<AssemblyInfo>();
 
@@ -128,7 +114,18 @@ public static class Program
             File.Delete(Path.ChangeExtension(assembly.SourcePath, "pdb"));
         }
     }
-    
+
+    static StrongNameKeyPair? GetKeyPair(string? keyFile)
+    {
+        if (keyFile == null)
+        {
+            return null;
+        }
+
+        var fileBytes = File.ReadAllBytes(keyFile);
+        return new(fileBytes);
+    }
+
     static void AddVisibleTo(ModuleDefinition module, AssemblyResolver resolver, List<AssemblyInfo> assemblyInfos, StrongNameKeyPair? key)
     {
         var constructorImported = module.ImportReference(resolver.VisibleToConstructor);
