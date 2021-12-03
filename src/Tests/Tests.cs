@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using Mono.Cecil;
 
 [UsesVerify]
 public class Tests

@@ -3,4 +3,7 @@
     <Version>1.0.0</Version>
     <TargetFrameworks>net48;net6</TargetFrameworks>
   </PropertyGroup>
+  <ItemGroup>
+    <Using Remove="System.Net.Http" />
+  </ItemGroup>
 </Project>

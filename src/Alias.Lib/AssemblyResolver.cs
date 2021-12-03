@@ -12,11 +12,9 @@ public class AssemblyResolver : IAssemblyResolver
 
     public AssemblyResolver(IEnumerable<string> references)
     {
-        var assemblyLocation = typeof(AssemblyResolver).Assembly.Location;
-        var directory = Path.GetDirectoryName(assemblyLocation)!;
-        var netStandardPath = Path.Combine(directory, "netstandard.dll");
+        var netStandardResource = GetType().Assembly.GetManifestResourceStream("Alias.Lib.netstandard.dll");
+        var netStandard = AssemblyDefinition.ReadAssembly(netStandardResource, readerParameters);
 
-        var netStandard = GetAssembly(netStandardPath);
         cache = new()
         {
             ["netstandard"] = netStandard,
