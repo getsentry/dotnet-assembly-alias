@@ -1,4 +1,4 @@
-﻿#if NET48
+﻿#if NET48 || NETSTANDARD
 using System.ComponentModel;
 
 namespace System.Runtime.CompilerServices;

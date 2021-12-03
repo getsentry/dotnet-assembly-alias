@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description></Description>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include=".\bin\$(Configuration)\$(TargetFramework)\Alias.MsBuild.dll">
+      <Pack>true</Pack>
+      <PackagePath>task</PackagePath>
+    </Content>
+    <Content Include="..\Lib\*.dll">
+      <Pack>true</Pack>
+      <PackagePath>task</PackagePath>
+    </Content>
+    <Content Include="$(SolutionDir)Alias.Lib\bin\$(Configuration)\$(TargetFramework)\Alias.Lib.dll">
+      <Pack>true</Pack>
+      <PackagePath>task</PackagePath>
+    </Content>
+    <Content Include="Alias.MsBuild.targets">
+      <Pack>true</Pack>
+      <PackagePath>build</PackagePath>
+    </Content>
+    <None Include="$(SolutionDir)icon.png" Pack="true" PackagePath="\" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="17.0.0" PrivateAssets="All" />
+    <ProjectReference Include="..\Alias.Lib\Alias.Lib.csproj" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
+  </ItemGroup>
+</Project>
