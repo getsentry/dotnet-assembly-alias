@@ -1,6 +1,8 @@
-﻿public static class Finder
+﻿namespace Alias;
+
+public static class Finder
 {
-    public static IEnumerable<AssemblyInfo> FindAssemblyInfos(
+    public static IEnumerable<SourceTargetInfo> FindAssemblyInfos(
         List<string> assemblyNamesToAlias,
         IEnumerable<string> allFiles,
         Func<string, string> getTargetName)

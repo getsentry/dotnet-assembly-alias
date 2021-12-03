@@ -1,4 +1,5 @@
-﻿using StrongNameKeyPair = Mono.Cecil.StrongNameKeyPair;
+﻿using Alias;
+using StrongNameKeyPair = Mono.Cecil.StrongNameKeyPair;
 
 public static class Program
 {
@@ -45,7 +46,7 @@ public static class Program
 
         var keyPair = GetKeyPair(keyFile);
 
-        Aliaser.Run(references, internalize, assemblyInfos, keyPair);
+        Aliaser.Run(references, assemblyInfos, internalize, keyPair);
 
         foreach (var assembly in assemblyInfos.Where(_ => _.isAlias))
         {

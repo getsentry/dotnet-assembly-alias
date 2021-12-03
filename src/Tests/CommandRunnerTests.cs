@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using Alias;
+using CommandLine;
 
 [UsesVerify]
 public class CommandRunnerTests

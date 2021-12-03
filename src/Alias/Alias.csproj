@@ -7,6 +7,8 @@
     <DebugType>embedded</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(SolutionDir)icon.png" Pack="true" PackagePath="\" />

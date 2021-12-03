@@ -4,6 +4,8 @@
     <SignAssembly>false</SignAssembly>
     <DebugType>embedded</DebugType>
     <ImplicitUsings>enable</ImplicitUsings>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
