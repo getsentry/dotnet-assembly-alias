@@ -1,6 +1,9 @@
 ﻿public static class Finder
 {
-    public static IEnumerable<AssemblyInfo> FindAssemblyInfos(List<string> assemblyNamesToAlias, IEnumerable<string> allFiles, Func<string,string> getTargetName)
+    public static IEnumerable<AssemblyInfo> FindAssemblyInfos(
+        List<string> assemblyNamesToAlias,
+        IEnumerable<string> allFiles,
+        Func<string, string> getTargetName)
     {
         foreach (var file in allFiles)
         {
