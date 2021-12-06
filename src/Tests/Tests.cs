@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using CliWrap;
 using Mono.Cecil;
 
 [UsesVerify]
@@ -105,6 +106,43 @@ public class Tests
     //}
 
 #if DEBUG
+
+    [Fact]
+    public async Task RunTask()
+    {
+        var solutionDirectory = AttributeReader.GetSolutionDirectory();
+
+        var result = await Cli.Wrap("dotnet")
+            .WithArguments("build --configuration IncludeAliasTask")
+            .WithWorkingDirectory(solutionDirectory)
+            .ExecuteAsync();
+
+        //Program.Inner(tempPath, new() {"Assembly*"}, new(), null, new(), "Alias_", null, true);
+
+        //PatchDependencies(tempPath);
+
+        //var exePath = Path.Combine(tempPath, "SampleApp.exe");
+        //var startInfo = new ProcessStartInfo
+        //{
+        //    FileName = exePath,
+        //    UseShellExecute = false,
+        //    RedirectStandardOutput = true,
+        //    RedirectStandardError = true,
+        //    CreateNoWindow = true
+        //};
+        //using var process = Process.Start(startInfo)!;
+        //var output = new StringBuilder();
+        //var error = new StringBuilder();
+        //process.EnableRaisingEvents = true;
+        //process.OutputDataReceived += (_, args) => output.AppendLine(args.Data);
+        //process.ErrorDataReceived += (_, args) => error.AppendLine(args.Data);
+        //process.Start();
+        //process.BeginOutputReadLine();
+        //process.BeginErrorReadLine();
+        //await process.WaitForExitAsync();
+        //await Verifier.Verify(new {output, error});
+        //Assert.Equal(0, process.ExitCode);
+    }
 
     [Fact]
     public async Task RunSample()

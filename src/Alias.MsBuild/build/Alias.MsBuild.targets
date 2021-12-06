@@ -1,12 +1,19 @@
 ﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <AliasAssembly>$(MSBuildThisFileDirectory)..\task\Alias.MsBuild.dll</AliasAssembly>
+    <AliasAssembly>$(MSBuildThisFileDirectory)..\Alias.MsBuild.dll</AliasAssembly>
+    <AliasAssembly Condition="!Exists($(AliasAssembly))">$(MSBuildThisFileDirectory)..\bin\IncludeAliasTask\Alias.MsBuild.dll</AliasAssembly>
   </PropertyGroup>
 
   <UsingTask
     TaskName="Alias.AliasTask"
     AssemblyFile="$(AliasAssembly)" />
 
+  <Target
+    Name="AliasTarget2"
+    AfterTargets="AfterCompile">
+
+    <Message Importance="high" Text="AAAAAAAAAAAAAAAAAAAAAAAA" />
+  </Target>
   <Target
     Name="AliasTarget"
     AfterTargets="AfterCompile"
