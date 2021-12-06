@@ -7,13 +7,6 @@
   <UsingTask
     TaskName="Alias.AliasTask"
     AssemblyFile="$(AliasAssembly)" />
-
-  <Target
-    Name="AliasTarget2"
-    AfterTargets="AfterCompile">
-
-    <Message Importance="high" Text="AAAAAAAAAAAAAAAAAAAAAAAA" />
-  </Target>
   <Target
     Name="AliasTarget"
     AfterTargets="AfterCompile"

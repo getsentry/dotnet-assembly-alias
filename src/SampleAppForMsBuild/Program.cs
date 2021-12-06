@@ -1,2 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿foreach (var line in ClassToTest.Method())
+{
+    Console.WriteLine(line);
+}

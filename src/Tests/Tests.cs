@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
 using CliWrap;
 using Mono.Cecil;
 
@@ -111,37 +110,28 @@ public class Tests
     public async Task RunTask()
     {
         var solutionDirectory = AttributeReader.GetSolutionDirectory();
-
+        
+        var buildErrorBuffer = new StringBuilder();
         var result = await Cli.Wrap("dotnet")
             .WithArguments("build --configuration IncludeAliasTask")
+            .WithStandardErrorPipe(PipeTarget.ToStringBuilder(buildErrorBuffer))
             .WithWorkingDirectory(solutionDirectory)
             .ExecuteAsync();
 
-        //Program.Inner(tempPath, new() {"Assembly*"}, new(), null, new(), "Alias_", null, true);
+        if (buildErrorBuffer.Length > 0)
+        {
+            throw new(buildErrorBuffer.ToString());
+        }
 
-        //PatchDependencies(tempPath);
+        var outBuffer = new StringBuilder();
+        var errorBuffer = new StringBuilder();
+        var exePath = Path.Combine(solutionDirectory, "SampleAppForMsBuild/bin/IncludeAliasTask/SampleAppForMsBuild.exe");
+        await Cli.Wrap(exePath)
+            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(outBuffer))
+            .WithStandardErrorPipe(PipeTarget.ToStringBuilder(errorBuffer))
+            .ExecuteAsync();
 
-        //var exePath = Path.Combine(tempPath, "SampleApp.exe");
-        //var startInfo = new ProcessStartInfo
-        //{
-        //    FileName = exePath,
-        //    UseShellExecute = false,
-        //    RedirectStandardOutput = true,
-        //    RedirectStandardError = true,
-        //    CreateNoWindow = true
-        //};
-        //using var process = Process.Start(startInfo)!;
-        //var output = new StringBuilder();
-        //var error = new StringBuilder();
-        //process.EnableRaisingEvents = true;
-        //process.OutputDataReceived += (_, args) => output.AppendLine(args.Data);
-        //process.ErrorDataReceived += (_, args) => error.AppendLine(args.Data);
-        //process.Start();
-        //process.BeginOutputReadLine();
-        //process.BeginErrorReadLine();
-        //await process.WaitForExitAsync();
-        //await Verifier.Verify(new {output, error});
-        //Assert.Equal(0, process.ExitCode);
+        await Verifier.Verify(new {outBuffer, errorBuffer});
     }
 
     [Fact]
@@ -162,26 +152,15 @@ public class Tests
         PatchDependencies(tempPath);
 
         var exePath = Path.Combine(tempPath, "SampleApp.exe");
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = exePath,
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            CreateNoWindow = true
-        };
-        using var process = Process.Start(startInfo)!;
-        var output = new StringBuilder();
-        var error = new StringBuilder();
-        process.EnableRaisingEvents = true;
-        process.OutputDataReceived += (_, args) => output.AppendLine(args.Data);
-        process.ErrorDataReceived += (_, args) => error.AppendLine(args.Data);
-        process.Start();
-        process.BeginOutputReadLine();
-        process.BeginErrorReadLine();
-        await process.WaitForExitAsync();
-        await Verifier.Verify(new {output, error});
-        Assert.Equal(0, process.ExitCode);
+        
+        var outBuffer = new StringBuilder();
+        var errorBuffer = new StringBuilder();
+        await Cli.Wrap(exePath)
+            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(outBuffer))
+            .WithStandardErrorPipe(PipeTarget.ToStringBuilder(errorBuffer))
+            .ExecuteAsync();
+
+        await Verifier.Verify(new {outBuffer, errorBuffer});
     }
 
 #endif
