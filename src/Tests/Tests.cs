@@ -112,7 +112,7 @@ public class Tests
         var solutionDirectory = AttributeReader.GetSolutionDirectory();
         
         var buildErrorBuffer = new StringBuilder();
-        var result = await Cli.Wrap("dotnet")
+        await Cli.Wrap("dotnet")
             .WithArguments("build --configuration IncludeAliasTask")
             .WithStandardErrorPipe(PipeTarget.ToStringBuilder(buildErrorBuffer))
             .WithWorkingDirectory(solutionDirectory)
