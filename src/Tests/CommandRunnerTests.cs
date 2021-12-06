@@ -1,5 +1,4 @@
-﻿using Alias;
-using CommandLine;
+﻿using CommandLine;
 
 [UsesVerify]
 public class CommandRunnerTests
@@ -36,15 +35,13 @@ public class CommandRunnerTests
     [Fact]
     public Task NoPrefixOrSuffix()
     {
-        var result = Assert.Throws<ErrorException>(() => Parse("--assemblies-to-alias assembly"));
-        return Verifier.Verify(result);
+        return Verifier.Throws(() => Parse("--assemblies-to-alias assembly"));
     }
 
     [Fact]
     public Task BadKeyPath()
     {
-        var result = Assert.Throws<ErrorException>(() => Parse("--key bad.snk --assemblies-to-alias assembly --suffix _Alias"));
-        return Verifier.Verify(result);
+        return Verifier.Throws(() => Parse("--key bad.snk --assemblies-to-alias assembly --suffix _Alias"));
     }
 
     [Fact]

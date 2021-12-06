@@ -5,5 +5,4 @@
 at CommandRunner.RunCommand(Invoke invoke, String[] args)
 at CommandRunnerTests.Parse(String input)
 at CommandRunnerTests.<>c.<BadKeyPath>b__5_0()
-at Xunit.Assert.RecordException(Func`1 testCode)
 }
