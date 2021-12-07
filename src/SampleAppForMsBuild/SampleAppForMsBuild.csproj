@@ -7,11 +7,10 @@
     <AliasSuffix>_Suffix</AliasSuffix>
     <AliasInternalize>true</AliasInternalize>
   </PropertyGroup>
-  <!--https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2022-->
   <Target Name="ResolveAliasAssemblies" DependsOnTargets="ResolveReferences">
     <ItemGroup>
-      <AliasAssemblies Include="@(ReferencePath)">
-      </AliasAssemblies>
+      <AliasAssemblies Include="@(ReferencePath)" 
+                       Condition="$([System.String]::new('%(ReferencePath.Filename)').StartsWith('AssemblyWith'))"/>
     </ItemGroup>
   </Target>
   <ItemGroup>
