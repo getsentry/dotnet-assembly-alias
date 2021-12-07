@@ -112,8 +112,10 @@ public class Tests
         var solutionDir = AttributeReader.GetSolutionDirectory();
 
         var buildErrorBuffer = new StringBuilder();
+        var buildOutBuffer = new StringBuilder();
         await Cli.Wrap("dotnet")
             .WithArguments("build --configuration IncludeAliasTask")
+            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(buildOutBuffer))
             .WithStandardErrorPipe(PipeTarget.ToStringBuilder(buildErrorBuffer))
             .WithWorkingDirectory(solutionDir)
             .WithValidation(CommandResultValidation.None)
@@ -128,6 +130,12 @@ public class Tests
             if (buildErrorBuffer.Length > 0)
             {
                 throw new(buildErrorBuffer.ToString());
+            }
+
+            var buildOut = buildOutBuffer.ToString();
+            if (buildOut.Contains("error"))
+            {
+                throw new(buildOut.Replace(solutionDir,""));
             }
 
             var outBuffer = new StringBuilder();

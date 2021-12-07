@@ -20,11 +20,12 @@ public class AliasTask :
     public string? Suffix { get; set; }
     [Required]
     public ITaskItem[] AssembliesToAlias { get; set; } = null!;
+    public ITaskItem[] AssembliesToTarget { get; set; } = null!;
 
     public bool SignAssembly { get; set; }
     public bool Internalize { get; set; }
     [Required]
-    public string References { get; set; } = null!;
+    public ITaskItem[] ReferencePath { get; set; } = null!;
 
     public override bool Execute()
     {
@@ -47,19 +48,41 @@ public class AliasTask :
 
     void InnerExecute()
     {
-        Log.LogWarning("AAAAAAAAA");
-
         var assembliesToAlias = AssembliesToAlias.Select(x => x.ItemSpec).ToList();
-        Log.LogWarning($"AssembliesToAlias:{Environment.NewLine}{string.Join(Environment.NewLine, assembliesToAlias)}");
-        //var splitReferences = References.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
-        //    .ToList();
-        //var allFiles = new List<string>(splitReferences) {IntermediateAssembly};
-        //var assembliesToAlias = AssembliesToAlias
-        //    .Select(x => x.ItemSpec)
-        //    .ToList();
-        //var assemblyInfos = Finder.FindAssemblyInfos(assembliesToAlias, allFiles, Prefix, Suffix);
+        var assembliesToTarget = AssembliesToTarget.Select(x => x.ItemSpec).ToList();
+        var references = ReferencePath.Select(x => x.ItemSpec)
+            .Where(x => !assembliesToTarget.Contains(x) && !assembliesToAlias.Contains(x))
+            .ToList();
+        assembliesToTarget.Insert(0, IntermediateAssembly);
+        
+        var sourceTargetInfos = new List<SourceTargetInfo>();
+        foreach (var sourcePath in assembliesToAlias)
+        {
+            var sourceName = Path.GetFileNameWithoutExtension(sourcePath);
+            var targetName = $"{Prefix}{sourceName}{Suffix}";
+            var targetPath = Path.Combine(IntermediateDirectory, $"{targetName}.dll");
+            sourceTargetInfos.Add(new(sourceName, sourcePath, targetName, targetPath, true));
+        }
 
-        //  Aliaser.Run(splitReferences, assemblyInfos, Internalize, GetKey());
+        foreach (var sourcePath in assembliesToTarget)
+        {
+            var name = Path.GetFileNameWithoutExtension(sourcePath);
+            var targetPath = Path.Combine(IntermediateDirectory, $"{name}.dll");
+            sourceTargetInfos.Add(new(name, sourcePath, name, targetPath, false));
+        }
+
+        var separator = $"{Environment.NewLine}\t";
+        var inputs = $@"
+Prefix: {Prefix}
+Suffix: {Suffix}
+Internalize: {Internalize}
+AssembliesToAlias:{separator}{string.Join(separator, assembliesToAlias.Select(Path.GetFileNameWithoutExtension))}
+AssembliesToTarget:{separator}{string.Join(separator, assembliesToTarget.Select(Path.GetFileNameWithoutExtension))}
+TargetInfos:{separator}{string.Join(separator, sourceTargetInfos.Select(x=> $"{x.SourceName} => {x.TargetName}"))}
+";
+        Log.LogMessageFromText(inputs, MessageImportance.High);
+
+        Aliaser.Run(references, sourceTargetInfos, Internalize, GetKey());
     }
 
     StrongNameKeyPair? GetKey()

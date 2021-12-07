@@ -11,6 +11,8 @@
     <ItemGroup>
       <Alias_AssembliesToAlias Include="@(ReferencePath)" 
                                Condition="$([System.String]::new('%(ReferencePath.Filename)').StartsWith('AssemblyWith'))"/>
+      <Alias_AssembliesToTarget Include="@(ReferencePath)" 
+                                Condition="$([System.String]::new('%(ReferencePath.Filename)').StartsWith('AssemblyToProcess'))"/>
     </ItemGroup>
   </Target>
   <ItemGroup>
