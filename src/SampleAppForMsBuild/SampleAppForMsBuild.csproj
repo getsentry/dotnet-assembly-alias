@@ -3,14 +3,14 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <AliasPrefix>Prefix_</AliasPrefix>
-    <AliasSuffix>_Suffix</AliasSuffix>
-    <AliasInternalize>true</AliasInternalize>
+    <Alias_Prefix>Prefix_</Alias_Prefix>
+    <Alias_Suffix>_Suffix</Alias_Suffix>
+    <Alias_Internalize>true</Alias_Internalize>
   </PropertyGroup>
   <Target Name="ResolveAliasAssemblies" DependsOnTargets="ResolveReferences">
     <ItemGroup>
-      <AliasAssemblies Include="@(ReferencePath)" 
-                       Condition="$([System.String]::new('%(ReferencePath.Filename)').StartsWith('AssemblyWith'))"/>
+      <Alias_AssembliesToAlias Include="@(ReferencePath)" 
+                               Condition="$([System.String]::new('%(ReferencePath.Filename)').StartsWith('AssemblyWith'))"/>
     </ItemGroup>
   </Target>
   <ItemGroup>

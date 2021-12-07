@@ -48,10 +48,9 @@ public class AliasTask :
     void InnerExecute()
     {
         Log.LogWarning("AAAAAAAAA");
-        foreach (var VARIABLE in AssembliesToAlias.Select(x=>x.ItemSpec))
-        {
-            Log.LogWarning("X"+VARIABLE);
-        }
+
+        var assembliesToAlias = AssembliesToAlias.Select(x => x.ItemSpec).ToList();
+        Log.LogWarning($"AssembliesToAlias:{Environment.NewLine}{string.Join(Environment.NewLine, assembliesToAlias)}");
         //var splitReferences = References.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
         //    .ToList();
         //var allFiles = new List<string>(splitReferences) {IntermediateAssembly};
@@ -60,7 +59,7 @@ public class AliasTask :
         //    .ToList();
         //var assemblyInfos = Finder.FindAssemblyInfos(assembliesToAlias, allFiles, Prefix, Suffix);
 
-      //  Aliaser.Run(splitReferences, assemblyInfos, Internalize, GetKey());
+        //  Aliaser.Run(splitReferences, assemblyInfos, Internalize, GetKey());
     }
 
     StrongNameKeyPair? GetKey()

@@ -18,10 +18,10 @@
       IntermediateDirectory="$(ProjectDir)$(IntermediateOutputPath)"
       References="@(ReferencePath)"
       SignAssembly="$(SignAssembly)"
-      Internalize="$(AliasInternalize)"
-      AssembliesToAlias="@(AliasAssemblies)"
-      Suffix="$(AliasSuffix)"
-      Prefix="$(AliasPrefix)"
+      Internalize="$(Alias_Internalize)"
+      AssembliesToAlias="@(Alias_AssembliesToAlias)"
+      Suffix="$(Alias_Suffix)"
+      Prefix="$(Alias_Prefix)"
       AssemblyOriginatorKeyFile="$(AssemblyOriginatorKeyFile)"
       />
   </Target>
