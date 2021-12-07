@@ -109,29 +109,41 @@ public class Tests
     [Fact]
     public async Task RunTask()
     {
-        var solutionDirectory = AttributeReader.GetSolutionDirectory();
-        
+        var solutionDir = AttributeReader.GetSolutionDirectory();
+
         var buildErrorBuffer = new StringBuilder();
         await Cli.Wrap("dotnet")
             .WithArguments("build --configuration IncludeAliasTask")
             .WithStandardErrorPipe(PipeTarget.ToStringBuilder(buildErrorBuffer))
-            .WithWorkingDirectory(solutionDirectory)
+            .WithWorkingDirectory(solutionDir)
+            .WithValidation(CommandResultValidation.None)
             .ExecuteAsync();
-
-        if (buildErrorBuffer.Length > 0)
+        
+        var shutdown = Cli.Wrap("dotnet")
+            .WithArguments("build-server shutdown")
+            .ExecuteAsync();
+        
+        try
         {
-            throw new(buildErrorBuffer.ToString());
+            if (buildErrorBuffer.Length > 0)
+            {
+                throw new(buildErrorBuffer.ToString());
+            }
+
+            var outBuffer = new StringBuilder();
+            var errorBuffer = new StringBuilder();
+            var exePath = Path.Combine(solutionDir, "SampleAppForMsBuild/bin/IncludeAliasTask/SampleAppForMsBuild.exe");
+            await Cli.Wrap(exePath)
+                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(outBuffer))
+                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(errorBuffer))
+                .ExecuteAsync();
+
+            await Verifier.Verify(new {outBuffer, errorBuffer});
         }
-
-        var outBuffer = new StringBuilder();
-        var errorBuffer = new StringBuilder();
-        var exePath = Path.Combine(solutionDirectory, "SampleAppForMsBuild/bin/IncludeAliasTask/SampleAppForMsBuild.exe");
-        await Cli.Wrap(exePath)
-            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(outBuffer))
-            .WithStandardErrorPipe(PipeTarget.ToStringBuilder(errorBuffer))
-            .ExecuteAsync();
-
-        await Verifier.Verify(new {outBuffer, errorBuffer});
+        finally
+        {
+            await shutdown;
+        }
     }
 
     [Fact]

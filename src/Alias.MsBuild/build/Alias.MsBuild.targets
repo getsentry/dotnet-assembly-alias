@@ -11,6 +11,17 @@
     Name="AliasTarget"
     AfterTargets="AfterCompile"
     Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true)" >
-    <Alias.AliasTask ProjectDirectory="$(MSBuildProjectDirectory)" />
+    <Alias.AliasTask
+      ProjectDirectory="$(MSBuildProjectDirectory)"
+      IntermediateDirectory="$(ProjectDir)$(IntermediateOutputPath)"
+      References="@(ReferencePath)"
+      SignAssembly="$(SignAssembly)"
+      AssembliesToAlias="@(AliasAssemblies)"
+      Suffix="$(AliasSuffix)"
+      Prefix="$(AliasPrefix)"
+      DelaySign="$(DelaySign)"
+      KeyOriginatorFile="$(KeyOriginatorFile)"
+      AssemblyOriginatorKeyFile="$(AssemblyOriginatorKeyFile)"
+      />
   </Target>
 </Project>
