@@ -41,7 +41,7 @@ public static class Program
         var list = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories).ToList();
         var allFiles = list.Where(x => !assembliesToExclude.Contains(x));
 
-        var assemblyInfos = Finder.FindAssemblyInfos(assemblyNamesToAlias, allFiles, name => $"{prefix}{name}{suffix}")
+        var assemblyInfos = Finder.FindAssemblyInfos(assemblyNamesToAlias, allFiles, prefix, suffix)
             .ToList();
 
         var keyPair = GetKeyPair(keyFile);

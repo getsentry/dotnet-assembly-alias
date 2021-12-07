@@ -5,10 +5,15 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AliasPrefix>Prefix_</AliasPrefix>
     <AliasSuffix>_Suffix</AliasSuffix>
+    <AliasInternalize>true</AliasInternalize>
   </PropertyGroup>
-  <ItemGroup>
-    <AliasAssemblies Include="Assembly*"/>
-  </ItemGroup>
+  <!--https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-items?view=vs-2022-->
+  <Target Name="ResolveAliasAssemblies" DependsOnTargets="ResolveReferences">
+    <ItemGroup>
+      <AliasAssemblies Include="@(ReferencePath)">
+      </AliasAssemblies>
+    </ItemGroup>
+  </Target>
   <ItemGroup>
     <ProjectReference Include="..\AssemblyToProcess\AssemblyToProcess.csproj" />
   </ItemGroup>

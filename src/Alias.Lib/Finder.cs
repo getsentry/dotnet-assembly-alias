@@ -3,10 +3,26 @@
 public static class Finder
 {
     public static IEnumerable<SourceTargetInfo> FindAssemblyInfos(
-        List<string> assemblyNamesToAlias,
+        IEnumerable<string> assemblyNamesToAlias,
+        IEnumerable<string> allFiles,
+        string? prefix,
+        string? suffix)
+    {
+        if (prefix == null && suffix == null)
+        {
+            throw new ErrorException("Either prefix or suffix must be defined.");
+        }
+
+        return FindAssemblyInfos(assemblyNamesToAlias, allFiles, name => $"{prefix}{name}{suffix}");
+    }
+
+    public static IEnumerable<SourceTargetInfo> FindAssemblyInfos(
+        IEnumerable<string> assemblyNamesToAlias,
         IEnumerable<string> allFiles,
         Func<string, string> getTargetName)
     {
+        assemblyNamesToAlias = assemblyNamesToAlias.ToList();
+
         foreach (var file in allFiles)
         {
             var name = Path.GetFileNameWithoutExtension(file);

@@ -10,17 +10,18 @@
   <Target
     Name="AliasTarget"
     AfterTargets="AfterCompile"
+    DependsOnTargets="ResolveAliasAssemblies"
     Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true)" >
     <Alias.AliasTask
+      IntermediateAssembly="@(IntermediateAssembly)"
       ProjectDirectory="$(MSBuildProjectDirectory)"
       IntermediateDirectory="$(ProjectDir)$(IntermediateOutputPath)"
       References="@(ReferencePath)"
       SignAssembly="$(SignAssembly)"
+      Internalize="$(AliasInternalize)"
       AssembliesToAlias="@(AliasAssemblies)"
       Suffix="$(AliasSuffix)"
       Prefix="$(AliasPrefix)"
-      DelaySign="$(DelaySign)"
-      KeyOriginatorFile="$(KeyOriginatorFile)"
       AssemblyOriginatorKeyFile="$(AssemblyOriginatorKeyFile)"
       />
   </Target>
