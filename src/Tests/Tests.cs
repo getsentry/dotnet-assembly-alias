@@ -104,9 +104,7 @@ public class Tests
 
     //    return Verifier.Verify(results);
     //}
-
-#if DEBUG
-
+    
     [Fact]
     public async Task RunTask()
     {
@@ -154,6 +152,8 @@ public class Tests
             await shutdown;
         }
     }
+
+#if DEBUG
 
     [Fact]
     public async Task RunSample()
