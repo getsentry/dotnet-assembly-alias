@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Mono.Cecil;
 using Microsoft.Build.Framework;
+using Microsoft.Build.Utilities;
 using Task = Microsoft.Build.Utilities.Task;
 
 namespace Alias;
@@ -9,6 +10,8 @@ public class AliasTask :
     Task,
     ICancelableTask
 {
+    [Required]
+    public ITaskItem[] ReferenceCopyLocalPaths{ get; set; } = null!;
     [Required] 
     public string IntermediateAssembly { get; set; } = null!;
     [Required] 
@@ -26,6 +29,11 @@ public class AliasTask :
     public bool Internalize { get; set; }
     [Required]
     public ITaskItem[] ReferencePath { get; set; } = null!;
+
+    [Output]
+    public ITaskItem[] CopyLocalPathsToRemove { get; set; } = null!;
+    [Output]
+    public ITaskItem[] CopyLocalPathsToAdd { get; set; } = null!;
 
     public override bool Execute()
     {
@@ -56,12 +64,27 @@ public class AliasTask :
         assembliesToTarget.Insert(0, IntermediateAssembly);
         
         var sourceTargetInfos = new List<SourceTargetInfo>();
+        var copyLocalPathsToRemove = new List<ITaskItem>();
+        var copyLocalPathsToAdd = new List<ITaskItem>();
+
+        void ProcessCopyLocal(string sourcePath, string targetPath1)
+        {
+            var toRemove = ReferenceCopyLocalPaths.SingleOrDefault(x => x.ItemSpec == sourcePath);
+            if (toRemove != null)
+            {
+                copyLocalPathsToRemove.Add(toRemove);
+            }
+
+            copyLocalPathsToAdd.Add(new TaskItem(targetPath1));
+        }
+
         foreach (var sourcePath in assembliesToAlias)
         {
             var sourceName = Path.GetFileNameWithoutExtension(sourcePath);
             var targetName = $"{Prefix}{sourceName}{Suffix}";
             var targetPath = Path.Combine(IntermediateDirectory, $"{targetName}.dll");
             sourceTargetInfos.Add(new(sourceName, sourcePath, targetName, targetPath, true));
+            ProcessCopyLocal(sourcePath, targetPath);
         }
 
         foreach (var sourcePath in assembliesToTarget)
@@ -69,6 +92,7 @@ public class AliasTask :
             var name = Path.GetFileNameWithoutExtension(sourcePath);
             var targetPath = Path.Combine(IntermediateDirectory, $"{name}.dll");
             sourceTargetInfos.Add(new(name, sourcePath, name, targetPath, false));
+            ProcessCopyLocal(sourcePath, targetPath);
         }
 
         var separator = $"{Environment.NewLine}\t";
@@ -83,6 +107,8 @@ TargetInfos:{separator}{string.Join(separator, sourceTargetInfos.Select(x=> $"{x
         Log.LogMessageFromText(inputs, MessageImportance.High);
 
         Aliaser.Run(references, sourceTargetInfos, Internalize, GetKey());
+        CopyLocalPathsToRemove = copyLocalPathsToRemove.ToArray();
+        CopyLocalPathsToAdd = copyLocalPathsToAdd.ToArray();
     }
 
     StrongNameKeyPair? GetKey()

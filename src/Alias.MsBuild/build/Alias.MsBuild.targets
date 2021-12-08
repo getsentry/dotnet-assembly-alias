@@ -23,7 +23,25 @@
       AssembliesToTarget="@(Alias_AssembliesToTarget)"
       Suffix="$(Alias_Suffix)"
       Prefix="$(Alias_Prefix)"
-      AssemblyOriginatorKeyFile="$(AssemblyOriginatorKeyFile)"
-      />
+      ReferenceCopyLocalPaths="@(ReferenceCopyLocalPaths)"
+      AssemblyOriginatorKeyFile="$(AssemblyOriginatorKeyFile)">
+
+      <Output
+        TaskParameter="CopyLocalPathsToAdd"
+        PropertyName="CopyLocalPathsToAdd" />
+      <Output
+        TaskParameter="CopyLocalPathsToRemove"
+        PropertyName="CopyLocalPathsToRemove" />
+
+    </Alias.AliasTask>
+    <Message Text="CopyLocalPathsToAdd" Importance="high" />
+    <Message Text="$(CopyLocalPathsToAdd)" Importance="high" />
+    <Message Text="CopyLocalPathsToRemove" Importance="high" />
+    <Message Text="$(CopyLocalPathsToRemove)" Importance="high" />
+    
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Remove="$(CopyLocalPathsToRemove)" />
+      <ReferenceCopyLocalPaths Include="$(CopyLocalPathsToAdd)" />
+    </ItemGroup>
   </Target>
 </Project>
