@@ -10,6 +10,7 @@ public class Tests
     static List<string> assemblyFiles = new()
     {
         "AssemblyToProcess",
+        "AssemblyToInclude",
         "AssemblyWithEmbeddedSymbols",
         "AssemblyWithNoStrongName",
         "AssemblyWithStrongName",
@@ -167,12 +168,20 @@ public class Tests
 
         Helpers.CopyFilesRecursively(targetPath, tempPath);
 
-        Program.Inner(tempPath, new() {"Assembly*"}, new(), null, new(), "Alias_", null, true);
+        Program.Inner(
+            tempPath,
+            assemblyNamesToAlias: new() {"Assembly*"},
+            references: new(),
+            keyFile: null,
+            assembliesToExclude: new() {"AssemblyToInclude", "AssemblyToProcess"},
+            prefix: "Alias_",
+            suffix: null,
+            internalize: true);
 
         PatchDependencies(tempPath);
 
         var exePath = Path.Combine(tempPath, "SampleApp.exe");
-        
+
         var outBuffer = new StringBuilder();
         var errorBuffer = new StringBuilder();
         await Cli.Wrap(exePath)

@@ -7,6 +7,7 @@
         yield return AssemblyWithNoStrongNameClass.Method();
         yield return AssemblyWithNoSymbolsClass.Method();
         yield return AssemblyWithPdbClass.Method();
+        yield return AssemblyToIncludeClass.Method();
         //yield return AssemblyWithResourcesClass.Method();
     }
 }

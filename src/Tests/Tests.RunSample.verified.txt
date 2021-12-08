@@ -5,6 +5,7 @@ AssemblyWithStrongName
 AssemblyWithNoStrongName
 AssemblyWithNoSymbols
 AssemblyWithPdb
+AssemblyToInclude
 ,
   errorBuffer: 
 }

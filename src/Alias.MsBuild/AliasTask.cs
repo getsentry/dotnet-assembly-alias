@@ -24,12 +24,10 @@ public class AliasTask :
     [Required]
     public ITaskItem[] AssembliesToAlias { get; set; } = null!;
     public ITaskItem[] AssembliesToTarget { get; set; } = null!;
-
     public bool SignAssembly { get; set; }
     public bool Internalize { get; set; }
     [Required]
     public ITaskItem[] ReferencePath { get; set; } = null!;
-
     [Output]
     public ITaskItem[] CopyLocalPathsToRemove { get; set; } = null!;
     [Output]

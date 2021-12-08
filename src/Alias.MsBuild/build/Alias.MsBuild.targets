@@ -34,10 +34,6 @@
         PropertyName="CopyLocalPathsToRemove" />
 
     </Alias.AliasTask>
-    <Message Text="CopyLocalPathsToAdd" Importance="high" />
-    <Message Text="$(CopyLocalPathsToAdd)" Importance="high" />
-    <Message Text="CopyLocalPathsToRemove" Importance="high" />
-    <Message Text="$(CopyLocalPathsToRemove)" Importance="high" />
     
     <ItemGroup>
       <ReferenceCopyLocalPaths Remove="$(CopyLocalPathsToRemove)" />
