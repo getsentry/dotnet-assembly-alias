@@ -139,8 +139,9 @@ public class Tests
 
             var outBuffer = new StringBuilder();
             var errorBuffer = new StringBuilder();
-            var exePath = Path.Combine(solutionDir, "SampleAppForMsBuild/bin/IncludeAliasTask/SampleAppForMsBuild.exe");
-            await Cli.Wrap(exePath)
+            var appPath = Path.Combine(solutionDir, "SampleAppForMsBuild/bin/IncludeAliasTask/SampleAppForMsBuild.dll");
+            await Cli.Wrap("dotnet")
+                .WithArguments(appPath)
                 .WithStandardOutputPipe(PipeTarget.ToStringBuilder(outBuffer))
                 .WithStandardErrorPipe(PipeTarget.ToStringBuilder(errorBuffer))
                 .ExecuteAsync();

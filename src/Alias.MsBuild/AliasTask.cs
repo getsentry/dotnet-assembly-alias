@@ -23,7 +23,7 @@ public class AliasTask :
     public string? Suffix { get; set; }
     [Required]
     public ITaskItem[] AssembliesToAlias { get; set; } = null!;
-    public ITaskItem[] AssembliesToTarget { get; set; } = null!;
+    public ITaskItem[]? AssembliesToTarget { get; set; }
     public bool SignAssembly { get; set; }
     public bool Internalize { get; set; }
     [Required]
@@ -55,7 +55,16 @@ public class AliasTask :
     void InnerExecute()
     {
         var assembliesToAlias = AssembliesToAlias.Select(x => x.ItemSpec).ToList();
-        var assembliesToTarget = AssembliesToTarget.Select(x => x.ItemSpec).ToList();
+        List<string> assembliesToTarget;
+        if (AssembliesToTarget == null)
+        {
+            assembliesToTarget = new List<string>();
+        }
+        else
+        {
+            assembliesToTarget = AssembliesToTarget.Select(x => x.ItemSpec).ToList();
+        }
+
         var references = ReferencePath.Select(x => x.ItemSpec)
             .Where(x => !assembliesToTarget.Contains(x) && !assembliesToAlias.Contains(x))
             .ToList();
