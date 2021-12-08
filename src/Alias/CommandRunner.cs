@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using Alias;
+using CommandLine;
 
 public static class CommandRunner
 {

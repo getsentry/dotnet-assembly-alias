@@ -1,3 +1,4 @@
+using Alias;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;
 
@@ -12,11 +13,9 @@ public class AssemblyResolver : IAssemblyResolver
 
     public AssemblyResolver(IEnumerable<string> references)
     {
-        var assemblyLocation = typeof(AssemblyResolver).Assembly.Location;
-        var directory = Path.GetDirectoryName(assemblyLocation)!;
-        var netStandardPath = Path.Combine(directory, "netstandard.dll");
+        var netStandardResource = GetType().Assembly.GetManifestResourceStream("Alias.Lib.netstandard.dll");
+        var netStandard = AssemblyDefinition.ReadAssembly(netStandardResource, readerParameters);
 
-        var netStandard = GetAssembly(netStandardPath);
         cache = new()
         {
             ["netstandard"] = netStandard,
@@ -28,15 +27,14 @@ public class AssemblyResolver : IAssemblyResolver
             cache[assembly.Name.Name] = assembly;
         }
 
-        VisibleToConstructor = GetVisibleToConstructor();
+        VisibleToConstructor = GetVisibleToConstructor(netStandard);
     }
 
     public MethodDefinition VisibleToConstructor { get; }
 
-    MethodDefinition GetVisibleToConstructor()
+    MethodDefinition GetVisibleToConstructor(AssemblyDefinition assembly)
     {
-        var netstandard = Resolve(new AssemblyNameReference("netstandard", new Version()))!;
-        var visibleToType = netstandard.MainModule.GetType("System.Runtime.CompilerServices", "InternalsVisibleToAttribute");
+        var visibleToType = assembly.MainModule.GetType("System.Runtime.CompilerServices", "InternalsVisibleToAttribute");
         return visibleToType.GetConstructors().Single();
     }
 

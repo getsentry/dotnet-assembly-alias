@@ -1,22 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFrameworks>net6</TargetFrameworks>
-    <ToolCommandName>assemblyalias</ToolCommandName>
-    <PackAsTool>True</PackAsTool>
+    <TargetFrameworks>net6;net48;netstandard2.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild Condition="$(Configuration) == 'Release'">true</GeneratePackageOnBuild>
     <DebugType>embedded</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <GeneratePackageOnBuild Condition="$(Configuration) == 'Release'">true</GeneratePackageOnBuild>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SolutionDir)key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+
   <ItemGroup>
+    <PackageReference Include="Nullable" Version="1.3.0" PrivateAssets="all" />
     <None Include="$(SolutionDir)icon.png" Pack="true" PackagePath="\" />
     <Reference Include="Mono.Cecil" HintPath="..\Lib\Mono.Cecil.dll" />
     <Reference Include="Mono.Cecil.Pdb" HintPath="..\Lib\Mono.Cecil.Pdb.dll" />
     <Reference Include="Mono.Cecil.Rocks" HintPath="..\Lib\Mono.Cecil.Rocks.dll" />
-    <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
-    <ProjectReference Include="..\Alias.Lib\Alias.Lib.csproj" />
+    <Using Remove="System.Net.Http" />
+    <EmbeddedResource Include="netstandard.dll">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
+
 </Project>

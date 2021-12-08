@@ -1,6 +1,6 @@
 ﻿using Mono.Cecil;
 
-public static class CecilExtensions
+static class CecilExtensions
 {
     public static void MakeTypesInternal(this ModuleDefinition module)
     {

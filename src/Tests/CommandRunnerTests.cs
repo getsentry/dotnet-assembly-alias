@@ -1,4 +1,6 @@
-﻿[UsesVerify]
+﻿using CommandLine;
+
+[UsesVerify]
 public class CommandRunnerTests
 {
     [Fact]
@@ -12,7 +14,7 @@ public class CommandRunnerTests
     public Task All()
     {
         Directory.CreateDirectory("directory");
-        var result = Parse("--target-directory directory --suffix _Alias  --prefix Alias_ --key test.snk --assemblies-to-alias assembly");
+        var result = Parse("--target-directory directory --suffix _Alias --prefix Alias_ --key test.snk --assemblies-to-alias assembly");
         return Verifier.Verify(result);
     }
 
@@ -33,15 +35,13 @@ public class CommandRunnerTests
     [Fact]
     public Task NoPrefixOrSuffix()
     {
-        var result = Assert.Throws<ErrorException>(() => Parse("--assemblies-to-alias assembly"));
-        return Verifier.Verify(result);
+        return Verifier.Throws(() => Parse("--assemblies-to-alias assembly"));
     }
 
     [Fact]
     public Task BadKeyPath()
     {
-        var result = Assert.Throws<ErrorException>(() => Parse("--key bad.snk --assemblies-to-alias assembly --suffix _Alias"));
-        return Verifier.Verify(result);
+        return Verifier.Throws(() => Parse("--key bad.snk --assemblies-to-alias assembly --suffix _Alias"));
     }
 
     [Fact]

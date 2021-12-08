@@ -1,5 +1,6 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
+using CliWrap;
+using Mono.Cecil;
 
 [UsesVerify]
 public class Tests
@@ -9,6 +10,7 @@ public class Tests
     static List<string> assemblyFiles = new()
     {
         "AssemblyToProcess",
+        "AssemblyToInclude",
         "AssemblyWithEmbeddedSymbols",
         "AssemblyWithNoStrongName",
         "AssemblyWithStrongName",
@@ -102,6 +104,54 @@ public class Tests
 
     //    return Verifier.Verify(results);
     //}
+    
+    [Fact]
+    public async Task RunTask()
+    {
+        var solutionDir = AttributeReader.GetSolutionDirectory();
+
+        var buildErrorBuffer = new StringBuilder();
+        var buildOutBuffer = new StringBuilder();
+        await Cli.Wrap("dotnet")
+            .WithArguments("build --configuration IncludeAliasTask")
+            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(buildOutBuffer))
+            .WithStandardErrorPipe(PipeTarget.ToStringBuilder(buildErrorBuffer))
+            .WithWorkingDirectory(solutionDir)
+            .WithValidation(CommandResultValidation.None)
+            .ExecuteAsync();
+        
+        var shutdown = Cli.Wrap("dotnet")
+            .WithArguments("build-server shutdown")
+            .ExecuteAsync();
+        
+        try
+        {
+            if (buildErrorBuffer.Length > 0)
+            {
+                throw new(buildErrorBuffer.ToString());
+            }
+
+            var buildOut = buildOutBuffer.ToString();
+            if (buildOut.Contains("error"))
+            {
+                throw new(buildOut.Replace(solutionDir,""));
+            }
+
+            var outBuffer = new StringBuilder();
+            var errorBuffer = new StringBuilder();
+            var exePath = Path.Combine(solutionDir, "SampleAppForMsBuild/bin/IncludeAliasTask/SampleAppForMsBuild.exe");
+            await Cli.Wrap(exePath)
+                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(outBuffer))
+                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(errorBuffer))
+                .ExecuteAsync();
+
+            await Verifier.Verify(new {outBuffer, errorBuffer});
+        }
+        finally
+        {
+            await shutdown;
+        }
+    }
 
 #if DEBUG
 
@@ -118,31 +168,28 @@ public class Tests
 
         Helpers.CopyFilesRecursively(targetPath, tempPath);
 
-        Program.Inner(tempPath, new() {"Assembly*"}, new(), null, new(), "Alias_", null, true);
+        Program.Inner(
+            tempPath,
+            assemblyNamesToAlias: new() {"Assembly*"},
+            references: new(),
+            keyFile: null,
+            assembliesToExclude: new() {"AssemblyToInclude", "AssemblyToProcess"},
+            prefix: "Alias_",
+            suffix: null,
+            internalize: true);
 
         PatchDependencies(tempPath);
 
         var exePath = Path.Combine(tempPath, "SampleApp.exe");
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = exePath,
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            CreateNoWindow = true
-        };
-        using var process = Process.Start(startInfo)!;
-        var output = new StringBuilder();
-        var error = new StringBuilder();
-        process.EnableRaisingEvents = true;
-        process.OutputDataReceived += (_, args) => output.AppendLine(args.Data);
-        process.ErrorDataReceived += (_, args) => error.AppendLine(args.Data);
-        process.Start();
-        process.BeginOutputReadLine();
-        process.BeginErrorReadLine();
-        await process.WaitForExitAsync();
-        await Verifier.Verify(new {output, error});
-        Assert.Equal(0, process.ExitCode);
+
+        var outBuffer = new StringBuilder();
+        var errorBuffer = new StringBuilder();
+        await Cli.Wrap(exePath)
+            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(outBuffer))
+            .WithStandardErrorPipe(PipeTarget.ToStringBuilder(errorBuffer))
+            .ExecuteAsync();
+
+        await Verifier.Verify(new {outBuffer, errorBuffer});
     }
 
 #endif

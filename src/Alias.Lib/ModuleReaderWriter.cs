@@ -1,9 +1,7 @@
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
-using StrongNameKeyPair = Mono.Cecil.StrongNameKeyPair;
-
-public static class ModuleReaderWriter
+static class ModuleReaderWriter
 {
     public static (ModuleDefinition module, bool hasSymbols) Read(string file, IAssemblyResolver resolver)
     {

@@ -3,13 +3,30 @@
     <Version>1.0.0</Version>
     <TargetFrameworks>net48;net6</TargetFrameworks>
     <SignAssembly>false</SignAssembly>
+    <Alias_Prefix>Prefix_</Alias_Prefix>
+    <Alias_Suffix>_Suffix</Alias_Suffix>
+    <Alias_Internalize>true</Alias_Internalize>
   </PropertyGroup>
   <ItemGroup>
+    <Using Remove="System.Net.Http" />
     <ProjectReference Include="..\AssemblyWithEmbeddedSymbols\AssemblyWithEmbeddedSymbols.csproj" />
     <ProjectReference Include="..\AssemblyWithNoStrongName\AssemblyWithNoStrongName.csproj" />
     <ProjectReference Include="..\AssemblyWithNoSymbols\AssemblyWithNoSymbols.csproj" />
     <ProjectReference Include="..\AssemblyWithPdb\AssemblyWithPdb.csproj" />
     <ProjectReference Include="..\AssemblyWithResources\AssemblyWithResources.csproj" />
     <ProjectReference Include="..\AssemblyWithStrongName\AssemblyWithStrongName.csproj" />
+    <ProjectReference Include="..\AssemblyToInclude\AssemblyToInclude.csproj" />
   </ItemGroup>
+  <Target Name="ResolveAliasAssemblies" DependsOnTargets="ResolveReferences">
+    <ItemGroup>
+      <Alias_AssembliesToAlias 
+        Include="@(ReferencePath)" 
+        Condition="$([System.String]::new('%(ReferencePath.Filename)').StartsWith('AssemblyWith'))"/>
+      <Alias_AssembliesToTarget 
+        Include="@(ReferencePath)" 
+        Condition="$([System.String]::new('%(ReferencePath.Filename)').StartsWith('AssemblyToInclude'))"/>
+    </ItemGroup>
+  </Target>
+  <Import Condition="$(Configuration) == 'IncludeAliasTask'"
+          Project="$(ProjectDir)..\Alias.MsBuild\build\Alias.MsBuild.targets" />
 </Project>

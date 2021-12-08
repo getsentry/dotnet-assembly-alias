@@ -1,8 +1,15 @@
 ﻿[
   {
+    Name: AssemblyToInclude, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
+    References: [
+      netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+    ]
+  },
+  {
     Name: AssemblyToProcess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
     HasSymbols: true,
     References: [
+      AssemblyToInclude, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
       AssemblyWithEmbeddedSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
       AssemblyWithNoStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
       AssemblyWithNoSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
@@ -19,6 +26,7 @@
       netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ],
     Attributes: [
+      InternalsVisibleToAttribute(AssemblyToInclude),
       InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoSymbols_Alias),
@@ -35,6 +43,7 @@
       netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ],
     Attributes: [
+      InternalsVisibleToAttribute(AssemblyToInclude),
       InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoSymbols_Alias),
@@ -50,6 +59,7 @@
       netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ],
     Attributes: [
+      InternalsVisibleToAttribute(AssemblyToInclude),
       InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),
@@ -66,6 +76,7 @@
       netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ],
     Attributes: [
+      InternalsVisibleToAttribute(AssemblyToInclude),
       InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),
@@ -82,6 +93,7 @@
       System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ],
     Attributes: [
+      InternalsVisibleToAttribute(AssemblyToInclude),
       InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),
@@ -98,6 +110,7 @@
       netstandard, Version=2.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ],
     Attributes: [
+      InternalsVisibleToAttribute(AssemblyToInclude),
       InternalsVisibleToAttribute(AssemblyToProcess),
       InternalsVisibleToAttribute(AssemblyWithEmbeddedSymbols_Alias),
       InternalsVisibleToAttribute(AssemblyWithNoStrongName_Alias),

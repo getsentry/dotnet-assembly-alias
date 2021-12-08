@@ -1,0 +1,43 @@
+﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <AliasAssembly>$(MSBuildThisFileDirectory)..\Alias.MsBuild.dll</AliasAssembly>
+    <AliasAssembly Condition="!Exists($(AliasAssembly))">$(MSBuildThisFileDirectory)..\bin\IncludeAliasTask\Alias.MsBuild.dll</AliasAssembly>
+  </PropertyGroup>
+
+  <UsingTask
+    TaskName="Alias.AliasTask"
+    AssemblyFile="$(AliasAssembly)" />
+  <Target
+    Name="AliasTarget"
+    AfterTargets="AfterCompile"
+    DependsOnTargets="ResolveAliasAssemblies"
+    Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true)" >
+    <Alias.AliasTask
+      IntermediateAssembly="@(IntermediateAssembly)"
+      ProjectDirectory="$(MSBuildProjectDirectory)"
+      IntermediateDirectory="$(ProjectDir)$(IntermediateOutputPath)"
+      ReferencePath="@(ReferencePath)"
+      SignAssembly="$(SignAssembly)"
+      Internalize="$(Alias_Internalize)"
+      AssembliesToAlias="@(Alias_AssembliesToAlias)"
+      AssembliesToTarget="@(Alias_AssembliesToTarget)"
+      Suffix="$(Alias_Suffix)"
+      Prefix="$(Alias_Prefix)"
+      ReferenceCopyLocalPaths="@(ReferenceCopyLocalPaths)"
+      AssemblyOriginatorKeyFile="$(AssemblyOriginatorKeyFile)">
+
+      <Output
+        TaskParameter="CopyLocalPathsToAdd"
+        PropertyName="CopyLocalPathsToAdd" />
+      <Output
+        TaskParameter="CopyLocalPathsToRemove"
+        PropertyName="CopyLocalPathsToRemove" />
+
+    </Alias.AliasTask>
+    
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Remove="$(CopyLocalPathsToRemove)" />
+      <ReferenceCopyLocalPaths Include="$(CopyLocalPathsToAdd)" />
+    </ItemGroup>
+  </Target>
+</Project>
