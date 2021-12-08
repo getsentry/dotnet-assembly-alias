@@ -21,6 +21,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyWithNoSymbols", "AssemblyWithNoSymbols\AssemblyWithNoSymbols.csproj", "{7E18A70B-31D6-4435-BD88-1415078B7D84}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssemblyToProcess", "AssemblyToProcess\AssemblyToProcess.csproj", "{B290F318-853C-4A0A-870E-2F4F1F85A6FF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CFF2C167-DA31-4BFA-A31A-4677177561F4} = {CFF2C167-DA31-4BFA-A31A-4677177561F4}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alias", "Alias\Alias.csproj", "{6E8DB8B8-B0EC-4F13-BB0C-24E148D88A89}"
 EndProject
