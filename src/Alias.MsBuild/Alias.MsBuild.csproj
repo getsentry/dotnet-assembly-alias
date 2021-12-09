@@ -20,6 +20,7 @@
     </Content>
     <Content Include="$(SolutionDir)Alias.Lib\bin\$(Configuration)\$(TargetFramework)\Alias.Lib.dll">
       <Pack>true</Pack>
+      <PackagePath>task</PackagePath>
     </Content>
     <Content Include="build\Alias.MsBuild.targets">
       <Pack>true</Pack>
