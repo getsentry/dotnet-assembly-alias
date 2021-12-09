@@ -1,9 +1,9 @@
 # <img src='/src/icon.png' height='30px'> Alias
 
 [![Build status](https://ci.appveyor.com/api/projects/status/s3agb6fiax7pgwls/branch/master?svg=true)](https://ci.appveyor.com/project/SimonCropp/Alias)
-[![NuGet Status](https://img.shields.io/nuget/v/Alias.svg)](https://www.nuget.org/packages/Alias/)
-[![NuGet Status](https://img.shields.io/nuget/v/Alias.Lib.svg)](https://www.nuget.org/packages/Alias.Lib/)
-[![NuGet Status](https://img.shields.io/nuget/v/Alias.MsBuild.svg)](https://www.nuget.org/packages/Alias.MsBuild/)
+[![NuGet Status](https://img.shields.io/nuget/v/Alias.svg?label=Alias%20nuget)](https://www.nuget.org/packages/Alias/)
+[![NuGet Status](https://img.shields.io/nuget/v/Alias.Lib.svg?label=Alias.Lib%20nuget)](https://www.nuget.org/packages/Alias.Lib/)
+[![NuGet Status](https://img.shields.io/nuget/v/Alias.MsBuild.svg?label=Alias.MsBuild%20nuget)](https://www.nuget.org/packages/Alias.MsBuild/)
 
 Rename assemblies and fixes references. Designed as an alternative to [Costura](https://github.com/Fody/Costura), [ILMerge](https://github.com/dotnet/ILMerge), and [ILRepack](https://github.com/gluck/il-repack).
 
