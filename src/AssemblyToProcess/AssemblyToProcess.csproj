@@ -24,7 +24,7 @@
         Condition="$([System.String]::new('%(ReferencePath.Filename)').StartsWith('AssemblyWith'))"/>
       <Alias_AssembliesToTarget 
         Include="@(ReferencePath)" 
-        Condition="$([System.String]::new('%(ReferencePath.Filename)').StartsWith('AssemblyToInclude'))"/>
+        Condition="'%(ReferencePath.Filename)'=='AssemblyToInclude'"/>
     </ItemGroup>
   </Target>
   <Import Condition="$(Configuration) == 'IncludeAliasTask'"
