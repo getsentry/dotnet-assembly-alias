@@ -1,5 +1,5 @@
-﻿using System.Text;
-using CliWrap;
+﻿using CliWrap;
+using CliWrap.Buffered;
 using Mono.Cecil;
 
 [UsesVerify]
@@ -70,7 +70,7 @@ public class Tests
                 .Select(x => $"{x.AttributeType.Name}({string.Join(',', x.ConstructorArguments.Select(y => y.Value))})")
                 .OrderBy(x => x)
                 .ToList();
-            yield return 
+            yield return
                 new AssemblyResult(
                     definition.Name.FullName,
                     definition.MainModule.TryReadSymbols(),
@@ -104,49 +104,40 @@ public class Tests
 
     //    return Verifier.Verify(results);
     //}
-    
+
     [Fact]
     public async Task RunTask()
     {
         var solutionDir = AttributeReader.GetSolutionDirectory();
 
-        var buildErrorBuffer = new StringBuilder();
-        var buildOutBuffer = new StringBuilder();
-        await Cli.Wrap("dotnet")
+        var buildResult = await Cli.Wrap("dotnet")
             .WithArguments("build --configuration IncludeAliasTask")
-            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(buildOutBuffer))
-            .WithStandardErrorPipe(PipeTarget.ToStringBuilder(buildErrorBuffer))
             .WithWorkingDirectory(solutionDir)
             .WithValidation(CommandResultValidation.None)
-            .ExecuteAsync();
-        
+            .ExecuteBufferedAsync();
+
         var shutdown = Cli.Wrap("dotnet")
             .WithArguments("build-server shutdown")
             .ExecuteAsync();
-        
+
         try
         {
-            if (buildErrorBuffer.Length > 0)
+            if (buildResult.StandardError.Length > 0)
             {
-                throw new(buildErrorBuffer.ToString());
+                throw new(buildResult.StandardError);
             }
 
-            var buildOut = buildOutBuffer.ToString();
-            if (buildOut.Contains("error"))
+            if (buildResult.StandardOutput.Contains("error"))
             {
-                throw new(buildOut.Replace(solutionDir,""));
+                throw new(buildResult.StandardOutput.Replace(solutionDir,""));
             }
 
-            var outBuffer = new StringBuilder();
-            var errorBuffer = new StringBuilder();
             var appPath = Path.Combine(solutionDir, "SampleAppForMsBuild/bin/IncludeAliasTask/SampleAppForMsBuild.dll");
-            await Cli.Wrap("dotnet")
+            var runResult = await Cli.Wrap("dotnet")
                 .WithArguments(appPath)
-                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(outBuffer))
-                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(errorBuffer))
-                .ExecuteAsync();
+                .ExecuteBufferedAsync();
 
-            await Verifier.Verify(new {outBuffer, errorBuffer});
+            await Verifier.Verify(new {runResult.StandardOutput, runResult.StandardError});
         }
         finally
         {
@@ -183,14 +174,9 @@ public class Tests
 
         var exePath = Path.Combine(tempPath, "SampleApp.exe");
 
-        var outBuffer = new StringBuilder();
-        var errorBuffer = new StringBuilder();
-        await Cli.Wrap(exePath)
-            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(outBuffer))
-            .WithStandardErrorPipe(PipeTarget.ToStringBuilder(errorBuffer))
-            .ExecuteAsync();
+        var result = await Cli.Wrap(exePath).ExecuteBufferedAsync();
 
-        await Verifier.Verify(new {outBuffer, errorBuffer});
+        await Verifier.Verify(new {result.StandardOutput, result.StandardError});
     }
 
 #endif
