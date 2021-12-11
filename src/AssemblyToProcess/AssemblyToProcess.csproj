@@ -8,7 +8,6 @@
     <Alias_Internalize>true</Alias_Internalize>
   </PropertyGroup>
   <ItemGroup>
-    <Using Remove="System.Net.Http" />
     <PackageReference Include="System.Text.Json" Version="6.0.0" />
     <ProjectReference Include="..\AssemblyWithEmbeddedSymbols\AssemblyWithEmbeddedSymbols.csproj" />
     <ProjectReference Include="..\AssemblyWithNoStrongName\AssemblyWithNoStrongName.csproj" />
