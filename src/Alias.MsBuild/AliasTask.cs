@@ -11,25 +11,34 @@ public class AliasTask :
     ICancelableTask
 {
     [Required]
-    public ITaskItem[] ReferenceCopyLocalPaths{ get; set; } = null!;
-    [Required] 
+    public ITaskItem[] ReferenceCopyLocalPaths { get; set; } = null!;
+
+    [Required]
     public string IntermediateAssembly { get; set; } = null!;
-    [Required] 
+
+    [Required]
     public string ProjectDirectory { get; set; } = null!;
+
     [Required]
     public string IntermediateDirectory { get; set; } = null!;
+
     public string? AssemblyOriginatorKeyFile { get; set; }
     public string? Prefix { get; set; }
     public string? Suffix { get; set; }
+
     [Required]
     public ITaskItem[] AssembliesToAlias { get; set; } = null!;
+
     public ITaskItem[]? AssembliesToTarget { get; set; }
     public bool SignAssembly { get; set; }
     public bool Internalize { get; set; }
+
     [Required]
     public ITaskItem[] ReferencePath { get; set; } = null!;
+
     [Output]
     public ITaskItem[] CopyLocalPathsToRemove { get; set; } = null!;
+
     [Output]
     public ITaskItem[] CopyLocalPathsToAdd { get; set; } = null!;
 
@@ -69,7 +78,7 @@ public class AliasTask :
             .Where(x => !assembliesToTarget.Contains(x) && !assembliesToAlias.Contains(x))
             .ToList();
         assembliesToTarget.Insert(0, IntermediateAssembly);
-        
+
         var sourceTargetInfos = new List<SourceTargetInfo>();
         var copyLocalPathsToRemove = new List<ITaskItem>();
         var copyLocalPathsToAdd = new List<ITaskItem>();
@@ -109,7 +118,8 @@ Suffix: {Suffix}
 Internalize: {Internalize}
 AssembliesToAlias:{separator}{string.Join(separator, assembliesToAlias.Select(Path.GetFileNameWithoutExtension))}
 AssembliesToTarget:{separator}{string.Join(separator, assembliesToTarget.Select(Path.GetFileNameWithoutExtension))}
-TargetInfos:{separator}{string.Join(separator, sourceTargetInfos.Select(x=> $"{x.SourceName} => {x.TargetName}"))}
+TargetInfos:{separator}{string.Join(separator, sourceTargetInfos.Select(x => $"{x.SourceName} => {x.TargetName}"))}
+ReferenceCopyLocalPaths:{separator}{string.Join(separator, ReferenceCopyLocalPaths.Select(x => $"{x.ItemSpec}"))}
 ";
         Log.LogMessageFromText(inputs, MessageImportance.High);
 

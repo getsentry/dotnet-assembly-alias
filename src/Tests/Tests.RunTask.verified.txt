@@ -26,6 +26,21 @@ Copyright (C) Microsoft Corporation. All rights reserved.
   	AssemblyWithStrongName => Prefix_AssemblyWithStrongName_Suffix
   	AssemblyToProcess => AssemblyToProcess
   	AssemblyToInclude => AssemblyToInclude
+  ReferenceCopyLocalPaths:
+  	{UserProfile}\.nuget\packages\newtonsoft.json\13.0.1\lib\netstandard2.0\Newtonsoft.Json.dll
+  	{SolutionDirectory}AssemblyToInclude\bin\IncludeAliasTask\net6\AssemblyToInclude.dll
+  	{SolutionDirectory}AssemblyWithEmbeddedSymbols\bin\IncludeAliasTask\net6\AssemblyWithEmbeddedSymbols.dll
+  	{SolutionDirectory}AssemblyWithNoStrongName\bin\IncludeAliasTask\net6\AssemblyWithNoStrongName.dll
+  	{SolutionDirectory}AssemblyWithNoSymbols\bin\IncludeAliasTask\net6\AssemblyWithNoSymbols.dll
+  	{SolutionDirectory}AssemblyWithPdb\bin\IncludeAliasTask\net6\AssemblyWithPdb.dll
+  	{SolutionDirectory}AssemblyWithResources\bin\IncludeAliasTask\net6\AssemblyWithResources.dll
+  	{SolutionDirectory}AssemblyWithStrongName\bin\IncludeAliasTask\net6\AssemblyWithStrongName.dll
+  	{SolutionDirectory}AssemblyWithNoStrongName\bin\IncludeAliasTask\net6\AssemblyWithNoStrongName.pdb
+  	{SolutionDirectory}AssemblyWithPdb\bin\IncludeAliasTask\net6\AssemblyWithPdb.pdb
+  	{SolutionDirectory}AssemblyWithResources\bin\IncludeAliasTask\net6\AssemblyWithResources.pdb
+  	{SolutionDirectory}AssemblyWithStrongName\bin\IncludeAliasTask\net6\AssemblyWithStrongName.pdb
+  	{SolutionDirectory}AssemblyWithResources\bin\IncludeAliasTask\net6\de\AssemblyWithResources.resources.dll
+  	{SolutionDirectory}AssemblyWithResources\bin\IncludeAliasTask\net6\fr\AssemblyWithResources.resources.dll
   
 
 Build succeeded.
@@ -40,6 +55,7 @@ AssemblyWithNoStrongName
 AssemblyWithNoSymbols
 AssemblyWithPdb
 AssemblyToInclude
+Newtonsoft.Json.JsonSerializer
 ,
   consoleError: 
 }

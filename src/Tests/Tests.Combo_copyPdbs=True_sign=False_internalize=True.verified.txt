@@ -15,6 +15,7 @@
       AssemblyWithNoSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
       AssemblyWithPdb_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
       AssemblyWithStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null,
+      Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed,
       System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ]
   },
