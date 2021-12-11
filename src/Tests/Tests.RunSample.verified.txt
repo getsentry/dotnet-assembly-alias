@@ -1,5 +1,5 @@
 ﻿{
-  outBuffer:
+  StandardOutput:
 AssemblyWithEmbeddedSymbols
 AssemblyWithStrongName
 AssemblyWithNoStrongName
@@ -7,5 +7,5 @@ AssemblyWithNoSymbols
 AssemblyWithPdb
 AssemblyToInclude
 ,
-  errorBuffer: 
+  StandardError: 
 }

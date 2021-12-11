@@ -111,7 +111,7 @@ public class Tests
         var solutionDir = AttributeReader.GetSolutionDirectory();
 
         var buildResult = await Cli.Wrap("dotnet")
-            .WithArguments("build --configuration IncludeAliasTask")
+            .WithArguments("build --configuration IncludeAliasTask --no-restore")
             .WithWorkingDirectory(solutionDir)
             .WithValidation(CommandResultValidation.None)
             .ExecuteBufferedAsync();
@@ -129,7 +129,7 @@ public class Tests
 
             if (buildResult.StandardOutput.Contains("error"))
             {
-                throw new(buildResult.StandardOutput.Replace(solutionDir,""));
+                throw new(buildResult.StandardOutput.Replace(solutionDir, ""));
             }
 
             var appPath = Path.Combine(solutionDir, "SampleAppForMsBuild/bin/IncludeAliasTask/SampleAppForMsBuild.dll");
@@ -137,13 +137,22 @@ public class Tests
                 .WithArguments(appPath)
                 .ExecuteBufferedAsync();
 
-            await Verifier.Verify(new {runResult.StandardOutput, runResult.StandardError});
+            await Verifier.Verify(
+                    new
+                    {
+                        buildOutput = buildResult.StandardOutput,
+                        consoleOutput = runResult.StandardOutput,
+                        consoleError = runResult.StandardError
+                    })
+                .ScrubLinesContaining(" -> ")
+                .ScrubLinesContaining("Time Elapsed");
         }
         finally
         {
             await shutdown;
         }
     }
+
 
 #if DEBUG
 

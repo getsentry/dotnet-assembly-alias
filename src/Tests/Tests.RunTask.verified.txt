@@ -1,5 +1,39 @@
 ﻿{
-  outBuffer:
+  buildOutput:
+Microsoft (R) Build Engine version 17.0.0+c9eb9dd64 for .NET
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+  
+  Prefix: Prefix_
+  Suffix: _Suffix
+  Internalize: True
+  AssembliesToAlias:
+  	AssemblyWithEmbeddedSymbols
+  	AssemblyWithNoStrongName
+  	AssemblyWithNoSymbols
+  	AssemblyWithPdb
+  	AssemblyWithResources
+  	AssemblyWithStrongName
+  AssembliesToTarget:
+  	AssemblyToProcess
+  	AssemblyToInclude
+  TargetInfos:
+  	AssemblyWithEmbeddedSymbols => Prefix_AssemblyWithEmbeddedSymbols_Suffix
+  	AssemblyWithNoStrongName => Prefix_AssemblyWithNoStrongName_Suffix
+  	AssemblyWithNoSymbols => Prefix_AssemblyWithNoSymbols_Suffix
+  	AssemblyWithPdb => Prefix_AssemblyWithPdb_Suffix
+  	AssemblyWithResources => Prefix_AssemblyWithResources_Suffix
+  	AssemblyWithStrongName => Prefix_AssemblyWithStrongName_Suffix
+  	AssemblyToProcess => AssemblyToProcess
+  	AssemblyToInclude => AssemblyToInclude
+  
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+,
+  consoleOutput:
 AssemblyWithEmbeddedSymbols
 AssemblyWithStrongName
 AssemblyWithNoStrongName
@@ -7,5 +41,5 @@ AssemblyWithNoSymbols
 AssemblyWithPdb
 AssemblyToInclude
 ,
-  errorBuffer: 
+  consoleError: 
 }
