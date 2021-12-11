@@ -17,19 +17,14 @@ public class AliasTask :
     public string IntermediateAssembly { get; set; } = null!;
 
     [Required]
-    public string ProjectDirectory { get; set; } = null!;
-
-    [Required]
     public string IntermediateDirectory { get; set; } = null!;
 
     public string? AssemblyOriginatorKeyFile { get; set; }
     public string? Prefix { get; set; }
     public string? Suffix { get; set; }
-
-    [Required]
-    public ITaskItem[] AssembliesToAlias { get; set; } = null!;
-
-    public ITaskItem[]? AssembliesToTarget { get; set; }
+    
+    public ITaskItem[]? AssembliesToSkipRename { get; set; }
+    
     public bool SignAssembly { get; set; }
     public bool Internalize { get; set; }
 
@@ -63,35 +58,60 @@ public class AliasTask :
 
     void InnerExecute()
     {
-        var assembliesToAlias = AssembliesToAlias.Select(x => x.ItemSpec).ToList();
-        List<string> assembliesToTarget;
-        if (AssembliesToTarget == null)
+        List<string> assembliesToSkipRename;
+        if (AssembliesToSkipRename == null)
         {
-            assembliesToTarget = new List<string>();
+            assembliesToSkipRename = new List<string>();
         }
         else
         {
-            assembliesToTarget = AssembliesToTarget.Select(x => x.ItemSpec).ToList();
+            assembliesToSkipRename = AssembliesToSkipRename.Select(x => x.ItemSpec).ToList();
         }
 
-        var references = ReferencePath.Select(x => x.ItemSpec)
-            .Where(x => !assembliesToTarget.Contains(x) && !assembliesToAlias.Contains(x))
+        var assemblyCopyLocalPaths = ReferenceCopyLocalPaths
+            .Select(x => x.ItemSpec)
+            .Where(x=>Path.GetExtension(x).ToLowerInvariant() ==".dll")
             .ToList();
+        var references = ReferencePath.Select(x => x.ItemSpec)
+            .Where(x => !assemblyCopyLocalPaths.Contains(x))
+            .ToList();
+
+        var assembliesToAlias= assemblyCopyLocalPaths
+            .Where(x => !assembliesToSkipRename.Contains(Path.GetFileNameWithoutExtension(x)))
+            .ToList();
+        
+        var assembliesToTarget = assemblyCopyLocalPaths
+            .Where(x => assembliesToSkipRename.Contains(Path.GetFileNameWithoutExtension(x)))
+            .ToList();
+
         assembliesToTarget.Insert(0, IntermediateAssembly);
 
         var sourceTargetInfos = new List<SourceTargetInfo>();
         var copyLocalPathsToRemove = new List<ITaskItem>();
         var copyLocalPathsToAdd = new List<ITaskItem>();
 
-        void ProcessCopyLocal(string sourcePath, string targetPath1)
+        void ProcessCopyLocal(string sourcePath, string targetPath)
         {
-            var toRemove = ReferenceCopyLocalPaths.SingleOrDefault(x => x.ItemSpec == sourcePath);
-            if (toRemove != null)
+            var copyLocalToRemove = ReferenceCopyLocalPaths.SingleOrDefault(x => x.ItemSpec == sourcePath);
+            if (copyLocalToRemove != null)
             {
-                copyLocalPathsToRemove.Add(toRemove);
+                copyLocalPathsToRemove.Add(copyLocalToRemove);
             }
 
-            copyLocalPathsToAdd.Add(new TaskItem(targetPath1));
+            var pdbToRemove = Path.ChangeExtension(sourcePath, "pdb");
+            copyLocalToRemove = ReferenceCopyLocalPaths.SingleOrDefault(x => x.ItemSpec == pdbToRemove);
+            if (copyLocalToRemove != null)
+            {
+                copyLocalPathsToRemove.Add(copyLocalToRemove);
+            }
+
+            copyLocalPathsToAdd.Add(new TaskItem(targetPath));
+
+            var pdbToAdd = Path.ChangeExtension(targetPath, "pdb");
+            if (File.Exists(pdbToAdd))
+            {
+                copyLocalPathsToAdd.Add(new TaskItem(pdbToAdd));
+            }
         }
 
         foreach (var sourcePath in assembliesToAlias)

@@ -14,13 +14,11 @@
     Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true)" >
     <Alias.AliasTask
       IntermediateAssembly="@(IntermediateAssembly)"
-      ProjectDirectory="$(MSBuildProjectDirectory)"
       IntermediateDirectory="$(ProjectDir)$(IntermediateOutputPath)"
       ReferencePath="@(ReferencePath)"
       SignAssembly="$(SignAssembly)"
       Internalize="$(Alias_Internalize)"
-      AssembliesToAlias="@(Alias_AssembliesToAlias)"
-      AssembliesToTarget="@(Alias_AssembliesToTarget)"
+      AssembliesToSkipRename="@(Alias_AssembliesToSkipRename)"
       Suffix="$(Alias_Suffix)"
       Prefix="$(Alias_Prefix)"
       ReferenceCopyLocalPaths="@(ReferenceCopyLocalPaths)"

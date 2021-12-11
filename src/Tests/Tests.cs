@@ -16,7 +16,8 @@ public class Tests
         "AssemblyWithStrongName",
         "AssemblyWithNoSymbols",
         "AssemblyWithPdb",
-        "AssemblyWithResources"
+        "AssemblyWithResources",
+        "Newtonsoft.Json"
     };
 
     static Tests()
@@ -53,7 +54,7 @@ public class Tests
             keyFile = Path.Combine(AttributeReader.GetProjectDirectory(), "test.snk");
         }
 
-        var namesToAliases = assemblyFiles.Where(x => x.StartsWith("AssemblyWith")).ToList();
+        var namesToAliases = assemblyFiles.Where(x => x.StartsWith("AssemblyWith") || x=="Newtonsoft.Json").ToList();
         Program.Inner(tempPath, namesToAliases, new(), keyFile, new(), null, "_Alias", internalize);
 
         return BuildResults();

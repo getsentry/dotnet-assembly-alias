@@ -20,8 +20,7 @@
   </ItemGroup>
   <Target Name="ResolveAliasAssemblies" DependsOnTargets="ResolveReferences">
     <ItemGroup>
-      <Alias_AssembliesToAlias Include="@(ReferencePath)" Condition="$([System.String]::new('%(ReferencePath.Filename)').StartsWith('AssemblyWith'))" />
-      <Alias_AssembliesToTarget Include="@(ReferencePath)" Condition="'%(ReferencePath.Filename)'=='AssemblyToInclude'" />
+      <Alias_AssembliesToSkipRename Include="AssemblyToInclude"/>
     </ItemGroup>
   </Target>
   <Import Condition="$(Configuration) == 'IncludeAliasTask'" Project="$(ProjectDir)..\Alias.MsBuild\build\Alias.MsBuild.targets" />

@@ -8,22 +8,28 @@ Copyright (C) Microsoft Corporation. All rights reserved.
   Suffix: _Suffix
   Internalize: True
   AssembliesToAlias:
+  	Newtonsoft.Json
   	AssemblyWithEmbeddedSymbols
   	AssemblyWithNoStrongName
   	AssemblyWithNoSymbols
   	AssemblyWithPdb
   	AssemblyWithResources
   	AssemblyWithStrongName
+  	AssemblyWithResources.resources
+  	AssemblyWithResources.resources
   AssembliesToTarget:
   	AssemblyToProcess
   	AssemblyToInclude
   TargetInfos:
+  	Newtonsoft.Json => Prefix_Newtonsoft.Json_Suffix
   	AssemblyWithEmbeddedSymbols => Prefix_AssemblyWithEmbeddedSymbols_Suffix
   	AssemblyWithNoStrongName => Prefix_AssemblyWithNoStrongName_Suffix
   	AssemblyWithNoSymbols => Prefix_AssemblyWithNoSymbols_Suffix
   	AssemblyWithPdb => Prefix_AssemblyWithPdb_Suffix
   	AssemblyWithResources => Prefix_AssemblyWithResources_Suffix
   	AssemblyWithStrongName => Prefix_AssemblyWithStrongName_Suffix
+  	AssemblyWithResources.resources => Prefix_AssemblyWithResources.resources_Suffix
+  	AssemblyWithResources.resources => Prefix_AssemblyWithResources.resources_Suffix
   	AssemblyToProcess => AssemblyToProcess
   	AssemblyToInclude => AssemblyToInclude
   ReferenceCopyLocalPaths:
