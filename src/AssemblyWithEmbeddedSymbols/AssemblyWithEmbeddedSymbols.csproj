@@ -4,7 +4,4 @@
     <TargetFrameworks>net6</TargetFrameworks>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
-  <ItemGroup>
-    <Using Remove="System.Net.Http" />
-  </ItemGroup>
 </Project>

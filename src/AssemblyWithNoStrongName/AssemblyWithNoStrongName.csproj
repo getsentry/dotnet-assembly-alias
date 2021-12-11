@@ -4,7 +4,4 @@
     <TargetFrameworks>net6</TargetFrameworks>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
-  <ItemGroup>
-    <Using Remove="System.Net.Http" />
-  </ItemGroup>
 </Project>
