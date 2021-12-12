@@ -21,6 +21,7 @@
       AssembliesToSkipRename="@(Alias_AssembliesToSkipRename)"
       Suffix="$(Alias_Suffix)"
       Prefix="$(Alias_Prefix)"
+      SolutionDir="$(SolutionDir)"
       ReferenceCopyLocalPaths="@(ReferenceCopyLocalPaths)"
       AssemblyOriginatorKeyFile="$(AssemblyOriginatorKeyFile)">
 

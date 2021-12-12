@@ -18,7 +18,7 @@ public class AliasTask :
 
     [Required]
     public string IntermediateDirectory { get; set; } = null!;
-
+    public string? SolutionDir { get; set; }
     public string? AssemblyOriginatorKeyFile { get; set; }
     public string? Prefix { get; set; }
     public string? Suffix { get; set; }
@@ -68,8 +68,10 @@ public class AliasTask :
             assembliesToSkipRename = AssembliesToSkipRename.Select(x => x.ItemSpec).ToList();
         }
 
-        var assemblyCopyLocalPaths = ReferenceCopyLocalPaths
+        var referenceCopyLocalPaths = ReferenceCopyLocalPaths
             .Select(x => x.ItemSpec)
+            .ToList();
+        var assemblyCopyLocalPaths = referenceCopyLocalPaths
             .Where(x=>Path.GetExtension(x).ToLowerInvariant() ==".dll")
             .ToList();
         var references = ReferencePath.Select(x => x.ItemSpec)
@@ -139,7 +141,7 @@ Internalize: {Internalize}
 AssembliesToAlias:{separator}{string.Join(separator, assembliesToAlias.Select(Path.GetFileNameWithoutExtension))}
 AssembliesToTarget:{separator}{string.Join(separator, assembliesToTarget.Select(Path.GetFileNameWithoutExtension))}
 TargetInfos:{separator}{string.Join(separator, sourceTargetInfos.Select(x => $"{x.SourceName} => {x.TargetName}"))}
-ReferenceCopyLocalPaths:{separator}{string.Join(separator, ReferenceCopyLocalPaths.Select(x => $"{x.ItemSpec}"))}
+ReferenceCopyLocalPaths:{separator}{string.Join(separator, referenceCopyLocalPaths.Select(x=> SolutionDir != null ? x.Replace(SolutionDir, "{SolutionDir}") : x))}
 ";
         Log.LogMessageFromText(inputs, MessageImportance.High);
 

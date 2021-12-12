@@ -148,7 +148,7 @@ public class Tests
                 .ScrubLinesContaining(" -> ")
                 .ScrubLinesContaining("Build Engine version")
                 .ScrubLinesContaining("Time Elapsed")
-                .ScrubLinesWithReplace(s => s.Replace('/','\\'));
+                .ScrubLinesWithReplace(s => s.Replace('\\','/'));
         }
         finally
         {
