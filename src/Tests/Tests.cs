@@ -146,7 +146,9 @@ public class Tests
                         consoleError = runResult.StandardError
                     })
                 .ScrubLinesContaining(" -> ")
-                .ScrubLinesContaining("Time Elapsed");
+                .ScrubLinesContaining("Build Engine version")
+                .ScrubLinesContaining("Time Elapsed")
+                .ScrubLinesWithReplace(s => s.Replace('/','\\'));
         }
         finally
         {
