@@ -10,7 +10,6 @@
   <Target
     Name="AliasTarget"
     AfterTargets="AfterCompile"
-    DependsOnTargets="ResolveAliasAssemblies"
     Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true)" >
     <Alias.AliasTask
       IntermediateAssembly="@(IntermediateAssembly)"

@@ -134,10 +134,13 @@ public class AliasTask :
         }
 
         var separator = $"{Environment.NewLine}\t";
+        
+        var strongNameKeyPair = GetKey();
         var inputs = $@"
 Prefix: {Prefix}
 Suffix: {Suffix}
 Internalize: {Internalize}
+StringName: {strongNameKeyPair != null}
 AssembliesToAlias:{separator}{string.Join(separator, assembliesToAlias.Select(Path.GetFileNameWithoutExtension))}
 AssembliesToTarget:{separator}{string.Join(separator, assembliesToTarget.Select(Path.GetFileNameWithoutExtension))}
 TargetInfos:{separator}{string.Join(separator, sourceTargetInfos.Select(x => $"{x.SourceName} => {x.TargetName}"))}
@@ -145,7 +148,7 @@ ReferenceCopyLocalPaths:{separator}{string.Join(separator, referenceCopyLocalPat
 ";
         Log.LogMessageFromText(inputs, MessageImportance.High);
 
-        Aliaser.Run(references, sourceTargetInfos, Internalize, GetKey());
+        Aliaser.Run(references, sourceTargetInfos, Internalize, strongNameKeyPair);
         CopyLocalPathsToRemove = copyLocalPathsToRemove.ToArray();
         CopyLocalPathsToAdd = copyLocalPathsToAdd.ToArray();
     }

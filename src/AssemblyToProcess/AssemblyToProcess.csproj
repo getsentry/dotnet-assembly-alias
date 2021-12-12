@@ -17,11 +17,7 @@
     <ProjectReference Include="..\AssemblyWithResources\AssemblyWithResources.csproj" />
     <ProjectReference Include="..\AssemblyWithStrongName\AssemblyWithStrongName.csproj" />
     <ProjectReference Include="..\AssemblyToInclude\AssemblyToInclude.csproj" />
+    <Alias_AssembliesToSkipRename Include="AssemblyToInclude"/>
   </ItemGroup>
-  <Target Name="ResolveAliasAssemblies" DependsOnTargets="ResolveReferences">
-    <ItemGroup>
-      <Alias_AssembliesToSkipRename Include="AssemblyToInclude"/>
-    </ItemGroup>
-  </Target>
   <Import Condition="$(Configuration) == 'IncludeAliasTask'" Project="$(ProjectDir)..\Alias.MsBuild\build\Alias.MsBuild.targets" />
 </Project>
