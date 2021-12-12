@@ -140,7 +140,7 @@ public class AliasTask :
 Prefix: {Prefix}
 Suffix: {Suffix}
 Internalize: {Internalize}
-StringName: {strongNameKeyPair != null}
+StrongName: {strongNameKeyPair != null}
 AssembliesToAlias:{separator}{string.Join(separator, assembliesToAlias.Select(Path.GetFileNameWithoutExtension))}
 AssembliesToTarget:{separator}{string.Join(separator, assembliesToTarget.Select(Path.GetFileNameWithoutExtension))}
 TargetInfos:{separator}{string.Join(separator, sourceTargetInfos.Select(x => $"{x.SourceName} => {x.TargetName}"))}

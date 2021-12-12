@@ -11,7 +11,7 @@ public static class ClassToTest
         yield return AssemblyWithNoSymbolsClass.Method();
         yield return AssemblyWithPdbClass.Method();
         yield return AssemblyToIncludeClass.Method();
-        yield return typeof(JsonSerializer).FullName!;
+        yield return JsonConvert.ToString(@"a\b");
         //yield return AssemblyWithResourcesClass.Method();
     }
 }

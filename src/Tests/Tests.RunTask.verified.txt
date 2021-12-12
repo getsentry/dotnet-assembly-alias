@@ -6,7 +6,7 @@ Copyright (C) Microsoft Corporation. All rights reserved.
   Prefix: Prefix_
   Suffix: _Suffix
   Internalize: True
-  StringName: False
+  StrongName: False
   AssembliesToAlias:
   	Newtonsoft.Json
   	AssemblyWithEmbeddedSymbols
@@ -61,7 +61,8 @@ AssemblyWithNoStrongName
 AssemblyWithNoSymbols
 AssemblyWithPdb
 AssemblyToInclude
-Newtonsoft.Json.JsonSerializer
+"a//b"
+AssemblyToInclude
 ,
   consoleError: 
 }

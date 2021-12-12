@@ -2,3 +2,5 @@
 {
     Console.WriteLine(line);
 }
+
+Console.WriteLine(AssemblyToIncludeClass.Method());
