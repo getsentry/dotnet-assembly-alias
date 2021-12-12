@@ -38,7 +38,6 @@
       <ReferenceCopyLocalPaths Include="$(CopyLocalPathsToAdd)" />
     </ItemGroup>
     
-    <Message Text="Resulting ReferenceCopyLocalPaths"  Importance="medium"/>
-    <Message Text="@(ReferenceCopyLocalPaths,'%0a')"/>
+    <!--<Message Text="@(ReferenceCopyLocalPaths,'%0a')" Importance="high" />-->
   </Target>
 </Project>
