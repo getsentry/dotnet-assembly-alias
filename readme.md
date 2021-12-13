@@ -7,16 +7,68 @@
 
 Rename assemblies and fixes references. Designed as an alternative to [Costura](https://github.com/Fody/Costura), [ILMerge](https://github.com/dotnet/ILMerge), and [ILRepack](https://github.com/gluck/il-repack).
 
-Designed to mitigate scenarios where an assembly is run in a plugin scenario. For example Unity extensions, MSBuild tasks, or SharePoint extensions.
-In these scenarios an assembly, and all its references, are loaded into a shared AppDomain. So dependencies operate as "first on wins".
-So, for example, if two addins assemblies use different versions of Newtonsoft, the first addin that is loaded defines what version of Newtonsoft is used by all subsequent addins assemblies.
+Designed to mitigate scenarios where an assembly is run in a plugin scenario. For example Unity extensions, MSBuild tasks, or SharePoint extensions. In these scenarios an assembly, and all its references, are loaded into a shared AppDomain. So dependencies operate as "first on wins". So, for example, if two addins assemblies use different versions of Newtonsoft, the first addin that is loaded defines what version of Newtonsoft is used by all subsequent addins assemblies.
 
-This tool works around this problem by renaming references and preventing name conflicts.
+This project works around this problem by renaming references and preventing name conflicts.
+
+
+## MsBuild task
+
+https://www.nuget.org/packages/Alias.MsBuild/
+
+
+### Usage
+
+Install the NuGet and enable CopyLocalLockFileAssemblies (`<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>`).
+
+
+### Options
+
+Defined a properties in a `<PropertyGroup>` in the target project.
+
+
+#### Internalize
+
+`<Alias_Internalize>true</Alias_Internalize>`
+
+Optional. To internalize all types in the aliased assemblies. Defaults to false.
+
+
+#### Prefix/Suffix
+
+Either a prefix or suffix must be defined.
+
+
+##### Prefix
+
+`<Alias_Prefix>Prefix_</Alias_Prefix>`
+
+The prefix to use when renaming assemblies.
+
+
+##### Suffix
+
+`<Alias_Suffix>_Suffix</Alias_Suffix>`
+
+The suffix to use when renaming assemblies.
+
+
+##### AssembliesToSkipRename
+
+```
+<ItemGroup>
+  <Alias_AssembliesToSkipRename Include="AssemblyToSkip"/>
+</ItemGroup>
+```
+
+Used to exclude assemblies from being aliased.
+
+
+## dotnet tool
+
+https://www.nuget.org/packages/Alias/
 
 **[.net 5](https://dotnet.microsoft.com/download/dotnet/5.0) or [.net 6](https://dotnet.microsoft.com/download/dotnet/6.0) is required to run this tool.**
-
-
-## What it does
 
 For a given directory and a subset of assemblies:
 
@@ -25,7 +77,7 @@ For a given directory and a subset of assemblies:
  * For all assemblies, fixes the references to point to the new alias assemblies.
 
 
-## Installation
+### Installation
 
 Ensure [dotnet CLI is installed](https://docs.microsoft.com/en-us/dotnet/core/tools/).
 
@@ -36,7 +88,7 @@ dotnet tool install --global Alias
 ```
 
 
-## Usage
+### Usage
 
 ```ps
 assemblyalias --target-directory "C:/Code/TargetDirectory"
@@ -45,80 +97,80 @@ assemblyalias --target-directory "C:/Code/TargetDirectory"
 ```
 
 
-## Arguments
+### Arguments
 
 
-### Target Directory
+#### Target Directory
 
 `-t` or `--target-directory`
 
 Optional. If no directory is passed the current directory will be used.
 
 
-### Internalize
+#### Internalize
 
 `-i` or `--internalize`
 
 Optional. To internalize all types in the aliased assemblies. Defaults to false.
 
 
-### Prefix/Suffix
+#### Prefix/Suffix
 
 Either a prefix or suffix must be defined.
 
 
-#### Prefix
+##### Prefix
 
 `-p` or `--prefix`
 
 The prefix to use when renaming assemblies.
 
 
-#### Suffix
+##### Suffix
 
 `-s` or `--suffix`
 
 The suffix to use when renaming assemblies.
 
 
-### Assemblies to alias
+#### Assemblies to alias
 
 `-a` or `--assemblies-to-alias`
 
 Required. A semi-colon separated list of assembly names to alias. Names ending in `*` are treated as wildcards.
 
 
-### Assemblies to exclude
+#### Assemblies to exclude
 
 `-e` or `--assemblies-to-exclude`
 
 Optional. A semi-colon separated list of assembly names to exclude.
 
 
-### Key
+#### Key
 
 `-k` or `--key`
 
-Path to an snk file. 
+Path to an snk file.
 
 Optional. If no key is passed, strong naming will be removed from all assemblies.
 
 
-### References
+#### References
 
 `-r` or `--references`
 
 Optional. A semi-colon separated list of paths to reference files.
 
 
-### Reference File
+#### Reference File
 
 `--reference-file`
 
 Optional. A path to a file containing references file paths. On file path per line.
 
 
-#### Default Reference File
+##### Default Reference File
 
 By default the target directory will be scanned for a reference file named `alias-references.txt`
 
