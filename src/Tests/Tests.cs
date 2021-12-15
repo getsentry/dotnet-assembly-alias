@@ -86,7 +86,7 @@ public class Tests
     {
         var results = Run(copyPdbs, sign, internalize);
 
-        return Verifier.Verify(results)
+        return Verify(results)
             .UseParameters(copyPdbs, sign, internalize);
     }
 
@@ -138,7 +138,7 @@ public class Tests
                 .WithArguments(appPath)
                 .ExecuteBufferedAsync();
 
-            await Verifier.Verify(
+            await Verify(
                     new
                     {
                         buildOutput = buildResult.StandardOutput,
@@ -188,7 +188,7 @@ public class Tests
 
         var result = await Cli.Wrap(exePath).ExecuteBufferedAsync();
 
-        await Verifier.Verify(new {result.StandardOutput, result.StandardError});
+        await Verify(new {result.StandardOutput, result.StandardError});
     }
 
 #endif
