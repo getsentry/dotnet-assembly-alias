@@ -149,6 +149,12 @@ public class Tests
                 .ScrubLinesContaining("Build Engine version")
                 .ScrubLinesContaining("Time Elapsed")
                 .ScrubLinesWithReplace(s => s.Replace('\\','/'));
+            using (var moduleDefinition = ModuleDefinition.ReadModule(appPath))
+            {
+                var references = moduleDefinition.AssemblyReferences.Select(x=>x.Name);
+                //AssemblyWithStrongName should have been aliased
+                Assert.DoesNotContain("AssemblyWithStrongName", references);
+            }
         }
         finally
         {

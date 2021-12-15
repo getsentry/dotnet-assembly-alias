@@ -46,10 +46,10 @@
       <ReferencePath Include="$(ReferencePathToAdd)" />
     </ItemGroup>
     
-    <Message Text="ReferenceCopyLocalPaths" Importance="high" />
+    <!--<Message Text="ReferenceCopyLocalPaths" Importance="high" />
     <Message Text="@(ReferenceCopyLocalPaths,'%0a')" Importance="high" />
     <Message Text="ReferencePath" Importance="high" />
-    <Message Text="@(ReferencePath,'%0a')" Importance="high" />
+    <Message Text="@(ReferencePath,'%0a')" Importance="high" />-->
   </Target>
 
   <PropertyGroup>
