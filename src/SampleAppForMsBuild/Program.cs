@@ -4,3 +4,4 @@
 }
 
 Console.WriteLine(AssemblyToIncludeClass.Method());
+Console.WriteLine(AssemblyWithStrongNameClass.Method());

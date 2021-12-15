@@ -9,13 +9,13 @@
     AssemblyFile="$(AliasAssembly)" />
   <Target
     Name="AliasTarget"
-    AfterTargets="AfterCompile"
-    Condition="Exists(@(IntermediateAssembly)) And ($(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true)" >
+    AfterTargets="AfterResolveReferences"
+    Condition="$(DesignTimeBuild) != true Or $(BuildingForLiveUnitTesting) == true" >
     <Alias.AliasTask
-      IntermediateAssembly="@(IntermediateAssembly)"
       IntermediateDirectory="$(ProjectDir)$(IntermediateOutputPath)"
       ReferencePath="@(ReferencePath)"
       SignAssembly="$(SignAssembly)"
+      AssemblyName="$(AssemblyName)"
       Internalize="$(Alias_Internalize)"
       AssembliesToSkipRename="@(Alias_AssembliesToSkipRename)"
       Suffix="$(Alias_Suffix)"
@@ -30,14 +30,29 @@
       <Output
         TaskParameter="CopyLocalPathsToRemove"
         PropertyName="CopyLocalPathsToRemove" />
+      <Output
+        TaskParameter="ReferencePathToAdd"
+        PropertyName="ReferencePathToAdd" />
+      <Output
+        TaskParameter="ReferencePathToRemove"
+        PropertyName="ReferencePathToRemove" />
 
     </Alias.AliasTask>
     
     <ItemGroup>
       <ReferenceCopyLocalPaths Remove="$(CopyLocalPathsToRemove)" />
       <ReferenceCopyLocalPaths Include="$(CopyLocalPathsToAdd)" />
+      <ReferencePath Remove="$(ReferencePathToRemove)" />
+      <ReferencePath Include="$(ReferencePathToAdd)" />
     </ItemGroup>
     
-    <!--<Message Text="@(ReferenceCopyLocalPaths,'%0a')" Importance="high" />-->
+    <Message Text="ReferenceCopyLocalPaths" Importance="high" />
+    <Message Text="@(ReferenceCopyLocalPaths,'%0a')" Importance="high" />
+    <Message Text="ReferencePath" Importance="high" />
+    <Message Text="@(ReferencePath,'%0a')" Importance="high" />
   </Target>
+
+  <PropertyGroup>
+    <ResolveReferencesDependsOn>$(ResolveReferencesDependsOn);AliasTarget</ResolveReferencesDependsOn>
+  </PropertyGroup>
 </Project>

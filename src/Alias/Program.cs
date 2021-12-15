@@ -46,7 +46,7 @@ public static class Program
 
         var keyPair = GetKeyPair(keyFile);
 
-        Aliaser.Run(references, assemblyInfos, internalize, keyPair);
+        Aliaser.Run(references, assemblyInfos, internalize, keyPair, Enumerable.Empty<string>());
 
         foreach (var assembly in assemblyInfos.Where(_ => _.isAlias))
         {

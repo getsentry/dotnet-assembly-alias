@@ -14,7 +14,7 @@ public class AliasTask :
     public ITaskItem[] ReferenceCopyLocalPaths { get; set; } = null!;
 
     [Required]
-    public string IntermediateAssembly { get; set; } = null!;
+    public string AssemblyName { get; set; } = null!;
 
     [Required]
     public string IntermediateDirectory { get; set; } = null!;
@@ -36,6 +36,11 @@ public class AliasTask :
 
     [Output]
     public ITaskItem[] CopyLocalPathsToAdd { get; set; } = null!;
+    [Output]
+    public ITaskItem[] ReferencePathToRemove { get; set; } = null!;
+
+    [Output]
+    public ITaskItem[] ReferencePathToAdd { get; set; } = null!;
 
     public override bool Execute()
     {
@@ -72,25 +77,25 @@ public class AliasTask :
             .Select(x => x.ItemSpec)
             .ToList();
         var assemblyCopyLocalPaths = referenceCopyLocalPaths
-            .Where(x=>Path.GetExtension(x).ToLowerInvariant() ==".dll")
+            .Where(x => Path.GetExtension(x).ToLowerInvariant() == ".dll")
             .ToList();
         var references = ReferencePath.Select(x => x.ItemSpec)
             .Where(x => !assemblyCopyLocalPaths.Contains(x))
             .ToList();
 
-        var assembliesToAlias= assemblyCopyLocalPaths
+        var assembliesToAlias = assemblyCopyLocalPaths
             .Where(x => !assembliesToSkipRename.Contains(Path.GetFileNameWithoutExtension(x)))
             .ToList();
-        
+
         var assembliesToTarget = assemblyCopyLocalPaths
             .Where(x => assembliesToSkipRename.Contains(Path.GetFileNameWithoutExtension(x)))
             .ToList();
 
-        assembliesToTarget.Insert(0, IntermediateAssembly);
-
         var sourceTargetInfos = new List<SourceTargetInfo>();
         var copyLocalPathsToRemove = new List<ITaskItem>();
         var copyLocalPathsToAdd = new List<ITaskItem>();
+        var referencePathsToRemove = new List<ITaskItem>();
+        var referencePathsToAdd = new List<ITaskItem>();
 
         void ProcessCopyLocal(string sourcePath, string targetPath)
         {
@@ -98,6 +103,13 @@ public class AliasTask :
             if (copyLocalToRemove != null)
             {
                 copyLocalPathsToRemove.Add(copyLocalToRemove);
+            }
+
+
+            var referencePathToRemove = ReferencePath.SingleOrDefault(x => x.ItemSpec == sourcePath);
+            if (referencePathToRemove != null)
+            {
+                referencePathsToRemove.Add(referencePathToRemove);
             }
 
             var pdbToRemove = Path.ChangeExtension(sourcePath, "pdb");
@@ -108,6 +120,7 @@ public class AliasTask :
             }
 
             copyLocalPathsToAdd.Add(new TaskItem(targetPath));
+            referencePathsToAdd.Add(new TaskItem(targetPath));
 
             var pdbToAdd = Path.ChangeExtension(targetPath, "pdb");
             if (File.Exists(pdbToAdd))
@@ -134,7 +147,7 @@ public class AliasTask :
         }
 
         var separator = $"{Environment.NewLine}\t";
-        
+
         var strongNameKeyPair = GetKey();
         var inputs = $@"
 Prefix: {Prefix}
@@ -144,13 +157,15 @@ StrongName: {strongNameKeyPair != null}
 AssembliesToAlias:{separator}{string.Join(separator, assembliesToAlias.Select(Path.GetFileNameWithoutExtension))}
 AssembliesToTarget:{separator}{string.Join(separator, assembliesToTarget.Select(Path.GetFileNameWithoutExtension))}
 TargetInfos:{separator}{string.Join(separator, sourceTargetInfos.Select(x => $"{x.SourceName} => {x.TargetName}"))}
-ReferenceCopyLocalPaths:{separator}{string.Join(separator, referenceCopyLocalPaths.Select(x=> SolutionDir != null ? x.Replace(SolutionDir, "{SolutionDir}") : x))}
+ReferenceCopyLocalPaths:{separator}{string.Join(separator, referenceCopyLocalPaths.Select(x => SolutionDir != null ? x.Replace(SolutionDir, "{SolutionDir}") : x))}
 ";
         Log.LogMessageFromText(inputs, MessageImportance.High);
 
-        Aliaser.Run(references, sourceTargetInfos, Internalize, strongNameKeyPair);
+        Aliaser.Run(references, sourceTargetInfos, Internalize, strongNameKeyPair, new[] {AssemblyName});
         CopyLocalPathsToRemove = copyLocalPathsToRemove.ToArray();
         CopyLocalPathsToAdd = copyLocalPathsToAdd.ToArray();
+        ReferencePathToRemove = referencePathsToRemove.ToArray();
+        ReferencePathToAdd = referencePathsToAdd.ToArray();
     }
 
     StrongNameKeyPair? GetKey()

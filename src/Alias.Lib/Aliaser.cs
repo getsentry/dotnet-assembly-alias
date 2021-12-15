@@ -8,13 +8,14 @@ public static class Aliaser
         IEnumerable<string> references,
         IEnumerable<SourceTargetInfo> infos,
         bool internalize,
-        StrongNameKeyPair? key)
+        StrongNameKeyPair? key,
+        IEnumerable<string> internalsVisibleNames)
     {
         var infoList = infos.ToList();
         using var resolver = new AssemblyResolver(references);
         var assembliesToCleanup = new List<ModuleDefinition>();
         var writes = new List<Action>();
-
+        var internalsVisibleNamesList = internalsVisibleNames.ToList();
         foreach (var info in infoList)
         {
             var (module, hasSymbols) = ModuleReaderWriter.Read(info.SourcePath, resolver);
@@ -22,7 +23,7 @@ public static class Aliaser
             module.SeyKey(key);
             if (info.isAlias && internalize)
             {
-                AddVisibleTo(module, resolver, infoList, key);
+                AddVisibleTo(module, resolver, infoList, key, internalsVisibleNamesList);
                 module.MakeTypesInternal();
             }
 
@@ -59,32 +60,43 @@ public static class Aliaser
         }
     }
 
-    static void AddVisibleTo(ModuleDefinition module, AssemblyResolver resolver, List<SourceTargetInfo> assemblyInfos, StrongNameKeyPair? key)
+    static void AddVisibleTo(ModuleDefinition module, AssemblyResolver resolver, List<SourceTargetInfo> assemblyInfos, StrongNameKeyPair? key, IEnumerable<string> internalsVisibleNames)
     {
         var constructorImported = module.ImportReference(resolver.VisibleToConstructor);
 
         var assembly = module.Assembly;
 
-        foreach (var info in assemblyInfos)
+        void AddAttribute(AssemblyDefinition assembly, string name)
         {
-            if (assembly.Name.Name == info.TargetName)
-            {
-                continue;
-            }
-
             var attribute = new CustomAttribute(constructorImported);
             string value;
             if (key == null)
             {
-                value = info.TargetName;
+                value = name;
             }
             else
             {
-                value = $"{info.TargetName}, PublicKey={key.PublicKeyString()}";
+                value = $"{name}, PublicKey={key.PublicKeyString()}";
             }
 
             attribute.ConstructorArguments.Add(new CustomAttributeArgument(module.TypeSystem.String, value));
             assembly.CustomAttributes.Add(attribute);
+        }
+
+        foreach (var internalsVisibleName in internalsVisibleNames)
+        {
+            AddAttribute(assembly, internalsVisibleName);
+        }
+
+        foreach (var info in assemblyInfos)
+        {
+            var name = info.TargetName;
+            if (assembly.Name.Name == name)
+            {
+                continue;
+            }
+
+            AddAttribute(assembly, name);
         }
     }
 }
