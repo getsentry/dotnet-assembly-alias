@@ -136,6 +136,7 @@ public class Tests
             var appPath = Path.Combine(solutionDir, "SampleAppForMsBuild/bin/IncludeAliasTask/SampleAppForMsBuild.dll");
             var runResult = await Cli.Wrap("dotnet")
                 .WithArguments(appPath)
+                .WithValidation(CommandResultValidation.None)
                 .ExecuteBufferedAsync();
 
             await Verify(
