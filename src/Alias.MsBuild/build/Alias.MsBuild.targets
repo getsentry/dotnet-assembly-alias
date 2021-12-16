@@ -40,10 +40,10 @@
     </Alias.AliasTask>
     
     <ItemGroup>
-      <ReferenceCopyLocalPaths Remove="$(CopyLocalPathsToRemove)" />
-      <ReferenceCopyLocalPaths Include="$(CopyLocalPathsToAdd)" />
-      <ReferencePath Remove="$(ReferencePathToRemove)" />
-      <ReferencePath Include="$(ReferencePathToAdd)" />
+      <ReferenceCopyLocalPaths Remove="@(CopyLocalPathsToRemove)" />
+      <ReferenceCopyLocalPaths Include="@(CopyLocalPathsToAdd)" />
+      <ReferencePath Remove="@(ReferencePathToRemove)" />
+      <ReferencePath Include="@(ReferencePathToAdd)" />
     </ItemGroup>
     
     <!--<Message Text="ReferenceCopyLocalPaths" Importance="high" />
