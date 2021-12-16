@@ -26,16 +26,16 @@
 
       <Output
         TaskParameter="CopyLocalPathsToAdd"
-        PropertyName="CopyLocalPathsToAdd" />
+        ItemName="CopyLocalPathsToAdd" />
       <Output
         TaskParameter="CopyLocalPathsToRemove"
-        PropertyName="CopyLocalPathsToRemove" />
+        ItemName="CopyLocalPathsToRemove" />
       <Output
         TaskParameter="ReferencePathToAdd"
-        PropertyName="ReferencePathToAdd" />
+        ItemName="ReferencePathToAdd" />
       <Output
         TaskParameter="ReferencePathToRemove"
-        PropertyName="ReferencePathToRemove" />
+        ItemName="ReferencePathToRemove" />
 
     </Alias.AliasTask>
     
