@@ -32,12 +32,12 @@
         ItemName="CopyLocalPathsToRemove" />
 
     </Alias.AliasTask>
-    
+
     <ItemGroup>
       <ReferenceCopyLocalPaths Remove="@(CopyLocalPathsToRemove)" />
       <ReferenceCopyLocalPaths Include="@(CopyLocalPathsToAdd)" />
     </ItemGroup>
-    
+
     <!--<Message Text="@(ReferenceCopyLocalPaths,'%0a')" Importance="high" />-->
   </Target>
 </Project>
