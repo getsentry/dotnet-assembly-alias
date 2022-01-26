@@ -3,65 +3,12 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/s3agb6fiax7pgwls/branch/master?svg=true)](https://ci.appveyor.com/project/SimonCropp/dotnet-assembly-alias)
 [![NuGet Status](https://img.shields.io/nuget/v/Alias.svg?label=Alias%20nuget)](https://www.nuget.org/packages/Alias/)
 [![NuGet Status](https://img.shields.io/nuget/v/Alias.Lib.svg?label=Alias.Lib%20nuget)](https://www.nuget.org/packages/Alias.Lib/)
-[![NuGet Status](https://img.shields.io/nuget/v/Alias.MsBuild.svg?label=Alias.MsBuild%20nuget)](https://www.nuget.org/packages/Alias.MsBuild/)
 
 Rename assemblies and fixes references. Designed as an alternative to [Costura](https://github.com/Fody/Costura), [ILMerge](https://github.com/dotnet/ILMerge), and [ILRepack](https://github.com/gluck/il-repack).
 
 Designed to mitigate scenarios where an assembly is run in a plugin scenario. For example Unity extensions, MSBuild tasks, or SharePoint extensions. In these scenarios an assembly, and all its references, are loaded into a shared AppDomain. So dependencies operate as "first on wins". So, for example, if two addins assemblies use different versions of Newtonsoft, the first addin that is loaded defines what version of Newtonsoft is used by all subsequent addins assemblies.
 
 This project works around this problem by renaming references and preventing name conflicts.
-
-
-## MsBuild task
-
-https://www.nuget.org/packages/Alias.MsBuild/
-
-
-### Usage
-
-Install the NuGet and enable CopyLocalLockFileAssemblies (`<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>`).
-
-
-### Options
-
-Defined a properties in a `<PropertyGroup>` in the target project.
-
-
-#### Internalize
-
-`<Alias_Internalize>true</Alias_Internalize>`
-
-Optional. To internalize all types in the aliased assemblies. Defaults to false.
-
-
-#### Prefix/Suffix
-
-Either a prefix or suffix must be defined.
-
-
-##### Prefix
-
-`<Alias_Prefix>Prefix_</Alias_Prefix>`
-
-The prefix to use when renaming assemblies.
-
-
-##### Suffix
-
-`<Alias_Suffix>_Suffix</Alias_Suffix>`
-
-The suffix to use when renaming assemblies.
-
-
-##### AssembliesToSkipRename
-
-```
-<ItemGroup>
-  <Alias_AssembliesToSkipRename Include="AssemblyToSkip"/>
-</ItemGroup>
-```
-
-Used to exclude assemblies from being aliased.
 
 
 ## dotnet tool
