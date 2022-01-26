@@ -1,4 +1,4 @@
-public class ModuleReaderTests 
+public class ModuleReaderTests
 {
     [Fact]
     public void WithSymbols()

@@ -16,7 +16,7 @@ public class Options
 
     [Option('r', "references", Separator = ';')]
     public IEnumerable<string> References { get; set; } = null!;
-    
+
     [Option("reference-file", Required = false)]
     public string? ReferenceFile { get; set; }
 
