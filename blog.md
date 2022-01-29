@@ -51,14 +51,15 @@ Alias is shipped as a [dotnet CLI tool](https://docs.microsoft.com/en-us/dotnet/
 dotnet tool install --global Alias
 ```
 
-
-### Usage
+Alias can then be used from the command line:
 
 ```ps
 assemblyalias --target-directory "C:/Code/TargetDirectory"
               --suffix _Alias
-              --assemblies-to-alias "Microsoft*;System*;EmptyFiles"
+              --assemblies-to-alias "Newtonsoft.Json.dll;Serilog*"
 ```
+
+The `--suffix` should be a value that is unique enough to prevent conflicts. A good candidate is the name of the plugin.
 
 
 ## Path forward
