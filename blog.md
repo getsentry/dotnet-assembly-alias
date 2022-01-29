@@ -1,4 +1,4 @@
-Many .net applications and frameworks support a [plugin based model](https://en.wikipedia.org/wiki/Plug-in_(computing)). Also known as addin or extension model. A plugin model allows extension or customization of functionality by adding assemblies and config files to a directory that is scanned at app startup. For example
+Many .net applications and frameworks support a [plugin based model](https://en.wikipedia.org/wiki/Plug-in_(computing)). Also known as "add-in" or "extension" model. A plugin model allows extension or customization of functionality by adding assemblies and config files to a directory that is scanned at application startup. For example:
 
  * [MsBuild tasks](https://docs.microsoft.com/en-us/visualstudio/msbuild/task-writing)
  * [Visual Studio extensions](https://docs.microsoft.com/en-us/visualstudio/extensibility/starting-to-develop-visual-studio-extensions)
@@ -8,9 +8,7 @@ Many .net applications and frameworks support a [plugin based model](https://en.
 
 ## The problem
 
-Most plugin based model load all assemblies into the same single AppDomain. A single AppDomain is the common approach as it has better memory usage and startup performance. The history and rules of assembly loading in .net is convoluted, with the current status being that it is difficult (and sometime impossible) to load multiple different versions of the same assembly into a single AppDomain. For example it is not possible to load both versions 12.0.2 and 12.0.3 of Newtonsoft.Json.dll into the same AppDomain. In a plugin environment, the resulting behavior is that, based on the load order of plugins, the reference used in the first loaded plugin is then used by every subsequent plugin. So if a pluign relies on a later version of a refernece than the on initially loaded, that plugin will fail at either load time or runtime. This problem is commonly referred to a [Diamond Dependency conflict](https://jlbp.dev/what-is-a-diamond-dependency-conflict).
-
-diamond-dependency-conflict
+Most plugin based models load all assemblies into a single AppDomain. A single AppDomain is the common approach as it has better memory usage and startup performance. The history and rules of assembly loading in .net is convoluted, with the current status being that it is difficult (and sometime impossible) to load multiple different versions of the same assembly into a single AppDomain. For example it is not possible to load both versions 12.0.2 and 12.0.3 of Newtonsoft.Json.dll into the same AppDomain. In a plugin environment, the resulting behavior is, based on the load order of plugins, the reference used in the first loaded plugin is then used by every subsequent plugin. So if a plugin relies on a later version of a reference than the on initially loaded, that plugin will fail at either load time or runtime. This problem is commonly referred to a [Diamond Dependency conflict](https://jlbp.dev/what-is-a-diamond-dependency-conflict).
 
 
 ## Other options considered and ruled out
@@ -59,10 +57,4 @@ assemblyalias --target-directory "C:/Code/TargetDirectory"
               --assemblies-to-alias "Newtonsoft.Json.dll;Serilog*"
 ```
 
-The `--suffix` should be a value that is unique enough to prevent conflicts. A good candidate is the name of the plugin.
-
-
-## Path forward
-
- * MsBuild integration
-
+The `--suffix` should be a value that is unique enough to prevent conflicts. A good candidate is the name of the plugin or some derivative thereof.
