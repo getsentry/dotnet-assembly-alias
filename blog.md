@@ -33,10 +33,10 @@ With the other existing options exhausted, it was decided to build a new tool.
 Alias performs the following steps:
 
  * Given a directory containing the target assembly and dependencies files.
- * Rename all the dependencies with a unique key. The rename applies to both the file name as in assembly name in IL.
+ * Rename all the dependencies with a unique key. The rename applies to both the file name and the assembly name in IL.
  * Patch the corresponding references in the target assembly and dependencies.
 
-This results in a group of files that will no conflict with any assemblies loaded in the plugin AppDomain.
+This results in a group of files that will not conflict with any assemblies loaded in the plugin AppDomain.
 
 One point of interest is that the result is not a single file, the approach used by ILRepack, ILMerge, and Costura. The reason for this is that for the reviewed plugin scenarios, all supported a plugin being deployed to its own directory as a group of files. So "single file" was not a problem that needed to be solved.
 
