@@ -21,7 +21,7 @@ Costura merges dependencies into a target assembly as resources. Custom assembly
 
 ### [ILMerge](https://github.com/dotnet/ILMerge) / [ILRepack](https://github.com/gluck/il-repack)
 
-ILMerge and ILRepack work by copying the IL from dependencies into the target assembly. So the resulting assembly has duplicates of all the types from all the dependencies and no longer references those dependencies. This approach does resolve the Diamond Dependency problem, however both these project are not currently being actively maintainer. For example both a known bugs related to .net core and portable symbols.
+ILMerge and ILRepack work by copying the IL from dependencies into the target assembly. So the resulting assembly has duplicates of all the types from all the dependencies and no longer references those dependencies. This approach does resolve the Diamond Dependency problem, however, both these projects are not currently being actively maintained. For example, both have known bugs related to .net core and portable symbols.
 
 
 ## The solution
