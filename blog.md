@@ -8,7 +8,7 @@ Many .net applications and frameworks support a [plugin based model](https://en.
 
 ## The problem
 
-Most plugin based models load all assemblies into a single AppDomain. A single AppDomain is the common approach as it has better memory usage and startup performance. The history and rules of assembly loading in .NET is convoluted, with the current status being that it is difficult (and sometime impossible) to load multiple different versions of the same assembly into a single AppDomain. For example it is not possible to load both versions 12.0.2 and 12.0.3 of Newtonsoft.Json.dll into the same AppDomain. In a plugin environment, the resulting behavior is, based on the load order of plugins, the reference used in the first loaded plugin is then used by every subsequent plugin. So if a plugin relies on a later version of a reference than the on initially loaded, that plugin will fail at either load time or runtime. This problem is commonly referred to a [Diamond Dependency conflict](https://jlbp.dev/what-is-a-diamond-dependency-conflict).
+Most plugin based models load all assemblies into a single shared context. This is the common approach as it has better memory usage and startup performance. The history and rules of assembly loading in .NET is convoluted, with the current status being that it is difficult (and sometime impossible) to load multiple different versions of the same assembly into a shared context. For example it is not possible to load both versions 12.0.2 and 12.0.3 of Newtonsoft.Json.dll into the same context. In a plugin environment, the resulting behavior is, based on the load order of plugins, the reference used in the first loaded plugin is then used by every subsequent plugin. So if a plugin relies on a later version of a reference than the on initially loaded, that plugin will fail at either load time or runtime. This problem is commonly referred to a [Diamond Dependency conflict](https://jlbp.dev/what-is-a-diamond-dependency-conflict).
 
 
 ## Other options considered and ruled out
@@ -36,7 +36,7 @@ Alias performs the following steps:
  * Rename all the dependencies with a unique key. The rename applies to both the file name and the assembly name in IL.
  * Patch the corresponding references in the target assembly and dependencies.
 
-This results in a group of files that will not conflict with any assemblies loaded in the plugin AppDomain.
+This results in a group of files that will not conflict with any assemblies loaded in the plugin context.
 
 One point of interest is that the result is not a single file, the approach used by ILRepack, ILMerge, and Costura. The reason for this is that for the reviewed plugin scenarios, all supported a plugin being deployed to its own directory as a group of files. So "single file" was not a problem that needed to be solved.
 
