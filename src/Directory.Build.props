@@ -10,7 +10,7 @@
     <NoWarn>CS1591</NoWarn>
     <Copyright>Copyright $([System.DateTime]::UtcNow.ToString(yyyy)). All rights reserved</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <ContinuousIntegrationBuild Condition="$(APPVEYOR) == true">true</ContinuousIntegrationBuild>
+    <ContinuousIntegrationBuild Condition="$(CI) == true">true</ContinuousIntegrationBuild>
     <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/getsentry/dotnet-assembly-alias</PackageProjectUrl>
     <ImplicitUsings>enable</ImplicitUsings>
