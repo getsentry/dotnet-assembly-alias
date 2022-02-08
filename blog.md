@@ -1,4 +1,4 @@
-Many .net applications and frameworks support a [plugin based model](https://en.wikipedia.org/wiki/Plug-in_(computing)). Also known as "add-in" or "extension" model. A plugin model allows extension or customization of functionality by adding assemblies and config files to a directory that is scanned at application startup. For example:
+Many .NET applications and frameworks support a [plugin based model](https://en.wikipedia.org/wiki/Plug-in_(computing)). Also known as "add-in" or "extension" model. A plugin model allows extension or customization of functionality by adding assemblies and config files to a directory that is scanned at application startup. For example:
 
  * [MsBuild tasks](https://docs.microsoft.com/en-us/visualstudio/msbuild/task-writing)
  * [Visual Studio extensions](https://docs.microsoft.com/en-us/visualstudio/extensibility/starting-to-develop-visual-studio-extensions)
@@ -8,10 +8,12 @@ Many .net applications and frameworks support a [plugin based model](https://en.
 
 ## The problem
 
-Most plugin based models load all assemblies into a single shared context. This is the common approach as it has better memory usage and startup performance. The history and rules of assembly loading in .NET is convoluted, with the current status being that it is difficult (and sometime impossible) to load multiple different versions of the same assembly into a shared context. For example it is not possible to load both versions 12.0.2 and 12.0.3 of Newtonsoft.Json.dll into the same context. In a plugin environment, the resulting behavior is, based on the load order of plugins, the reference used in the first loaded plugin is then used by every subsequent plugin. So if a plugin relies on a later version of a reference than the on initially loaded, that plugin will fail at either load time or runtime. This problem is commonly referred to a [Diamond Dependency conflict](https://jlbp.dev/what-is-a-diamond-dependency-conflict).
+Most plugin based models load all assemblies into a single shared context. This is the common approach as it has better memory usage and startup performance. The history and rules of assembly loading in .NET is convoluted, with the current status being that it is difficult (and sometimes impossible) to load multiple different versions of the same assembly into a shared context. For example, it is not possible to load both versions 12.0.2 and 12.0.3 of `Newtonsoft.Json.dll` into the same context. In a plugin environment, the resulting behavior is often based on the load order of plugins. The reference used in the first loaded plugin is then used by every subsequent plugin. So if a plugin relies on a later version of a reference than the on initially loaded, that plugin will fail at either load time or runtime. This problem is commonly referred to a [Diamond Dependency conflict](https://jlbp.dev/what-is-a-diamond-dependency-conflict).
+
+More specifically in the Unity world, UPM (Unity Package Manager) packages can include one or more DLLs that can cause such conflicts when used together. Since Unity added support o .NET Standard 2.0, different package developer (include Unity themselves), started bundling some `System` DLLs such as `System.Runtime.CompilerServices.dll`, `System.Memory.dll` and `System.Buffers.dll`. From the release of .NET version 5.0, a lot of these DLLs have since become part of the standard library, that means there's no need to bring them in via NuGet or bundled in a UPM package. The Sentry SDK for .NET, is already dependency-free when targeting .NET 5 or higher. In the case of Unity, even though there's work towards supporting .NET 6, we required a solution to unblock a growing number of users hitting issues with more than one package bundling these DLLs.
 
 
-## Other options considered and ruled out
+## Options we considered and ruled out
 
 
 ### [Costura](https://github.com/Fody/Costura)
@@ -21,14 +23,14 @@ Costura merges dependencies into a target assembly as resources. Custom assembly
 
 ### [ILMerge](https://github.com/dotnet/ILMerge) / [ILRepack](https://github.com/gluck/il-repack)
 
-ILMerge and ILRepack work by copying the IL from dependencies into the target assembly. So the resulting assembly has duplicates of all the types from all the dependencies and no longer references those dependencies. This approach does resolve the Diamond Dependency problem, however, both these projects are not currently being actively maintained. For example, both have known bugs related to .net core and portable symbols.
+ILMerge and ILRepack work by copying the IL from dependencies into the target assembly. So the resulting assembly has duplicates of all the types from all the dependencies and no longer references those dependencies. This approach does resolve the Diamond Dependency problem, however, both these projects are not currently being actively maintained. For example, both have known bugs related to .NET core and portable symbols.
 
 
 ## The solution
 
 With the other existing options exhausted, it was decided to build a new tool.
 
-[Alias](https://github.com/getsentry/dotnet-assembly-alias/edit/main/readme.md)
+[Alias](https://github.com/getsentry/dotnet-assembly-alias/)
 
 Alias performs the following steps:
 
@@ -40,9 +42,12 @@ This results in a group of files that will not conflict with any assemblies load
 
 One point of interest is that the result is not a single file, the approach used by ILRepack, ILMerge, and Costura. The reason for this is that for the reviewed plugin scenarios, all supported a plugin being deployed to its own directory as a group of files. So "single file" was not a problem that needed to be solved.
 
+This allowed the Sentry UPM package to include 'its own version' of the shim DLLs needed in order to work in a .NET Standard 2.0 target. IL2CPP's linker still takes care of dropping any unused code in the final application. Given Sentry's commitment to support Unity's LTS version from 2019.4 onwards, we expect to rely on this solution for a few years. Until the lowest supported Unity version allows us to include only `Sentry.dll` without any transient dependencies.
+
 
 ## How to use
 
+You can use Alias to resolve conflicts in your UPM packages too. Like the [Sentry SDK for Unity](https://github.com/getsentry/sentry-unity), our tools are open source.
 Alias is shipped as a [dotnet CLI tool](https://docs.microsoft.com/en-us/dotnet/core/tools/). So the [Alias tool](https://nuget.org/packages/Alias/) needs to be installed:
 
 ```ps
