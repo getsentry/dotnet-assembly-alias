@@ -22,9 +22,9 @@ public class AliasTask :
     public string? AssemblyOriginatorKeyFile { get; set; }
     public string? Prefix { get; set; }
     public string? Suffix { get; set; }
-    
+
     public ITaskItem[]? AssembliesToSkipRename { get; set; }
-    
+
     public bool SignAssembly { get; set; }
     public bool Internalize { get; set; }
 
@@ -81,7 +81,7 @@ public class AliasTask :
         var assembliesToAlias= assemblyCopyLocalPaths
             .Where(x => !assembliesToSkipRename.Contains(Path.GetFileNameWithoutExtension(x)))
             .ToList();
-        
+
         var assembliesToTarget = assemblyCopyLocalPaths
             .Where(x => assembliesToSkipRename.Contains(Path.GetFileNameWithoutExtension(x)))
             .ToList();
@@ -134,7 +134,7 @@ public class AliasTask :
         }
 
         var separator = $"{Environment.NewLine}\t";
-        
+
         var strongNameKeyPair = GetKey();
         var inputs = $@"
 Prefix: {Prefix}
