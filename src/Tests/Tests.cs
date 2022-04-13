@@ -31,7 +31,7 @@ public class Tests
         Helpers.PurgeDirectory(tempPath);
     }
 
-    IEnumerable<AssemblyResult> Run(bool copyPdbs, bool sign, bool internalize)
+    static IEnumerable<AssemblyResult> Run(bool copyPdbs, bool sign, bool internalize)
     {
         foreach (var assembly in assemblyFiles.OrderBy(x => x))
         {

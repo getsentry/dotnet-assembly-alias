@@ -49,7 +49,6 @@ public static class Finder
                 {
                     yield return new(name, file, targetName, targetPath, true);
                     isAliased = true;
-                    continue;
                 }
             }
 

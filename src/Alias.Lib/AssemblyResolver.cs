@@ -32,7 +32,7 @@ public class AssemblyResolver : IAssemblyResolver
 
     public MethodDefinition VisibleToConstructor { get; }
 
-    MethodDefinition GetVisibleToConstructor(AssemblyDefinition assembly)
+    static MethodDefinition GetVisibleToConstructor(AssemblyDefinition assembly)
     {
         var visibleToType = assembly.MainModule.GetType("System.Runtime.CompilerServices", "InternalsVisibleToAttribute");
         return visibleToType.GetConstructors().Single();
