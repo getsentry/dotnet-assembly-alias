@@ -146,9 +146,11 @@ public class Tests
                         consoleOutput = runResult.StandardOutput,
                         consoleError = runResult.StandardError
                     })
-                .ScrubLinesContaining(" -> ")
-                .ScrubLinesContaining("Build Engine version")
-                .ScrubLinesContaining("Time Elapsed")
+                .ScrubLinesContaining(
+                    " -> ",
+                    "You are using a preview version",
+                    "Build Engine version",
+                    "Time Elapsed")
                 .ScrubLinesWithReplace(s => s.Replace('\\','/'));
         }
         finally
