@@ -6,6 +6,7 @@ environment:
   NUGET_PACKAGES: C:\packages
 build_script:
 - pwsh: |
+    dir env:
     if ($isWindows) {
       Invoke-WebRequest "https://dot.net/v1/dotnet-install.ps1" -OutFile "./dotnet-install.ps1"
       ./dotnet-install.ps1 -JSonFile src/global.json -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
