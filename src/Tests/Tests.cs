@@ -140,6 +140,7 @@ public class Tests
                 .ExecuteBufferedAsync();
 
             var nugetPath = Environment.GetEnvironmentVariable("NUGET_PACKAGES")!;
+            nugetPath = nugetPath.TrimEnd('\\', '/');
             await Verify(
                     new
                     {
@@ -153,7 +154,6 @@ public class Tests
                     "Build Engine version",
                     "Time Elapsed")
                 .ScrubLinesWithReplace(s => s.Replace('\\', '/'))
-                .ScrubLinesWithReplace(s => s.Replace(nugetPath + '/', "{nugetPath}"))
                 .ScrubLinesWithReplace(s => s.Replace(nugetPath, "{nugetPath}"));
         }
         finally

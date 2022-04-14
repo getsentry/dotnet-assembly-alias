@@ -33,7 +33,7 @@ Copyright (C) Microsoft Corporation. All rights reserved.
   	AssemblyToProcess => AssemblyToProcess
   	AssemblyToInclude => AssemblyToInclude
   ReferenceCopyLocalPaths:
-  	{nugetPath}newtonsoft.json/13.0.1/lib/netstandard2.0/Newtonsoft.Json.dll
+  	{nugetPath}/newtonsoft.json/13.0.1/lib/netstandard2.0/Newtonsoft.Json.dll
   	{SolutionDir}AssemblyToInclude/bin/IncludeAliasTask/net6.0/AssemblyToInclude.dll
   	{SolutionDir}AssemblyWithEmbeddedSymbols/bin/IncludeAliasTask/net6.0/AssemblyWithEmbeddedSymbols.dll
   	{SolutionDir}AssemblyWithNoStrongName/bin/IncludeAliasTask/net6.0/AssemblyWithNoStrongName.dll
