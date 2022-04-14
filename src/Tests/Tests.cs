@@ -140,6 +140,7 @@ public class Tests
                 .ExecuteBufferedAsync();
 
             var nugetPath = Environment.GetEnvironmentVariable("NUGET_PACKAGES")!;
+            nugetPath = Path.GetFullPath(nugetPath);
             await Verify(
                     new
                     {
