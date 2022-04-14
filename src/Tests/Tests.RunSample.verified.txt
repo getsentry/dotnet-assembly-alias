@@ -6,6 +6,7 @@ AssemblyWithNoStrongName
 AssemblyWithNoSymbols
 AssemblyWithPdb
 AssemblyToInclude
+"a\\b"
 ,
   StandardError: 
 }

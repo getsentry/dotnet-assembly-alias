@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net6</TargetFrameworks>
+    <TargetFramework>net6.0</TargetFramework>
     <ToolCommandName>assemblyalias</ToolCommandName>
     <PackAsTool>True</PackAsTool>
     <DebugType>embedded</DebugType>
