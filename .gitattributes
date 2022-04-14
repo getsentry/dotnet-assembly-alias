@@ -1,4 +1,5 @@
 * text
 *.png binary
 *.snk binary
+*.dll binary
 *.json -text
