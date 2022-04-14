@@ -2,8 +2,6 @@ image:
 - Visual Studio 2022
 - macOS
 - Ubuntu
-environment:
-  NUGET_PACKAGES: C:\packages\
 build_script:
 - pwsh: |
     dir env:
