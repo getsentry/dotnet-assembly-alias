@@ -54,7 +54,7 @@ public class Tests
             keyFile = Path.Combine(AttributeReader.GetProjectDirectory(), "test.snk");
         }
 
-        var namesToAliases = assemblyFiles.Where(x => x.StartsWith("AssemblyWith") || x=="Newtonsoft.Json").ToList();
+        var namesToAliases = assemblyFiles.Where(x => x.StartsWith("AssemblyWith") || x == "Newtonsoft.Json").ToList();
         Program.Inner(tempPath, namesToAliases, new(), keyFile, new(), null, "_Alias", internalize);
 
         return BuildResults();
@@ -139,8 +139,6 @@ public class Tests
                 .WithValidation(CommandResultValidation.None)
                 .ExecuteBufferedAsync();
 
-            var nugetPath = Environment.GetEnvironmentVariable("NUGET_PACKAGES")!;
-            nugetPath = nugetPath.TrimEnd('\\', '/');
             await Verify(
                     new
                     {
@@ -153,8 +151,16 @@ public class Tests
                     "You are using a preview version",
                     "Build Engine version",
                     "Time Elapsed")
-                .ScrubLinesWithReplace(s => s.Replace('\\', '/'))
-                .ScrubLinesWithReplace(s => s.Replace(nugetPath, "{nugetPath}"));
+                .ScrubLinesWithReplace(line => line.Replace('\\', '/'))
+                .ScrubLinesWithReplace(line =>
+                {
+                    if (line.Contains("Newtonsoft.Json.dll"))
+                    {
+                        return "  	Newtonsoft.Json.dll";
+                    }
+
+                    return line;
+                });
         }
         finally
         {
