@@ -139,6 +139,7 @@ public class Tests
                 .WithValidation(CommandResultValidation.None)
                 .ExecuteBufferedAsync();
 
+            var nugetPath = Environment.GetEnvironmentVariable("NUGET_PACKAGES")!;
             await Verify(
                     new
                     {
@@ -151,14 +152,14 @@ public class Tests
                     "You are using a preview version",
                     "Build Engine version",
                     "Time Elapsed")
-                .ScrubLinesWithReplace(s => s.Replace('\\','/'));
+                .ScrubLinesWithReplace(s => s.Replace('\\', '/'))
+                .ScrubLinesWithReplace(s => s.Replace(nugetPath, "{nugetPath}"));
         }
         finally
         {
             await shutdown;
         }
     }
-
 
 #if DEBUG
 
