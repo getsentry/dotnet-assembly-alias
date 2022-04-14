@@ -3,7 +3,7 @@ image:
 - macOS
 - Ubuntu
 environment:
-  NUGET_PACKAGES: C:\packages
+  NUGET_PACKAGES: C:\packages\
 build_script:
 - pwsh: |
     dir env:
