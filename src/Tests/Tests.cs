@@ -153,8 +153,8 @@ public class Tests
                     "Build Engine version",
                     "Time Elapsed")
                 .ScrubLinesWithReplace(s => s.Replace('\\', '/'))
-                .ScrubLinesWithReplace(s => s.Replace(nugetPath, "{nugetPath}"))
-                .ScrubLinesWithReplace(s => s.Replace(nugetPath + '/', "{nugetPath}"));
+                .ScrubLinesWithReplace(s => s.Replace(nugetPath + '/', "{nugetPath}"))
+                .ScrubLinesWithReplace(s => s.Replace(nugetPath, "{nugetPath}"));
         }
         finally
         {
