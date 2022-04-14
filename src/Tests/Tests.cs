@@ -155,7 +155,7 @@ public class Tests
                     "Time Elapsed")
                 .ScrubLinesWithReplace(s => s.Replace('\\', '/'))
                 .ScrubLinesWithReplace(s => s.Replace(nugetPath, "{nugetPath}"))
-                .ScrubLinesWithReplace(s => s.Replace(nugetPath + Path.PathSeparator, "{nugetPath}"));
+                .ScrubLinesWithReplace(s => s.Replace(nugetPath + '/', "{nugetPath}"));
         }
         finally
         {
