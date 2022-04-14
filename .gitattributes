@@ -2,4 +2,5 @@
 *.png binary
 *.snk binary
 *.dll binary
+*.pdb binary
 *.json -text
