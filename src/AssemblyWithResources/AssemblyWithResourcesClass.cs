@@ -1,9 +1,9 @@
-﻿using AssemblyToReference;
+﻿using AssemblyWithResources;
 
 public static class AssemblyWithResourcesClass
 {
     public static string Method()
     {
-        return strings.Hello;
+        return $"AssemblyWithResources: {strings.Resource}";
     }
 }

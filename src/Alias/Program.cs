@@ -48,7 +48,7 @@ public static class Program
 
         Aliaser.Run(references, assemblyInfos, internalize, keyPair);
 
-        foreach (var assembly in assemblyInfos.Where(_ => _.isAlias))
+        foreach (var assembly in assemblyInfos.Where(_ => _.IsAlias))
         {
             File.Delete(assembly.SourcePath);
             File.Delete(Path.ChangeExtension(assembly.SourcePath, "pdb"));

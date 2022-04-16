@@ -20,7 +20,7 @@ public static class Aliaser
             var (module, hasSymbols) = ModuleReaderWriter.Read(info.SourcePath, resolver);
             module.Assembly.Name.Name = info.TargetName;
             module.SeyKey(key);
-            if (info.isAlias && internalize)
+            if (info.IsAlias && internalize)
             {
                 AddVisibleTo(module, resolver, infoList, key);
                 module.MakeTypesInternal();

@@ -15,8 +15,6 @@ Copyright (C) Microsoft Corporation. All rights reserved.
   	AssemblyWithPdb
   	AssemblyWithResources
   	AssemblyWithStrongName
-  	AssemblyWithResources.resources
-  	AssemblyWithResources.resources
   AssembliesToTarget:
   	AssemblyToProcess
   	AssemblyToInclude
@@ -28,8 +26,6 @@ Copyright (C) Microsoft Corporation. All rights reserved.
   	AssemblyWithPdb => Prefix_AssemblyWithPdb_Suffix
   	AssemblyWithResources => Prefix_AssemblyWithResources_Suffix
   	AssemblyWithStrongName => Prefix_AssemblyWithStrongName_Suffix
-  	AssemblyWithResources.resources => Prefix_AssemblyWithResources.resources_Suffix
-  	AssemblyWithResources.resources => Prefix_AssemblyWithResources.resources_Suffix
   	AssemblyToProcess => AssemblyToProcess
   	AssemblyToInclude => AssemblyToInclude
   ReferenceCopyLocalPaths:
@@ -45,8 +41,6 @@ Copyright (C) Microsoft Corporation. All rights reserved.
   	{SolutionDir}AssemblyWithPdb/bin/IncludeAliasTask/net6.0/AssemblyWithPdb.pdb
   	{SolutionDir}AssemblyWithResources/bin/IncludeAliasTask/net6.0/AssemblyWithResources.pdb
   	{SolutionDir}AssemblyWithStrongName/bin/IncludeAliasTask/net6.0/AssemblyWithStrongName.pdb
-  	{SolutionDir}AssemblyWithResources/bin/IncludeAliasTask/net6.0/de/AssemblyWithResources.resources.dll
-  	{SolutionDir}AssemblyWithResources/bin/IncludeAliasTask/net6.0/fr/AssemblyWithResources.resources.dll
   
 
 Build succeeded.
@@ -63,6 +57,7 @@ AssemblyWithPdb
 AssemblyToInclude
 "a//b"
 AssemblyToInclude
+AssemblyWithResources: ResourceValue
 ,
   consoleError: 
 }
