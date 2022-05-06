@@ -26,7 +26,7 @@
     <PackageReference Include="Verify.Xunit" Version="16.7.0" />
     <PackageReference Include="CliWrap" Version="3.4.4" />
     <PackageReference Include="Xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.4" PrivateAssets="All" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" PrivateAssets="all" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <Reference Include="Mono.Cecil" HintPath="..\Lib\Mono.Cecil.dll" />
     <Reference Include="Mono.Cecil.Pdb" HintPath="..\Lib\Mono.Cecil.Pdb.dll" />
