@@ -4,7 +4,7 @@ using Mono.Cecil.Rocks;
 
 public class AssemblyResolver : IAssemblyResolver
 {
-    Dictionary<string, AssemblyDefinition> cache = new(StringComparer.InvariantCultureIgnoreCase);
+    Dictionary<string, AssemblyDefinition> cache;
 
     ReaderParameters readerParameters = new(ReadingMode.Deferred)
     {
@@ -16,7 +16,7 @@ public class AssemblyResolver : IAssemblyResolver
         var netStandardResource = GetType().Assembly.GetManifestResourceStream("Alias.Lib.netstandard.dll");
         var netStandard = AssemblyDefinition.ReadAssembly(netStandardResource, readerParameters);
 
-        cache = new()
+        cache = new(StringComparer.InvariantCultureIgnoreCase)
         {
             ["netstandard"] = netStandard,
             ["mscorlib"] = netStandard,
