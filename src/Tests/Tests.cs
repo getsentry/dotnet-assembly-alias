@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using CliWrap;
+﻿using CliWrap;
 using CliWrap.Buffered;
 using Mono.Cecil;
 
