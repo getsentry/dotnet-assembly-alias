@@ -6,4 +6,5 @@
     List<string> assembliesToExclude,
     string? prefix,
     string? suffix,
-    bool internalize);
+    bool internalize,
+    Action<string> log);

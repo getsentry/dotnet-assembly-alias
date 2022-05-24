@@ -37,7 +37,8 @@ public static class Program
         List<string> assembliesToExclude,
         string? prefix,
         string? suffix,
-        bool internalize)
+        bool internalize,
+        Action<string> log)
     {
         var list = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories).ToList();
         var allFiles = list.Where(x => !assembliesToExclude.Contains(x));
@@ -52,7 +53,7 @@ public static class Program
             builder.AppendLine($" * {assemblyInfo.SourceName}");
         }
 
-        Console.WriteLine(builder.ToString());
+        log(builder.ToString());
 
         var keyPair = GetKeyPair(keyFile);
 

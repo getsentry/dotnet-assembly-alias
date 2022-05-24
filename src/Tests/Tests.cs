@@ -1,4 +1,5 @@
-﻿using CliWrap;
+﻿using System.Runtime.InteropServices.ComTypes;
+using CliWrap;
 using CliWrap.Buffered;
 using Mono.Cecil;
 
@@ -53,7 +54,7 @@ public class Tests
         }
 
         var namesToAliases = assemblyFiles.Where(x => x.StartsWith("AssemblyWith") || x == "Newtonsoft.Json").ToList();
-        Program.Inner(tempPath, namesToAliases, new(), keyFile, new(), null, "_Alias", internalize);
+        Program.Inner(tempPath, namesToAliases, new(), keyFile, new(), null, "_Alias", internalize, _=>{});
 
         return BuildResults();
     }
@@ -183,13 +184,23 @@ public class Tests
 
         Program.Inner(
             tempPath,
-            assemblyNamesToAlias: new() {"Assembly*"},
+            assemblyNamesToAlias: new()
+            {
+                "Assembly*"
+            },
             references: new(),
             keyFile: null,
-            assembliesToExclude: new() {"AssemblyToInclude", "AssemblyToProcess"},
+            assembliesToExclude: new()
+            {
+                "AssemblyToInclude",
+                "AssemblyToProcess"
+            },
             prefix: "Alias_",
             suffix: null,
-            internalize: true);
+            internalize: true,
+            _ =>
+            {
+            });
 
         PatchDependencies(tempPath);
 
@@ -197,7 +208,11 @@ public class Tests
 
         var result = await Cli.Wrap(exePath).ExecuteBufferedAsync();
 
-        await Verify(new {result.StandardOutput, result.StandardError});
+        await Verify(new
+        {
+            result.StandardOutput,
+            result.StandardError
+        });
     }
 
 #endif

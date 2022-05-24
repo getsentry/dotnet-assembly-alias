@@ -98,32 +98,42 @@ public class CommandRunnerTests
 
     static Result Parse(string input)
     {
-        var consoleError = new StringWriter();
-        Console.SetError(consoleError);
-        var consoleOut = new StringWriter();
-        Console.SetOut(consoleOut);
-        string? directory = null;
-        string? key = null;
-        string? prefix = null;
-        string? suffix = null;
-        var internalize = false;
-        IEnumerable<string>? assembliesToAlias = null;
-        IEnumerable<string>? assembliesToExclude = null;
-        IEnumerable<string>? references = null;
-        var result = CommandRunner.RunCommand(
-            (_directory, _assembliesToAlias, _references, _key, _assembliesToExclude, _prefix, _suffix, _internalize) =>
-            {
-                directory = _directory;
-                key = _key;
-                assembliesToAlias = _assembliesToAlias;
-                assembliesToExclude = _assembliesToExclude;
-                references = _references;
-                prefix = _prefix;
-                suffix = _suffix;
-                internalize = _internalize;
-            },
-            input.Split(' '));
-        return new(result, directory, prefix, suffix, key, assembliesToAlias, references, assembliesToExclude, consoleError.ToString(), consoleOut.ToString(), internalize);
+        var previousError = Console.Error;
+        var previousOut = Console.Out;
+        try
+        {
+            var consoleError = new StringWriter();
+            Console.SetError(consoleError);
+            var consoleOut = new StringWriter();
+            Console.SetOut(consoleOut);
+            string? directory = null;
+            string? key = null;
+            string? prefix = null;
+            string? suffix = null;
+            var internalize = false;
+            IEnumerable<string>? assembliesToAlias = null;
+            IEnumerable<string>? assembliesToExclude = null;
+            IEnumerable<string>? references = null;
+            var result = CommandRunner.RunCommand(
+                (_directory, _assembliesToAlias, _references, _key, _assembliesToExclude, _prefix, _suffix, _internalize, _) =>
+                {
+                    directory = _directory;
+                    key = _key;
+                    assembliesToAlias = _assembliesToAlias;
+                    assembliesToExclude = _assembliesToExclude;
+                    references = _references;
+                    prefix = _prefix;
+                    suffix = _suffix;
+                    internalize = _internalize;
+                },
+                input.Split(' '));
+            return new(result, directory, prefix, suffix, key, assembliesToAlias, references, assembliesToExclude, consoleError.ToString(), consoleOut.ToString(), internalize);
+        }
+        finally
+        {
+            Console.SetError(previousError);
+            Console.SetOut(previousOut);
+        }
     }
 
     public record Result(
