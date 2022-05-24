@@ -1,4 +1,5 @@
-﻿using Alias;
+﻿using System.Text;
+using Alias;
 using StrongNameKeyPair = Mono.Cecil.StrongNameKeyPair;
 
 public static class Program
@@ -43,6 +44,15 @@ public static class Program
 
         var assemblyInfos = Finder.FindAssemblyInfos(assemblyNamesToAlias, allFiles, prefix, suffix)
             .ToList();
+
+        var builder = new StringBuilder("Resolved assemblies to alias:");
+        builder.AppendLine();
+        foreach (var assemblyInfo in assemblyInfos.Where(_ => _.IsAlias))
+        {
+            builder.AppendLine($" * {assemblyInfo.SourceName}");
+        }
+
+        Console.WriteLine(builder.ToString());
 
         var keyPair = GetKeyPair(keyFile);
 
