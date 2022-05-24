@@ -33,16 +33,12 @@ public class CommandRunnerTests
     }
 
     [Fact]
-    public Task NoPrefixOrSuffix()
-    {
-        return Throws(() => Parse("--assemblies-to-alias assembly"));
-    }
+    public Task NoPrefixOrSuffix() =>
+        Throws(() => Parse("--assemblies-to-alias assembly"));
 
     [Fact]
-    public Task BadKeyPath()
-    {
-        return Throws(() => Parse("--key bad.snk --assemblies-to-alias assembly --suffix _Alias"));
-    }
+    public Task BadKeyPath() =>
+        Throws(() => Parse("--key bad.snk --assemblies-to-alias assembly --suffix _Alias"));
 
     [Fact]
     public Task KeyRelative()

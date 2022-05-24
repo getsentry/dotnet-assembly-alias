@@ -83,7 +83,7 @@ public static class Aliaser
                 value = $"{info.TargetName}, PublicKey={key.PublicKeyString()}";
             }
 
-            attribute.ConstructorArguments.Add(new CustomAttributeArgument(module.TypeSystem.String, value));
+            attribute.ConstructorArguments.Add(new(module.TypeSystem.String, value));
             assembly.CustomAttributes.Add(attribute);
         }
     }

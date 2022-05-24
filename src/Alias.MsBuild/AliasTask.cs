@@ -61,7 +61,7 @@ public class AliasTask :
         List<string> assembliesToSkipRename;
         if (AssembliesToSkipRename == null)
         {
-            assembliesToSkipRename = new List<string>();
+            assembliesToSkipRename = new();
         }
         else
         {

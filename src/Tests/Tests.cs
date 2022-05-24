@@ -26,10 +26,8 @@ public class Tests
         Directory.CreateDirectory(tempPath);
     }
 
-    public Tests()
-    {
+    public Tests() =>
         Helpers.PurgeDirectory(tempPath);
-    }
 
     static IEnumerable<AssemblyResult> Run(bool copyPdbs, bool sign, bool internalize)
     {
@@ -72,7 +70,7 @@ public class Tests
                 .OrderBy(x => x)
                 .ToList();
             yield return
-                new AssemblyResult(
+                new(
                     definition.Name.FullName,
                     definition.MainModule.TryReadSymbols(),
                     definition.MainModule.AssemblyReferences.Select(x => x.FullName).OrderBy(x => x).ToList(),
