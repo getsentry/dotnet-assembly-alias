@@ -1,4 +1,5 @@
-﻿using Alias;
+﻿using System.Text;
+using Alias;
 using StrongNameKeyPair = Mono.Cecil.StrongNameKeyPair;
 
 public static class Program
@@ -36,13 +37,23 @@ public static class Program
         List<string> assembliesToExclude,
         string? prefix,
         string? suffix,
-        bool internalize)
+        bool internalize,
+        Action<string> log)
     {
         var list = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories).ToList();
         var allFiles = list.Where(x => !assembliesToExclude.Contains(x));
 
         var assemblyInfos = Finder.FindAssemblyInfos(assemblyNamesToAlias, allFiles, prefix, suffix)
             .ToList();
+
+        var builder = new StringBuilder("Resolved assemblies to alias:");
+        builder.AppendLine();
+        foreach (var assemblyInfo in assemblyInfos.Where(_ => _.IsAlias))
+        {
+            builder.AppendLine($" * {assemblyInfo.SourceName}");
+        }
+
+        log(builder.ToString());
 
         var keyPair = GetKeyPair(keyFile);
 

@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <Version>0.4.2</Version>
+    <Version>0.4.3</Version>
     <Description>Alias</Description>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SolutionDir>$(ProjectDir)..\</SolutionDir>

@@ -56,10 +56,8 @@ public class AssemblyResolver : IAssemblyResolver
         }
     }
 
-    public AssemblyDefinition? Resolve(AssemblyNameReference name)
-    {
-        return Resolve(name, new());
-    }
+    public AssemblyDefinition? Resolve(AssemblyNameReference name) =>
+        Resolve(name, new());
 
     public AssemblyDefinition? Resolve(AssemblyNameReference name, ReaderParameters? parameters)
     {

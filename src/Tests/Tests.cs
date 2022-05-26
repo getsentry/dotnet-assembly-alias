@@ -26,10 +26,8 @@ public class Tests
         Directory.CreateDirectory(tempPath);
     }
 
-    public Tests()
-    {
+    public Tests() =>
         Helpers.PurgeDirectory(tempPath);
-    }
 
     static IEnumerable<AssemblyResult> Run(bool copyPdbs, bool sign, bool internalize)
     {
@@ -55,7 +53,7 @@ public class Tests
         }
 
         var namesToAliases = assemblyFiles.Where(x => x.StartsWith("AssemblyWith") || x == "Newtonsoft.Json").ToList();
-        Program.Inner(tempPath, namesToAliases, new(), keyFile, new(), null, "_Alias", internalize);
+        Program.Inner(tempPath, namesToAliases, new(), keyFile, new(), null, "_Alias", internalize, _=>{});
 
         return BuildResults();
     }
@@ -72,7 +70,7 @@ public class Tests
                 .OrderBy(x => x)
                 .ToList();
             yield return
-                new AssemblyResult(
+                new(
                     definition.Name.FullName,
                     definition.MainModule.TryReadSymbols(),
                     definition.MainModule.AssemblyReferences.Select(x => x.FullName).OrderBy(x => x).ToList(),
@@ -185,13 +183,23 @@ public class Tests
 
         Program.Inner(
             tempPath,
-            assemblyNamesToAlias: new() {"Assembly*"},
+            assemblyNamesToAlias: new()
+            {
+                "Assembly*"
+            },
             references: new(),
             keyFile: null,
-            assembliesToExclude: new() {"AssemblyToInclude", "AssemblyToProcess"},
+            assembliesToExclude: new()
+            {
+                "AssemblyToInclude",
+                "AssemblyToProcess"
+            },
             prefix: "Alias_",
             suffix: null,
-            internalize: true);
+            internalize: true,
+            _ =>
+            {
+            });
 
         PatchDependencies(tempPath);
 
@@ -199,7 +207,11 @@ public class Tests
 
         var result = await Cli.Wrap(exePath).ExecuteBufferedAsync();
 
-        await Verify(new {result.StandardOutput, result.StandardError});
+        await Verify(new
+        {
+            result.StandardOutput,
+            result.StandardError
+        });
     }
 
 #endif

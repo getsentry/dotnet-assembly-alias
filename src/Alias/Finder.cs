@@ -16,7 +16,7 @@ public static class Finder
         return FindAssemblyInfos(assemblyNamesToAlias, allFiles, name => $"{prefix}{name}{suffix}");
     }
 
-    public static IEnumerable<SourceTargetInfo> FindAssemblyInfos(
+    static IEnumerable<SourceTargetInfo> FindAssemblyInfos(
         IEnumerable<string> assemblyNamesToAlias,
         IEnumerable<string> allFiles,
         Func<string, string> getTargetName)

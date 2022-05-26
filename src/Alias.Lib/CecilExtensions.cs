@@ -22,8 +22,6 @@ static class CecilExtensions
         module.Assembly.Name.PublicKey = key.PublicKey;
     }
 
-    public static string PublicKeyString(this StrongNameKeyPair key)
-    {
-        return string.Concat(key.PublicKey.Select(x => x.ToString("x2")));
-    }
+    public static string PublicKeyString(this StrongNameKeyPair key) =>
+        string.Concat(key.PublicKey.Select(x => x.ToString("x2")));
 }

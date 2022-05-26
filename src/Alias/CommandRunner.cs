@@ -101,7 +101,8 @@ public static class CommandRunner
             assembliesToExclude,
             prefix,
             suffix,
-            options.Internalize);
+            options.Internalize,
+            Console.WriteLine);
         return Enumerable.Empty<Error>();
     }
 
