@@ -1,7 +1,5 @@
 ﻿public static class AssemblyWithEmbeddedSymbolsClass
 {
-    public static string Method()
-    {
-        return "AssemblyWithEmbeddedSymbols";
-    }
+    public static string Method() =>
+        "AssemblyWithEmbeddedSymbols";
 }

@@ -1,7 +1,5 @@
 ﻿public static class AssemblyWithPdbClass
 {
-    public static string Method()
-    {
-        return "AssemblyWithPdb";
-    }
+    public static string Method() =>
+        "AssemblyWithPdb";
 }

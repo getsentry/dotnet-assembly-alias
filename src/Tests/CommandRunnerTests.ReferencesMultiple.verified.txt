@@ -1,5 +1,4 @@
 ﻿{
-  errors: [],
   directory: {CurrentDirectory},
   suffix: _Alias,
   assembliesToAlias: [
@@ -9,7 +8,6 @@
     reference1,
     reference2
   ],
-  assembliesToExclude: [],
   consoleError: ,
   consoleOut:
 TargetDirectory: {CurrentDirectory}
@@ -20,5 +18,6 @@ AssembliesToAlias:
 References:
  * reference1
  * reference2
-
+,
+  internalize: false
 }

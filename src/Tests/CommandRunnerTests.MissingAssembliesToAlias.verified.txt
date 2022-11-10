@@ -6,9 +6,11 @@
         LongName: assemblies-to-alias,
         NameText: a, assemblies-to-alias
       },
-      Tag: MissingRequiredOptionError
+      Tag: MissingRequiredOptionError,
+      StopsProcessing: false
     }
   ],
   consoleError: ,
-  consoleOut: 
+  consoleOut: ,
+  internalize: false
 }

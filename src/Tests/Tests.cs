@@ -147,7 +147,7 @@ public class Tests
                 .ScrubLinesContaining(
                     " -> ",
                     "You are using a preview version",
-                    "Build Engine version",
+                    "MSBuild version ",
                     "Time Elapsed")
                 .ScrubLinesWithReplace(line => line.Replace('\\', '/'))
                 .ScrubLinesWithReplace(line =>

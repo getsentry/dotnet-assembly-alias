@@ -1,13 +1,10 @@
 ﻿{
-  errors: [],
   directory: {CurrentDirectory},
   suffix: _Alias,
   key: {CurrentDirectory}test.snk,
   assembliesToAlias: [
     assembly
   ],
-  references: [],
-  assembliesToExclude: [],
   consoleError: ,
   consoleOut:
 TargetDirectory: {CurrentDirectory}
@@ -16,5 +13,6 @@ Suffix: _Alias
 KeyFile: {CurrentDirectory}test.snk
 AssembliesToAlias:
  * assembly
-
+,
+  internalize: false
 }

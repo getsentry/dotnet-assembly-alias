@@ -1,12 +1,9 @@
 ﻿{
-  errors: [],
   directory: {CurrentDirectory},
   prefix: Alias_,
   assembliesToAlias: [
     assembly
   ],
-  references: [],
-  assembliesToExclude: [],
   consoleError: ,
   consoleOut:
 TargetDirectory: {CurrentDirectory}
@@ -14,5 +11,6 @@ Internalize: False
 Prefix: Alias_
 AssembliesToAlias:
  * assembly
-
+,
+  internalize: false
 }

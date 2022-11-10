@@ -1,12 +1,14 @@
 ﻿[
   {
     Name: AssemblyToInclude, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    HasSymbols: false,
     References: [
       System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ]
   },
   {
     Name: AssemblyToProcess, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    HasSymbols: false,
     References: [
       AssemblyToInclude, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
       AssemblyWithEmbeddedSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
@@ -38,6 +40,7 @@
   },
   {
     Name: AssemblyWithNoStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    HasSymbols: false,
     References: [
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51,
       System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
@@ -55,6 +58,7 @@
   },
   {
     Name: AssemblyWithNoSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    HasSymbols: false,
     References: [
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51,
       System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
@@ -72,6 +76,7 @@
   },
   {
     Name: AssemblyWithPdb_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    HasSymbols: false,
     References: [
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51,
       System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
@@ -89,6 +94,7 @@
   },
   {
     Name: AssemblyWithResources_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    HasSymbols: false,
     References: [
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51,
       System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
@@ -106,6 +112,7 @@
   },
   {
     Name: AssemblyWithStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    HasSymbols: false,
     References: [
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51,
       System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
@@ -123,6 +130,7 @@
   },
   {
     Name: Newtonsoft.Json_Alias, Version=13.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
+    HasSymbols: false,
     References: [
       netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
     ],

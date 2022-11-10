@@ -1,7 +1,5 @@
 ﻿public static class AssemblyWithNoStrongNameClass
 {
-    public static string Method()
-    {
-        return "AssemblyWithNoStrongName";
-    }
+    public static string Method() =>
+        "AssemblyWithNoStrongName";
 }

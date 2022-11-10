@@ -1,13 +1,10 @@
 ﻿{
-  errors: [],
   directory: {CurrentDirectory},
   suffix: _Alias,
   assembliesToAlias: [
     assembly1,
     assembly2
   ],
-  references: [],
-  assembliesToExclude: [],
   consoleError: ,
   consoleOut:
 TargetDirectory: {CurrentDirectory}
@@ -16,5 +13,6 @@ Suffix: _Alias
 AssembliesToAlias:
  * assembly1
  * assembly2
-
+,
+  internalize: false
 }
