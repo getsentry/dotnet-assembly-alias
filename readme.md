@@ -15,7 +15,7 @@ This project works around this problem by renaming references and preventing nam
 
 https://www.nuget.org/packages/Alias/
 
-**[.net 5](https://dotnet.microsoft.com/download/dotnet/5.0) or [.net 6](https://dotnet.microsoft.com/download/dotnet/6.0) is required to run this tool.**
+**[.net 6](https://dotnet.microsoft.com/download/dotnet/6.0) or higher is required to run this tool.**
 
 For a given directory and a subset of assemblies:
 
