@@ -4,7 +4,7 @@
     <Description>Alias</Description>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SolutionDir>$(ProjectDir)..\</SolutionDir>
-    <LangVersion>10.0</LangVersion>
+    <LangVersion>11.0</LangVersion>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
     <NoWarn>CS1591</NoWarn>
