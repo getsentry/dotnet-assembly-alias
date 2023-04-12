@@ -30,7 +30,7 @@
     <Reference Include="Mono.Cecil" HintPath="..\Lib\Mono.Cecil.dll" />
     <Reference Include="Mono.Cecil.Pdb" HintPath="..\Lib\Mono.Cecil.Pdb.dll" />
     <Reference Include="Mono.Cecil.Rocks" HintPath="..\Lib\Mono.Cecil.Rocks.dll" />
-    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="17.4.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="17.5.0" PrivateAssets="All" />
     <ProjectReference Include="..\Alias.Lib\Alias.Lib.csproj" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
   </ItemGroup>
