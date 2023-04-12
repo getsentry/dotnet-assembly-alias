@@ -17,6 +17,7 @@
     <Reference Include="Mono.Cecil.Pdb" HintPath="..\Lib\Mono.Cecil.Pdb.dll" />
     <Reference Include="Mono.Cecil.Rocks" HintPath="..\Lib\Mono.Cecil.Rocks.dll" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
+    <Using Remove="System.Net.Http" />
     <EmbeddedResource Include="netstandard.dll">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
