@@ -33,7 +33,7 @@ public static class Finder
                 var targetName = getTargetName(name);
                 var targetPath = Path.Combine(fileDirectory, $"{targetName}.dll");
 
-                if (assemblyToAlias.EndsWith("*"))
+                if (assemblyToAlias.EndsWith('*'))
                 {
                     var match = assemblyToAlias.TrimEnd('*');
                     if (name.StartsWith(match))
