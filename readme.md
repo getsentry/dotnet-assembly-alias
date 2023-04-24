@@ -41,6 +41,7 @@ dotnet tool install --global Alias
 assemblyalias --target-directory "C:/Code/TargetDirectory"
               --suffix _Alias
               --assemblies-to-alias "Microsoft*;System*;EmptyFiles"
+              --assemblies-to-exclude "e_sqlite*"
 ```
 
 
@@ -91,7 +92,7 @@ Required. A semi-colon separated list of assembly names to alias. Names ending i
 
 `-e` or `--assemblies-to-exclude`
 
-Optional. A semi-colon separated list of assembly names to exclude.
+Optional. A semi-colon separated list of assembly names to exclude. Names ending in `*` are treated as wildcards.
 
 
 #### Key

@@ -58,4 +58,39 @@ public static class Finder
             }
         }
     }
+    
+    public static IEnumerable<string> FilterAssemblies(
+        IEnumerable<string> assemblyNamesToExclude,
+        IEnumerable<string> allFiles)
+    {
+        assemblyNamesToExclude = assemblyNamesToExclude.ToList();
+
+        foreach (var file in allFiles)
+        {
+            var name = Path.GetFileNameWithoutExtension(file);
+            var isMatch = false;
+            foreach (var assemblyToExclude in assemblyNamesToExclude)
+            {
+                if (assemblyToExclude.EndsWith('*'))
+                {
+                    var match = assemblyToExclude.TrimEnd('*');
+                    if (name.StartsWith(match))
+                    {
+                        isMatch = true;
+                    }
+                    continue;
+                }
+
+                if (name == assemblyToExclude)
+                {
+                    isMatch = true;
+                }
+            }
+
+            if (!isMatch)
+            {
+                yield return file;
+            }
+        }
+    }
 }

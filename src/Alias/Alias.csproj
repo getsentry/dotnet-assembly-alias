@@ -9,6 +9,7 @@
     <GeneratePackageOnBuild Condition="$(Configuration) == 'Release'">true</GeneratePackageOnBuild>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>$(SolutionDir)key.snk</AssemblyOriginatorKeyFile>
+    <Version>0.4.4</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(SolutionDir)icon.png" Pack="true" PackagePath="\" />

@@ -41,7 +41,9 @@ public static class Program
         Action<string> log)
     {
         var list = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories).ToList();
-        var allFiles = list.Where(x => !assembliesToExclude.Contains(x));
+        
+        var allFiles = Finder.FilterAssemblies(assembliesToExclude, list)
+            .ToList();
 
         var assemblyInfos = Finder.FindAssemblyInfos(assemblyNamesToAlias, allFiles, prefix, suffix)
             .ToList();
