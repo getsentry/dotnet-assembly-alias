@@ -56,6 +56,13 @@ static class ModuleReaderWriter
             parameters.StrongNameKeyPair = key;
         }
 
-        module.Write(file, parameters);
+        try
+        {
+            module.Write(file, parameters);
+        }
+        catch (Exception ex)
+        {
+            throw new($"Could not write module {file}", ex);
+        }
     }
 }
