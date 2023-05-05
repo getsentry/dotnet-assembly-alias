@@ -2,19 +2,26 @@ using Alias;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;
 
-public class AssemblyResolver : IAssemblyResolver
+public class AssemblyResolver :
+    IAssemblyResolver
 {
-    Dictionary<string, AssemblyDefinition> cache;
-
-    ReaderParameters readerParameters = new(ReadingMode.Deferred)
+    static ReaderParameters readerParameters = new(ReadingMode.Deferred)
     {
         ReadSymbols = false
     };
 
+    static AssemblyResolver()
+    {
+        using var netStandardResource = typeof(AssemblyResolver).Assembly.GetManifestResourceStream("Alias.Lib.netstandard.dll");
+        netStandard = AssemblyDefinition.ReadAssembly(netStandardResource, readerParameters);
+    }
+
+    Dictionary<string, AssemblyDefinition> cache;
+
+    static readonly AssemblyDefinition netStandard;
+
     public AssemblyResolver(IEnumerable<string> references)
     {
-        var netStandardResource = GetType().Assembly.GetManifestResourceStream("Alias.Lib.netstandard.dll");
-        var netStandard = AssemblyDefinition.ReadAssembly(netStandardResource, readerParameters);
 
         cache = new(StringComparer.InvariantCultureIgnoreCase)
         {
