@@ -13,7 +13,12 @@ public class AssemblyResolver :
     static AssemblyResolver()
     {
         using var netStandardResource = typeof(AssemblyResolver).Assembly.GetManifestResourceStream("Alias.Lib.netstandard.dll");
-        netStandard = AssemblyDefinition.ReadAssembly(netStandardResource, readerParameters);
+        netStandard = AssemblyDefinition.ReadAssembly(
+            netStandardResource,
+            new(ReadingMode.Immediate)
+            {
+                ReadSymbols = false
+            });
     }
 
     Dictionary<string, AssemblyDefinition> cache;
