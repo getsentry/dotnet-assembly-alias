@@ -114,7 +114,7 @@ Optional. A semi-colon separated list of paths to reference files.
 
 `--reference-file`
 
-Optional. A path to a file containing references file paths. On file path per line.
+Optional. A path to a file containing references file paths. One file path per line.
 
 
 ##### Default Reference File
