@@ -31,7 +31,7 @@ public class Tests
 
     static IEnumerable<AssemblyResult> Run(bool copyPdbs, bool sign, bool internalize)
     {
-        foreach (var assembly in assemblyFiles.OrderBy(x => x))
+        foreach (var assembly in assemblyFiles.OrderBy(_ => _))
         {
             var assemblyFile = $"{assembly}.dll";
             File.Copy(Path.Combine(binDirectory, assemblyFile), Path.Combine(tempPath, assemblyFile));
@@ -52,7 +52,7 @@ public class Tests
             keyFile = Path.Combine(AttributeReader.GetProjectDirectory(), "test.snk");
         }
 
-        var namesToAliases = assemblyFiles.Where(x => x.StartsWith("AssemblyWith") || x == "Newtonsoft.Json").ToList();
+        var namesToAliases = assemblyFiles.Where(_ => _.StartsWith("AssemblyWith") || x == "Newtonsoft.Json").ToList();
         Program.Inner(tempPath, namesToAliases, new(), keyFile, new(), null, "_Alias", internalize, _=>{});
 
         return BuildResults();
@@ -61,19 +61,19 @@ public class Tests
     static IEnumerable<AssemblyResult> BuildResults()
     {
         var resultingFiles = Directory.EnumerateFiles(tempPath);
-        foreach (var assembly in resultingFiles.Where(x => x.EndsWith(".dll")).OrderBy(x => x))
+        foreach (var assembly in resultingFiles.Where(_ => _.EndsWith(".dll")).OrderBy(_ => _))
         {
             using var definition = AssemblyDefinition.ReadAssembly(assembly);
             var attributes = definition.CustomAttributes
-                .Where(x => x.AttributeType.Name.Contains("Internals"))
+                .Where(_ => _.AttributeType.Name.Contains("Internals"))
                 .Select(x => $"{x.AttributeType.Name}({string.Join(',', x.ConstructorArguments.Select(y => y.Value))})")
-                .OrderBy(x => x)
+                .OrderBy(_ => _)
                 .ToList();
             yield return
                 new(
                     definition.Name.FullName,
                     definition.MainModule.TryReadSymbols(),
-                    definition.MainModule.AssemblyReferences.Select(x => x.FullName).OrderBy(x => x).ToList(),
+                    definition.MainModule.AssemblyReferences.Select(_ => _.FullName).OrderBy(_ => _).ToList(),
                     attributes);
         }
     }
@@ -91,13 +91,13 @@ public class Tests
     //[Fact]
     //public Task PatternMatching()
     //{
-    //    foreach (var assembly in assemblyFiles.OrderBy(x => x))
+    //    foreach (var assembly in assemblyFiles.OrderBy(_ => _))
     //    {
     //        var assemblyFile = $"{assembly}.dll";
     //        File.Copy(Path.Combine(binDirectory, assemblyFile), Path.Combine(tempPath, assemblyFile));
     //    }
 
-    //    var namesToAliases = assemblyFiles.Where(x => x.StartsWith("AssemblyWith")).ToList();
+    //    var namesToAliases = assemblyFiles.Where(_ => _.StartsWith("AssemblyWith")).ToList();
     //    Program.Inner(tempPath, namesToAliases, new(), null, new(), null, "_Alias", false);
     //    var results = BuildResults();
 

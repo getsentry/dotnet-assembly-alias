@@ -65,16 +65,16 @@ public class AliasTask :
         }
         else
         {
-            assembliesToSkipRename = AssembliesToSkipRename.Select(x => x.ItemSpec).ToList();
+            assembliesToSkipRename = AssembliesToSkipRename.Select(_ => _.ItemSpec).ToList();
         }
 
         var referenceCopyLocalPaths = ReferenceCopyLocalPaths
-            .Select(x => x.ItemSpec)
+            .Select(_ => _.ItemSpec)
             .ToList();
         var assemblyCopyLocalPaths = referenceCopyLocalPaths
             .Where(x=>Path.GetExtension(x).ToLowerInvariant() ==".dll")
             .ToList();
-        var references = ReferencePath.Select(x => x.ItemSpec)
+        var references = ReferencePath.Select(_ => _.ItemSpec)
             .Where(x => !assemblyCopyLocalPaths.Contains(x))
             .ToList();
 
@@ -94,14 +94,14 @@ public class AliasTask :
 
         void ProcessCopyLocal(string sourcePath, string targetPath)
         {
-            var copyLocalToRemove = ReferenceCopyLocalPaths.SingleOrDefault(x => x.ItemSpec == sourcePath);
+            var copyLocalToRemove = ReferenceCopyLocalPaths.SingleOrDefault(_ => _.ItemSpec == sourcePath);
             if (copyLocalToRemove != null)
             {
                 copyLocalPathsToRemove.Add(copyLocalToRemove);
             }
 
             var pdbToRemove = Path.ChangeExtension(sourcePath, "pdb");
-            copyLocalToRemove = ReferenceCopyLocalPaths.SingleOrDefault(x => x.ItemSpec == pdbToRemove);
+            copyLocalToRemove = ReferenceCopyLocalPaths.SingleOrDefault(_ => _.ItemSpec == pdbToRemove);
             if (copyLocalToRemove != null)
             {
                 copyLocalPathsToRemove.Add(copyLocalToRemove);

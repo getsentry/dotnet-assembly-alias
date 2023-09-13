@@ -23,5 +23,5 @@ static class CecilExtensions
     }
 
     public static string PublicKeyString(this StrongNameKeyPair key) =>
-        string.Concat(key.PublicKey.Select(x => x.ToString("x2")));
+        string.Concat(key.PublicKey.Select(_ => _.ToString("x2")));
 }

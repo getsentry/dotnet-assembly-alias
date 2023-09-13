@@ -48,7 +48,7 @@ public static class Aliaser
         var assemblyReferences = targetModule.AssemblyReferences;
         foreach (var info in assemblyInfos)
         {
-            var toChange = assemblyReferences.SingleOrDefault(x => x.Name == info.SourceName);
+            var toChange = assemblyReferences.SingleOrDefault(_ => _.Name == info.SourceName);
             if (toChange == null)
             {
                 continue;
