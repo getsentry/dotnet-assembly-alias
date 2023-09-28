@@ -26,7 +26,7 @@
     <PackageReference Include="CliWrap" Version="3.6.4" />
     <PackageReference Include="Xunit" Version="2.5.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.1" PrivateAssets="all" />
-    <PackageReference Include="Argon" Version="0.10.0" />
+    <PackageReference Include="Argon" Version="0.11.0" />
     <Reference Include="Mono.Cecil" HintPath="..\Lib\Mono.Cecil.dll" />
     <Reference Include="Mono.Cecil.Pdb" HintPath="..\Lib\Mono.Cecil.Pdb.dll" />
     <Reference Include="Mono.Cecil.Rocks" HintPath="..\Lib\Mono.Cecil.Rocks.dll" />
