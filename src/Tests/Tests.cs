@@ -52,7 +52,7 @@ public class Tests
             keyFile = Path.Combine(AttributeReader.GetProjectDirectory(), "test.snk");
         }
 
-        var namesToAliases = assemblyFiles.Where(_ => _.StartsWith("AssemblyWith") || x == "Newtonsoft.Json").ToList();
+        var namesToAliases = assemblyFiles.Where(_ => _.StartsWith("AssemblyWith") || _ == "Newtonsoft.Json").ToList();
         Program.Inner(tempPath, namesToAliases, new(), keyFile, new(), null, "_Alias", internalize, _=>{});
 
         return BuildResults();

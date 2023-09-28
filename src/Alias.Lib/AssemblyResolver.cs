@@ -56,7 +56,7 @@ public class AssemblyResolver :
         cache[assembly.Name.Name] = assembly;
     }
 
-    AssemblyDefinition GetAssembly(string file)
+    static AssemblyDefinition GetAssembly(string file)
     {
         try
         {

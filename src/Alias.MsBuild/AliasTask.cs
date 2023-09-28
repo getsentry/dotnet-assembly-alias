@@ -136,16 +136,18 @@ public class AliasTask :
         var separator = $"{Environment.NewLine}\t";
 
         var strongNameKeyPair = GetKey();
-        var inputs = $@"
-Prefix: {Prefix}
-Suffix: {Suffix}
-Internalize: {Internalize}
-StrongName: {strongNameKeyPair != null}
-AssembliesToAlias:{separator}{string.Join(separator, assembliesToAlias.Select(Path.GetFileNameWithoutExtension))}
-AssembliesToTarget:{separator}{string.Join(separator, assembliesToTarget.Select(Path.GetFileNameWithoutExtension))}
-TargetInfos:{separator}{string.Join(separator, sourceTargetInfos.Select(x => $"{x.SourceName} => {x.TargetName}"))}
-ReferenceCopyLocalPaths:{separator}{string.Join(separator, referenceCopyLocalPaths.Select(x=> SolutionDir != null ? x.Replace(SolutionDir, "{SolutionDir}") : x))}
-";
+        var inputs = $"""
+
+                      Prefix: {Prefix}
+                      Suffix: {Suffix}
+                      Internalize: {Internalize}
+                      StrongName: {strongNameKeyPair != null}
+                      AssembliesToAlias:{separator}{string.Join(separator, assembliesToAlias.Select(Path.GetFileNameWithoutExtension))}
+                      AssembliesToTarget:{separator}{string.Join(separator, assembliesToTarget.Select(Path.GetFileNameWithoutExtension))}
+                      TargetInfos:{separator}{string.Join(separator, sourceTargetInfos.Select(x => $"{x.SourceName} => {x.TargetName}"))}
+                      ReferenceCopyLocalPaths:{separator}{string.Join(separator, referenceCopyLocalPaths.Select(x=> SolutionDir != null ? x.Replace(SolutionDir, "{SolutionDir}") : x))}
+
+                      """;
         Log.LogMessageFromText(inputs, MessageImportance.High);
 
         Aliaser.Run(references, sourceTargetInfos, Internalize, strongNameKeyPair);
