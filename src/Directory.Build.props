@@ -17,5 +17,6 @@
     <PackageOutputPath>$(SolutionDir)..\nugets</PackageOutputPath>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <Configurations>Debug;Release;IncludeAliasTask</Configurations>
+    <ResolveAssemblyReferencesSilent>true</ResolveAssemblyReferencesSilent>
   </PropertyGroup>
 </Project>
