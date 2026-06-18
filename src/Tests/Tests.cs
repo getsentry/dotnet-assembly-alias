@@ -2,7 +2,6 @@
 using CliWrap.Buffered;
 using Mono.Cecil;
 
-[UsesVerify]
 public class Tests
 {
     static string binDirectory = Path.GetDirectoryName(typeof(Tests).Assembly.Location)!;

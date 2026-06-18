@@ -1,7 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Version>1.0.0</Version>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
+    <!-- 'strings' is the auto-generated resx type name; CS8981 (all-lowercase type name) is benign here. -->
+    <NoWarn>$(NoWarn);CS8981</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Update="strings.resx">

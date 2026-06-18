@@ -28,17 +28,17 @@
   	AssemblyToInclude => AssemblyToInclude
   ReferenceCopyLocalPaths:
   	Newtonsoft.Json.dll
-  	{SolutionDir}AssemblyToInclude/bin/IncludeAliasTask/net6.0/AssemblyToInclude.dll
-  	{SolutionDir}AssemblyWithEmbeddedSymbols/bin/IncludeAliasTask/net6.0/AssemblyWithEmbeddedSymbols.dll
-  	{SolutionDir}AssemblyWithNoStrongName/bin/IncludeAliasTask/net6.0/AssemblyWithNoStrongName.dll
-  	{SolutionDir}AssemblyWithNoSymbols/bin/IncludeAliasTask/net6.0/AssemblyWithNoSymbols.dll
-  	{SolutionDir}AssemblyWithPdb/bin/IncludeAliasTask/net6.0/AssemblyWithPdb.dll
-  	{SolutionDir}AssemblyWithResources/bin/IncludeAliasTask/net6.0/AssemblyWithResources.dll
-  	{SolutionDir}AssemblyWithStrongName/bin/IncludeAliasTask/net6.0/AssemblyWithStrongName.dll
-  	{SolutionDir}AssemblyWithNoStrongName/bin/IncludeAliasTask/net6.0/AssemblyWithNoStrongName.pdb
-  	{SolutionDir}AssemblyWithPdb/bin/IncludeAliasTask/net6.0/AssemblyWithPdb.pdb
-  	{SolutionDir}AssemblyWithResources/bin/IncludeAliasTask/net6.0/AssemblyWithResources.pdb
-  	{SolutionDir}AssemblyWithStrongName/bin/IncludeAliasTask/net6.0/AssemblyWithStrongName.pdb
+  	{SolutionDir}AssemblyToInclude/bin/IncludeAliasTask/net10.0/AssemblyToInclude.dll
+  	{SolutionDir}AssemblyWithEmbeddedSymbols/bin/IncludeAliasTask/net10.0/AssemblyWithEmbeddedSymbols.dll
+  	{SolutionDir}AssemblyWithNoStrongName/bin/IncludeAliasTask/net10.0/AssemblyWithNoStrongName.dll
+  	{SolutionDir}AssemblyWithNoSymbols/bin/IncludeAliasTask/net10.0/AssemblyWithNoSymbols.dll
+  	{SolutionDir}AssemblyWithPdb/bin/IncludeAliasTask/net10.0/AssemblyWithPdb.dll
+  	{SolutionDir}AssemblyWithResources/bin/IncludeAliasTask/net10.0/AssemblyWithResources.dll
+  	{SolutionDir}AssemblyWithStrongName/bin/IncludeAliasTask/net10.0/AssemblyWithStrongName.dll
+  	{SolutionDir}AssemblyWithNoStrongName/bin/IncludeAliasTask/net10.0/AssemblyWithNoStrongName.pdb
+  	{SolutionDir}AssemblyWithPdb/bin/IncludeAliasTask/net10.0/AssemblyWithPdb.pdb
+  	{SolutionDir}AssemblyWithResources/bin/IncludeAliasTask/net10.0/AssemblyWithResources.pdb
+  	{SolutionDir}AssemblyWithStrongName/bin/IncludeAliasTask/net10.0/AssemblyWithStrongName.pdb
   
 
 Build succeeded.

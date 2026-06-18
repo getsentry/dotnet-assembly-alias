@@ -3,7 +3,7 @@
     Name: AssemblyToInclude, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: false,
     References: [
-      System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+      System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ]
   },
   {
@@ -17,49 +17,49 @@
       AssemblyWithPdb_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
       AssemblyWithStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
       Newtonsoft.Json_Alias, Version=13.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
-      System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+      System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ]
   },
   {
     Name: AssemblyWithEmbeddedSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: true,
     References: [
-      System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+      System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ]
   },
   {
     Name: AssemblyWithNoStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: true,
     References: [
-      System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+      System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ]
   },
   {
     Name: AssemblyWithNoSymbols_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: false,
     References: [
-      System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+      System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ]
   },
   {
     Name: AssemblyWithPdb_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: true,
     References: [
-      System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+      System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ]
   },
   {
     Name: AssemblyWithResources_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: true,
     References: [
-      System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+      System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ]
   },
   {
     Name: AssemblyWithStrongName_Alias, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0,
     HasSymbols: true,
     References: [
-      System.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+      System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
     ]
   },
   {

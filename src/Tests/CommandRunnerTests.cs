@@ -1,6 +1,5 @@
 ﻿using CommandLine;
 
-[UsesVerify]
 public class CommandRunnerTests
 {
     [Fact]

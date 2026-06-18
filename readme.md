@@ -126,7 +126,7 @@ By default the target directory will be scanned for a reference file named `alia
 It can be helpful to extract reference during a build using msbuild and write them to a file accessible to Alias:
 
 <!-- snippet: WriteReferenceForAlias -->
-<a id='snippet-writereferenceforalias'></a>
+<a id='snippet-WriteReferenceForAlias'></a>
 ```csproj
 <Target Name="WriteReferenceForAlias" AfterTargets="AfterCompile">
   <ItemGroup>
@@ -135,5 +135,5 @@ It can be helpful to extract reference during a build using msbuild and write th
   <WriteLinesToFile File="$(TargetDir)/alias-references.txt" Lines="%(ReferenceForAlias.FullPath)" Overwrite="true" />
 </Target>
 ```
-<sup><a href='/src/SampleApp/SampleApp.csproj#L19-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-writereferenceforalias' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/SampleApp/SampleApp.csproj#L19-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-WriteReferenceForAlias' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
