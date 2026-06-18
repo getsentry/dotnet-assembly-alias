@@ -172,7 +172,7 @@ public class Tests
     {
         var solutionDirectory = AttributeReader.GetSolutionDirectory();
 
-        var targetPath = Path.Combine(solutionDirectory, "SampleApp/bin/Debug/net6.0");
+        var targetPath = Path.Combine(solutionDirectory, "SampleApp/bin/Debug/net10.0");
 
         var tempPath = Path.Combine(targetPath, "temp");
         Directory.CreateDirectory(tempPath);
