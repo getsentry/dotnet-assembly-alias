@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <PackageId>Sentry.AssemblyAlias.MsBuild</PackageId>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description></Description>
     <DevelopmentDependency>true</DevelopmentDependency>
@@ -22,7 +23,7 @@
       <Pack>true</Pack>
       <PackagePath>task</PackagePath>
     </Content>
-    <Content Include="build\Alias.MsBuild.targets">
+    <Content Include="build\Sentry.AssemblyAlias.MsBuild.targets">
       <Pack>true</Pack>
       <PackagePath>build</PackagePath>
     </Content>
