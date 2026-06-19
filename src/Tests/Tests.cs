@@ -173,6 +173,16 @@ public class Tests
 
 #if DEBUG
 
+    // Assemblies excluded from aliasing in RunSample. Shared between the aliasing
+    // call and PatchDependencies so the two can never drift: an excluded assembly
+    // keeps its original name on disk, so its deps.json entry must not be rewritten
+    // to Alias_* (doing so makes the runtime probe for a file that doesn't exist).
+    static readonly List<string> sampleExcludes = new()
+    {
+        "AssemblyToInclude",
+        "AssemblyToProcess"
+    };
+
     [Fact]
     public async Task RunSample()
     {
@@ -194,11 +204,7 @@ public class Tests
             },
             references: new(),
             keyFile: null,
-            assembliesToExclude: new()
-            {
-                "AssemblyToInclude",
-                "AssemblyToProcess"
-            },
+            assembliesToExclude: sampleExcludes,
             prefix: "Alias_",
             suffix: null,
             internalize: true,
@@ -227,6 +233,11 @@ public class Tests
         var depsFile = Path.Combine(targetPath, "SampleApp.deps.json");
         var text = File.ReadAllText(depsFile);
         text = text.Replace("Assembly", "Alias_Assembly");
+        foreach (var name in sampleExcludes)
+        {
+            text = text.Replace($"Alias_{name}", name);
+        }
+
         File.Delete(depsFile);
         File.WriteAllText(depsFile, text);
     }
