@@ -23,7 +23,7 @@
       <Pack>true</Pack>
       <PackagePath>task</PackagePath>
     </Content>
-    <Content Include="build\Alias.MsBuild.targets">
+    <Content Include="build\Sentry.AssemblyAlias.MsBuild.targets">
       <Pack>true</Pack>
       <PackagePath>build</PackagePath>
     </Content>
