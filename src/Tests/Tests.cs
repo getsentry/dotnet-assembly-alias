@@ -226,8 +226,6 @@ public class Tests
         });
     }
 
-#endif
-
     static void PatchDependencies(string targetPath)
     {
         var depsFile = Path.Combine(targetPath, "SampleApp.deps.json");
@@ -241,6 +239,8 @@ public class Tests
         File.Delete(depsFile);
         File.WriteAllText(depsFile, text);
     }
+
+#endif
 
     static bool[] bools = {true, false};
     static readonly string tempPath;
