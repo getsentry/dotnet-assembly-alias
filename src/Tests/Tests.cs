@@ -19,6 +19,12 @@ public class Tests
         "Newtonsoft.Json"
     };
 
+    // Verify stores SolutionDirectory as a relative path ("../"), which AttributeReader returns
+    // verbatim; resolving it against the absolute project directory keeps paths correct regardless
+    // of the test runner's working directory.
+    static string SolutionDirectory => Path.GetFullPath(
+        Path.Combine(AttributeReader.GetProjectDirectory(), AttributeReader.GetSolutionDirectory()));
+
     static Tests()
     {
         tempPath = Path.Combine(binDirectory, "Temp");
@@ -106,7 +112,7 @@ public class Tests
     [Fact]
     public async Task RunTask()
     {
-        var solutionDir = AttributeReader.GetSolutionDirectory();
+        var solutionDir = SolutionDirectory;
 
         var buildResult = await Cli.Wrap("dotnet")
             .WithArguments("build --configuration IncludeAliasTask --no-restore")
@@ -170,9 +176,9 @@ public class Tests
     [Fact]
     public async Task RunSample()
     {
-        var solutionDirectory = AttributeReader.GetSolutionDirectory();
+        var solutionDirectory = SolutionDirectory;
 
-        var targetPath = Path.Combine(solutionDirectory, "SampleApp/bin/Debug/net6.0");
+        var targetPath = Path.Combine(solutionDirectory, "SampleApp/bin/Debug/net10.0");
 
         var tempPath = Path.Combine(targetPath, "temp");
         Directory.CreateDirectory(tempPath);
@@ -202,7 +208,8 @@ public class Tests
 
         PatchDependencies(tempPath);
 
-        var exePath = Path.Combine(tempPath, "SampleApp.exe");
+        var exeName = OperatingSystem.IsWindows() ? "SampleApp.exe" : "SampleApp";
+        var exePath = Path.Combine(tempPath, exeName);
 
         var result = await Cli.Wrap(exePath).ExecuteBufferedAsync();
 

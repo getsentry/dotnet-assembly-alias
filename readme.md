@@ -4,11 +4,11 @@
 [![NuGet Status](https://img.shields.io/nuget/v/Alias.svg?label=Alias%20nuget)](https://www.nuget.org/packages/Alias/)
 [![NuGet Status](https://img.shields.io/nuget/v/Alias.Lib.svg?label=Alias.Lib%20nuget)](https://www.nuget.org/packages/Alias.Lib/)
 
-Rename assemblies and fixes references. Designed as an alternative to [Costura](https://github.com/Fody/Costura), [ILMerge](https://github.com/dotnet/ILMerge), and [ILRepack](https://github.com/gluck/il-repack).
+Renames assemblies and fixes references. Designed as an alternative to [Costura](https://github.com/Fody/Costura), [ILMerge](https://github.com/dotnet/ILMerge), and [ILRepack](https://github.com/gluck/il-repack).
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
 
-Designed to mitigate scenarios where an assembly is run in a plugin scenario. For example Unity extensions, MSBuild tasks, or SharePoint extensions. In these scenarios an assembly, and all its references, are loaded into a shared AppDomain. So dependencies operate as "first on wins". So, for example, if two addins assemblies use different versions of Newtonsoft, the first addin that is loaded defines what version of Newtonsoft is used by all subsequent addins assemblies.
+Designed to mitigate scenarios where an assembly runs in a plugin context, for example Unity extensions, MSBuild tasks, or SharePoint extensions. In these scenarios an assembly, and all its references, are loaded into a shared AppDomain, so dependencies operate as "first on wins". For example, if two add-in assemblies use different versions of Newtonsoft, the first add-in that is loaded defines which version of Newtonsoft is used by all subsequent add-ins.
 
 This project works around this problem by renaming references and preventing name conflicts.
 
@@ -17,13 +17,13 @@ This project works around this problem by renaming references and preventing nam
 
 https://www.nuget.org/packages/Alias/
 
-**[.net 6](https://dotnet.microsoft.com/download/dotnet/6.0) or higher is required to run this tool.**
+**[.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) or higher is required to run this tool.**
 
-For a given directory and a subset of assemblies:
+For a given directory and a subset of assemblies, it:
 
  * Changes the assembly name of each "alias" assembly.
- * Renames "alias" assemblies on disk.
- * For all assemblies, fixes the references to point to the new alias assemblies.
+ * Renames the "alias" assemblies on disk.
+ * Fixes the references in all assemblies to point to the new alias assemblies.
 
 
 ### Installation
@@ -60,7 +60,7 @@ Optional. If no directory is passed the current directory will be used.
 
 `-i` or `--internalize`
 
-Optional. To internalize all types in the aliased assemblies. Defaults to false.
+Optional. Internalizes all types in the aliased assemblies. Defaults to false.
 
 
 #### Prefix/Suffix
@@ -121,9 +121,9 @@ Optional. A path to a file containing references file paths. One file path per l
 
 ##### Default Reference File
 
-By default the target directory will be scanned for a reference file named `alias-references.txt`
+By default, the target directory is scanned for a reference file named `alias-references.txt`.
 
-It can be helpful to extract reference during a build using msbuild and write them to a file accessible to Alias:
+It can be helpful to extract references during a build using MSBuild and write them to a file accessible to Alias:
 
 <!-- snippet: WriteReferenceForAlias -->
 <a id='snippet-WriteReferenceForAlias'></a>
