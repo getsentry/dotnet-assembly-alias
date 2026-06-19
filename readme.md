@@ -1,8 +1,8 @@
 # <img src='/src/icon.png' height='30px'> Alias
 
-[![Build status](https://ci.appveyor.com/api/projects/status/s3agb6fiax7pgwls/branch/main?svg=true)](https://ci.appveyor.com/project/SimonCropp/dotnet-assembly-alias)
-[![NuGet Status](https://img.shields.io/nuget/v/Alias.svg?label=Alias%20nuget)](https://www.nuget.org/packages/Alias/)
-[![NuGet Status](https://img.shields.io/nuget/v/Alias.Lib.svg?label=Alias.Lib%20nuget)](https://www.nuget.org/packages/Alias.Lib/)
+[![NuGet Status](https://img.shields.io/nuget/v/Sentry.AssemblyAlias.svg?label=Sentry.AssemblyAlias%20nuget)](https://www.nuget.org/packages/Sentry.AssemblyAlias/)
+[![NuGet Status](https://img.shields.io/nuget/v/Sentry.AssemblyAlias.Lib.svg?label=Sentry.AssemblyAlias.Lib%20nuget)](https://www.nuget.org/packages/Sentry.AssemblyAlias.Lib/)
+[![NuGet Status](https://img.shields.io/nuget/v/Sentry.AssemblyAlias.MsBuild.svg?label=Sentry.AssemblyAlias.MsBuild%20nuget)](https://www.nuget.org/packages/Sentry.AssemblyAlias.MsBuild/)
 
 Renames assemblies and fixes references. Designed as an alternative to [Costura](https://github.com/Fody/Costura), [ILMerge](https://github.com/dotnet/ILMerge), and [ILRepack](https://github.com/gluck/il-repack).
 
@@ -15,7 +15,7 @@ This project works around this problem by renaming references and preventing nam
 
 ## dotnet tool
 
-https://www.nuget.org/packages/Alias/
+https://www.nuget.org/packages/Sentry.AssemblyAlias/
 
 **[.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) or higher is required to run this tool.**
 
@@ -30,10 +30,10 @@ For a given directory and a subset of assemblies, it:
 
 Ensure [dotnet CLI is installed](https://docs.microsoft.com/en-us/dotnet/core/tools/).
 
-Install [Alias](https://nuget.org/packages/Alias/)
+Install [Sentry.AssemblyAlias](https://nuget.org/packages/Sentry.AssemblyAlias/)
 
 ```ps
-dotnet tool install --global Alias
+dotnet tool install --global Sentry.AssemblyAlias
 ```
 
 
