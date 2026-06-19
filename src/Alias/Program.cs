@@ -40,10 +40,9 @@ public static class Program
         bool internalize,
         Action<string> log)
     {
-        var list = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories).ToList();
-        var allFiles = list.Where(x => !assembliesToExclude.Contains(x));
+        var allFiles = Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories);
 
-        var assemblyInfos = Finder.FindAssemblyInfos(assemblyNamesToAlias, allFiles, prefix, suffix)
+        var assemblyInfos = Finder.FindAssemblyInfos(assemblyNamesToAlias, allFiles, assembliesToExclude, prefix, suffix)
             .ToList();
 
         var builder = new StringBuilder("Resolved assemblies to alias:");
