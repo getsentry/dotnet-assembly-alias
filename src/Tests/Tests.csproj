@@ -21,10 +21,6 @@
     <PackageReference Include="MarkdownSnippets.MsBuild" Version="28.3.1" PrivateAssets="all" />
     <PackageReference Include="Nullable" Version="1.3.1" PrivateAssets="All" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
-    <!-- Verify core ships more often than its adapters; keep core + adapters version-aligned or
-         the xunit adapter throws MethodAccessException on internal Verify members. Verify.DiffPlex
-         3.2.0 demands core >=31.18.0 (newer than the latest Verify.Xunit 31.12.5 supports), so we
-         pin core to 31.12.5 and use DiffPlex 3.1.2, whose core floor (27.0.0) that satisfies. -->
     <PackageReference Include="Verify" Version="31.12.5" />
     <PackageReference Include="Verify.DiffPlex" Version="3.1.2" />
     <PackageReference Include="Verify.Xunit" Version="31.12.5" />
